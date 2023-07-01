@@ -64,11 +64,6 @@ class StudentController extends Controller
         
     }
 
-    public function edit22(string $id)
-    {
-        
-    }
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -100,8 +95,8 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-       
-
+        Student::destroy($id);
+        return redirect('Students')->with('flash_message', 'Student deleted!');  
     }
     
 }

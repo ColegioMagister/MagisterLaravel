@@ -57,9 +57,11 @@
                 </a>
             </td>
             <td class="align-middle text-uppercase text-sm">
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                Eliminar
-                </a>
+                <form method="POST" action="{{ url('/Students' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                    {{ method_field('DELETE') }}
+                    {{ csrf_field() }}
+                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Student"onclick="return confirm("Confirm delete?")"><i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar</button>
+                </form>
             </td>
         <tr>
     @endforeach  
