@@ -1,7 +1,7 @@
 @extends('layouts.masterpage')
 
 @section('content')
-
+<div class="container-fluid py-4">
 <div class="row">
 <div class="col-12">
 <div class="card my-4">
@@ -14,55 +14,53 @@
 </button>
 </div>
 <div class="card-body px-0 pb-2">
-<div class="table-responsive p-0">
-<table class="table align-items-center mb-0">
-<thead>
-<tr>
-<th class="text-center opacity-7">ID</th>
-<th class="text-uppercase text-secondary ps-2">Nombre</th>
-<th class="text-uppercase text-secondary ps-2 ">Rol</th>
-<th class="text-uppercase text-secondary ps-2 ">Correo</th>
-<th class="text-uppercase text-secondary ps-2">Usuario</th>
-<th colspan=2 class="text-secondary opacity-7"></th>
-</tr>
-</thead>
-    <tbody>
-        
-        <tr>
-            <td class="align-middle text-center text-sm"></td>
-            <td >
-                <div class="d-flex px-2 py-1">
-                    <div>
-                        <img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                    </div>
-                    <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm"></h6>
-                    </div>
-                </div>
-            </td>
-            <td class="align-middle text-uppercase text-sm "></td>
-            <td ></td>
-            <td>    </td>
-            <td class="align-middle text-uppercase text-sm">
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                Editar
-                </a>
-            </td>
-            <td class="align-middle text-uppercase text-sm">
-                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                Eliminar
-                </a>
-            </td>
-        <tr>
-        
-    </tbody>
-</table>
+    <div class="table-responsive p-0">
+        <table class="table align-items-center mb-0">
+            <thead>
+                <tr>
+                <th class="text-center opacity-7">ID</th>
+                <th class="text-uppercase text-secondary ps-2">Nombre</th>
+                <th class="text-uppercase text-secondary ps-2 ">Rol</th>
+                <th class="text-uppercase text-secondary ps-2 ">Correo</th>
+                <th class="text-uppercase text-secondary ps-2">Usuario</th>
+                <th colspan=2 class="text-secondary opacity-7"></th>
+                </tr>
+            </thead>
+                <tbody>
+                    <tr>
+                        <td class="align-middle text-center text-sm"></td>
+                        <td >
+                            <div class="d-flex px-2 py-1">
+                                <div>
+                                    <img src="" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                </div>
+                                <div class="d-flex flex-column justify-content-center">
+                                        <h6 class="mb-0 text-sm"></h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="align-middle text-uppercase text-sm "></td>
+                        <td ></td>
+                        <td>    </td>
+                        <td class="align-middle text-uppercase text-sm">
+                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            Editar
+                            </a>
+                        </td>
+                        <td class="align-middle text-uppercase text-sm">
+                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                            Eliminar
+                            </a>
+                        </td>
+                    <tr>
+                </tbody>
+        </table>
+    </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-
 <div class="modal fade" id="ModRegAlumno" tabindex="-1" aria-labelledby="ModRegAlumno" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -142,18 +140,7 @@
         </div>
     </div>
 </div>
-<script>
-  document.getElementById('url_img').addEventListener('change', function (e) {
-    var file = e.target.files[0];
-    var reader = new FileReader();
-    
-    reader.onload = function (event) {
-      document.getElementById('previewImage').setAttribute('src', event.target.result);
-    }
-    
-    reader.readAsDataURL(file);
-  });
-</script>
+
 
 
 

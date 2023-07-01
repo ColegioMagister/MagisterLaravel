@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Student;
 
-
-class StudentController extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,10 +13,9 @@ class StudentController extends Controller
      */
     public function index()
     {
-        $students = Student::all();
-        return view ('students.index')->with('students', $students);
+        //
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -27,7 +23,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-       
+        //
     }
 
     /**
@@ -38,19 +34,7 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        
-        if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
-        $imagen = $request->file('url_img');
-        $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
-        $rutaArchivo = 'assets/img/alumnos/' . $nombreArchivo;
-
-        $imagen->move(public_path('assets/img/alumnos/'), $nombreArchivo);
-
-        $input['url_img'] = $rutaArchivo;
-    }
-        Student::create($input);
-        return redirect('Students')->with('flash_message', 'Student Addedd!');
+        //
     }
 
     /**
@@ -61,12 +45,7 @@ class StudentController extends Controller
      */
     public function show($id)
     {
-        
-    }
-
-    public function edit22(string $id)
-    {
-        
+        //
     }
 
     /**
@@ -77,7 +56,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        
+        //
     }
 
     /**
@@ -89,7 +68,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+        //
     }
 
     /**
@@ -100,8 +79,6 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-       
-
+        //
     }
-    
 }
