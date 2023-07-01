@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('student_has_assessments', function (Blueprint $table) {
+            $table->integer('id', true);
+            $table->integer('id_student')->index('fk_sa_id_student');
+            $table->integer('id_assessment')->index('fk_sa_id_assessment');
+            $table->decimal('grade', 10);
+            $table->boolean('status');
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('student_has_assessments');
+    }
+};
