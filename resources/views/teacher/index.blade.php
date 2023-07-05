@@ -47,7 +47,7 @@
                         <td>{{ $item->email }}</td>
                         <td class="align-middle text-uppercase text-sm ">{{ $item->phone_number }}</td>
                         <td class="align-middle text-uppercase text-sm">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditarProfesor{{ $item->id }}">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditarProfesor{{ $item->id }}" enctype="multipart/form-data">
                             <i class="fa-solid fa-plus"></i> Editar
                         </button>
                     <!-- #MODAL EDITAR-------------------------  -->
@@ -102,9 +102,9 @@
                                                 </div>
                                                 <span class="text-secondary text-xs ms-1" for="url_img">Foto del Profesor</span>
                                                 <div class="input-group input-group-outline mb-3 focused is-focused">
-                                                    <input type="file" class="form-control" id="url_img" value="{{$item->url_img}}" name="url_img">
+                                                    <input type="file" class="form-control" id="url_img"  name="url_img">
                                                 </div>
-                                                <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen">
+                                                <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen" src="{{$item->url_img}}">
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>

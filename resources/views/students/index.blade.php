@@ -51,7 +51,7 @@
                         <td class="align-middle text-uppercase text-sm ">{{ $item->phone_number }}</td>
                         <td class="align-middle text-uppercase text-sm ">{{ $item->dni }}</td>
                         <td class="align-middle text-uppercase text-sm">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditarEstudiante{{ $item->id }}">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditarEstudiante{{ $item->id }}" enctype="multipart/form-data">
                                     <i class="fa-solid fa-plus"></i> Editar
                             </button>
                             <!-- #MODAL EDITAR-------------------------  -->
@@ -62,8 +62,9 @@
                                         <h5 class="modal-title text-white" >Editar Estudiante</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>                                                    
-                                        <form role="form" class="text-start" method="POST" action="{{ url('Students/'. $item->id) }}" >
+                                        <form role="form" class="text-start" method="POST" action="{{ url('Students/'. $item->id) }}" enctype="multipart/form-data">
                                         {!! csrf_field() !!}
+                                        <input type="hidden" name="_method" value="PUT">
                                         @method("PATCH")
                                             <div class="modal-body">
                                                 <div class="input-group input-group-outline mt-2 mb-4">
@@ -107,12 +108,11 @@
                                                     <input type="number" class="form-control"  value="{{$item->dni}}" name="dni">
                                                 </div>
                                                 <span class="text-secondary text-xs ms-1" for="url_img">Foto del estudiante</span>
-                                                <div class="input-group input-group-outline mb-3 focused is-focused">
-                                                    <input type="file" class="form-control" value="{{$item->url_img}}" id="url_img" name="url_img">
+                                                <div class="input-group input-group-outline mb-3d">
+                                                    <input type="file" class="form-control" id="url_img" name="url_img" >
                                                 </div>
-                                                    <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen">
+                                                <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen" src="{{$item->url_img}}">
                                             </div>
-                            
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
                                                 <input type="submit" value="Actualizar" class="btn btn-primary">
@@ -186,9 +186,8 @@
                                     <div class="input-group input-group-outline mb-3">
                                         <input type="file" class="form-control" id="url_img" name="url_img">
                                     </div>
-                                        <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen">
+                                    <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen">
                                 </div>
-                
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
                                     <input type="submit" value="Registrar" class="btn btn-primary">
