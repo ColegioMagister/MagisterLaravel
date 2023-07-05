@@ -12,7 +12,7 @@ class Roles extends Model
 
     public function employee()
     {
-        return $this->hasMany(Employee::class,'id_role','id');
+        return $this->belongsTo(Employee::class,'id_role','id');
     }
 
     protected $guarded=[];

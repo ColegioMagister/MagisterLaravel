@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
 use Illuminate\Http\Request;
+use App\Models\{Employee,Roles};
 
 class UserController extends Controller
 {
@@ -14,10 +16,13 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view ('teacher.index');
+        $teacher = Employee::all();
+        $roles=Roles::all();
+        return view ('teacher.index',[
+            "teacher"=>$teacher,
+            "roles"=>$roles
+        ]);
     }
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -25,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-       
+       //
     }
 
     /**
@@ -36,7 +41,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        
+        if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
+        $imagen = $request->file('url_img');
+        $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
+        $rutaArchivo = 'assets/img/profesores/' . $nombreArchivo;
+
+        $imagen->move(public_path('assets/img/profesores/'), $nombreArchivo);
+
+        $input['url_img'] = $rutaArchivo;
+    }
+        Employee::create($input);
+        return redirect('Profesor')->with('flash_message', 'Teacher Addedd!');
     }
 
     /**
@@ -56,6 +73,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit($id)
     {
         //
@@ -70,7 +88,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $teacher = Employee::find($id);
+        $input = $request->all();
+        $teacher->update($input);
+        return redirect('Profesor')->with('flash_message', 'student Updated!'); 
     }
 
     /**
@@ -81,6 +102,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Employee::destroy($id);
+        return redirect('Profesor')->with('flash_message', 'Teacher deleted!');  
     }
 }

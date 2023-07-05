@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Student;
 
-
 class StudentController extends Controller
 {
     /**
@@ -82,10 +81,16 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+
+     public function update(Request $request, $id)
     {
-        
+        $student = Student::find($id);
+        $input = $request->all();
+        $student->update($input);
+        return redirect('Students')->with('flash_message', 'student Updated!');  
     }
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -100,3 +105,5 @@ class StudentController extends Controller
     }
     
 }
+
+
