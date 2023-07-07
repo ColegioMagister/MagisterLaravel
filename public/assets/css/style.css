@@ -13,8 +13,6 @@
       content: "" !important;
    }
    
-
-   
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
     -webkit-appearance: none; 
@@ -22,3 +20,33 @@
     }
 
     input[type=number] { -moz-appearance:textfield; }
+
+    .modal_img{
+       display: inline-block;
+       position: relative;
+    }
+
+    .modal_img.active{
+       position: fixed !important; 
+       width: 100%;
+       height: 100%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       top: 0;
+       left: 0;
+    }
+
+    .modal_img img{
+       z-index: 1;
+    }
+    .modal_img.active::after{
+       content: '' !important;
+       position: fixed !important; 
+       width: 100%;
+       height: 100%;
+       top: 0;
+       left: 0;
+       background-color: rgba(0, 0,0,0.8);
+       z-index: 0;
+    }

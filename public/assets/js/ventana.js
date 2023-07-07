@@ -15,5 +15,16 @@ document.getElementById('url_img').addEventListener('change', function (e) {
   });
 
 
-
+document.querySelectorAll(".modal_img img").forEach(e=>{
+  e.addEventListener("click",function(e){
+    e.stopPropagation();
+    this.parentNode.classList.add("active");
+  })
+});
+document.querySelectorAll(".modal_img").forEach(e=>{
+  e.addEventListener("click",function(e){
+    this.parentNode.classList.add("active");
+    console.log("Click")
+  })
+});
   
