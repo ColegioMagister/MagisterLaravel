@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Employee;
+use App\Models\Roles;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -15,6 +17,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        Roles::create([
+            'id'=>'1',
+            'role_name'=>'Admin'
+        ]);
+        Employee::create([
+            'id'=>'1',
+            'id_role'=>'1',
+            'name'=>'Daniel',
+            'lastname'=>'Alvarez',
+            'email'=>'daniel@hotmail.com',
+            'phone_number'=>'992504498',
+            'url_img'=>''
+        ]);
         User::create([
             'id_employee'=>'1',
             'name'=>'Magister',
