@@ -9,9 +9,12 @@ class Weekdays extends Model
 {
     use HasFactory;
     protected $table='weekdays';
-    public function schedules(){
+
+    protected $guarded=[];
+
+    public function schedules()
+    {
         return $this->belongsToMany(Schedules::class,'schedules');
     }
-    protected $guarded=[];
 
 }

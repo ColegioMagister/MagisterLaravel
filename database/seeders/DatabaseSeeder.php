@@ -2,11 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\Employee;
-use App\Models\Roles;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use App\Models\{User, Employee, Roles};
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,8 +30,7 @@ class DatabaseSeeder extends Seeder
         ]);
         User::create([
             'id_employee'=>'1',
-            'name'=>'Magister',
-            'email'=>'magister23@hotmail.com',
+            'username' => 'admin',
             'password'=>Hash::make('magister23')
         ]);
         // \App\Models\User::factory(10)->create();

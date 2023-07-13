@@ -7,7 +7,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+
 use App\Models\Employee;
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -20,8 +22,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'id_employee',
-        'name',
-        'email',
+        'username',
         'password',
     ];
 
@@ -40,11 +41,11 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 
     public function employee(){
-        return $this->belongsTo(Employee::class,'id_employee','id');
+        return $this->belongsTo(Employee::class, 'id_employee', 'id');
     }
 }
