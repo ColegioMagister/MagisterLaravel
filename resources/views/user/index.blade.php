@@ -54,6 +54,8 @@
             </table>
         </div>
         </div>
+
+
         <div class="modal fade" id="ModRegUsuario" tabindex="-1" aria-labelledby="ModRegUsuario" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -61,14 +63,14 @@
                         <h5 class="modal-title text-white" id="ModRegTeacher">Registrar Usuario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="userRegister" role="form" class="text-start" method="POST" enctype="multipart/form-data">
+                    <form id="userRegister" action="{{route('user.store')}}" role="form" class="text-start" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="input-group input-group-outline mt-2 mb-4">
                                 <div class="col-6">
                                     <div class="input-group input-group-outline me-2">
-                                        <select class="form-control" name="id_employee" id="id_employee">
-                                            <option selected disabled> Elige un empleado </option>
+                                        <select class="form-control" name="id_employee" id="id_employee" required>
+                                            <option selected disabled value=""> Elige un empleado </option>
                                             @foreach($employees as $employee)
                                                 <option value="{{$employee->id}}"> {{$employee->id}} - {{$employee->name}} {{$employee->lastname}} </option>
                                             @endforeach
@@ -89,18 +91,26 @@
         
                             <div class="input-group input-group-outline  mb-3">
                                 <label class="form-label">{{ __('CONTRASEÑA') }}</label>
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                                <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
+
+                       
                             </div>
         
                             <div class="input-group input-group-outline  mb-3">
                                 <label class="form-label">{{ __('CONFIRMAR CONTRASEÑA') }}</label>
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+
                             </div>
+                  
+                            <span id="password-coincide-message" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Las contraseñas no coinciden
+                            </span>
+
+                            <span id="password-lenght-message" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                La contraseña debe tener al menos 8 caracteres
+                            </span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>

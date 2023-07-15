@@ -1,3 +1,36 @@
+//''''ajax formulario registar usuario
+
+$(document).ready(function () {
+
+
+  $('#submitBtn').click(function(e) {
+
+      e.preventDefault();
+
+      var password = $('#password').val();
+      var passwordConfirmation = $('#password-confirm').val();
+    
+      if ((password === passwordConfirmation) && (password.length >= 8)) {
+          $('#userRegister').submit();
+      }
+      else if(password != passwordConfirmation)
+      {
+        $('#password-lenght-message').css('display', 'none');
+        $('#password-coincide-message').css('display', 'block');
+      }
+      else if(password.length < 8)
+      {
+        $('#password-coincide-message').css('display', 'none');
+        $('#password-lenght-message').css('display', 'block');
+      }
+  });
+
+
+
+  
+
+});
+
 
 
 document.getElementById('url_img').addEventListener('change', function (e) {
@@ -30,34 +63,7 @@ document.querySelectorAll(".modal_img").forEach(e=>{
     console.log("Click")
   })
 });
+
   
-//''''ajax formulario registar usuario
 
-$(function() {
-  $('#submitBtn').click(function(e) {
-      e.preventDefault();
-      $(this).html('Sendig..');
 
-      var password = $('#password').val();
-      var passwordConfirmation = $('#password-confirm').val();
-
-      if (password === passwordConfirmation) {
-          $.ajax({
-              type: "POST",
-              url: "{{ route('index.store') }}",
-              data: $('#userRegister').serialize(),
-              dataTipe:'json',
-              success: function(data) { 
-                $('#userRegister').trigger("reset");
-                $('#ModRegUsuario').modal('hide');
-                table.draw();
-                
-              },
-              error:function(data){
-                console.log('Error:',data);
-                $('#submitBtn').html('Guarda changes')
-              }
-          });
-      }
-  });
-});

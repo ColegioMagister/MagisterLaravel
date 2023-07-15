@@ -57,10 +57,6 @@ class EmployeesController extends Controller
             'password' => Hash::make($request['password']),
         ]);
 
-        if ($request->ajax()) {
-            return response()->json(['success' =>'Product saved successfully.']);
-        }
-
         return redirect()->route('user.store');
     }
 
