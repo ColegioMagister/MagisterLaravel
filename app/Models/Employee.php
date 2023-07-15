@@ -10,6 +10,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $table='employees';
+
     public function user(){
         return $this->hasOne(User::class,'id_employee','id');
     }

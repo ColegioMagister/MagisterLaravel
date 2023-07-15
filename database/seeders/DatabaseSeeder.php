@@ -15,10 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Roles::create([
-            'id'=>'1',
-            'role_name'=>'Admin'
-        ]);
+        $data=[
+            ['id'=>'1','role_name'=>'Admin'],
+            ['id'=>'2','role_name'=>'Profesor']
+        ];
+        foreach ($data as $roles) {
+            Roles::create($roles);
+        }
+
+        
         Employee::create([
             'id'=>'1',
             'id_role'=>'1',
