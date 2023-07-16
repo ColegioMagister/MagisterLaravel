@@ -48,7 +48,7 @@ class StudentController extends Controller
         $input['url_img'] = $rutaArchivo;
     }
         Student::create($input);
-        return redirect('Students')->with('flash_message', 'Student Addedd!');
+        return redirect('Students')->with('flash_message', 'Addedd!');
     }
 
     /**
@@ -106,7 +106,7 @@ class StudentController extends Controller
     }
 
     $student->update($input);
-    return redirect('Students')->with('flash_message', 'Student Updated!');
+    return redirect('Students')->with('flash_message', 'Updated!');
 }
 
     
@@ -131,7 +131,7 @@ class StudentController extends Controller
         if (!empty($imagen) && file_exists(public_path($imagen))){
             unlink(public_path($imagen));
         }
-        return redirect('Students')->with('flash_message', 'Student deleted!');  
+        return redirect('Students')->with('flash_message', 'deleted!');  
     }
     
 }

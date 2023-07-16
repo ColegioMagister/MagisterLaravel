@@ -41,10 +41,10 @@
                             </button>
                             </td>
                             <td class="align-middle text-uppercase text-sm">
-                                <form method="POST" action="{{ url('/Employees' . '/' . $user->id) }}" accept-charset="UTF-8" style="display:inline">
+                                <form  class="alertDelete" method="POST" action="{{ url('/Employees' . '/' . $user->id) }}" accept-charset="UTF-8" style="display:inline">
                                     {{ method_field('DELETE') }}
                                     {{ csrf_field() }}
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Teacher"onclick="return confirm("Confirm delete?")"><i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar</button>
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete Teacher"><i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar</button>
                                 </form>
                             </td>
                         <tr>
@@ -63,7 +63,7 @@
                         <h5 class="modal-title text-white" id="ModRegTeacher">Registrar Usuario</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="userRegister" action="{{route('user.store')}}" role="form" class="text-start" method="POST" enctype="multipart/form-data">
+                    <form  id="userRegister" action="{{url('Employees')}}" role="form" class="text-start" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="input-group input-group-outline mt-2 mb-4">
@@ -93,7 +93,6 @@
                                 <label class="form-label">{{ __('CONTRASEÑA') }}</label>
                                 <input id="password" type="password" class="form-control" name="password" required autocomplete="new-password">
 
-                       
                             </div>
         
                             <div class="input-group input-group-outline  mb-3">

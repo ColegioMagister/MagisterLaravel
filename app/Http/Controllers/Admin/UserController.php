@@ -53,7 +53,7 @@ class UserController extends Controller
         $input['url_img'] = $rutaArchivo;
     }
         Employee::create($input);
-        return redirect('Profesor')->with('flash_message', 'Teacher Addedd!');
+        return redirect('Profesor')->with('flash_message', 'Addedd!');
     }
 
     /**
@@ -111,7 +111,7 @@ class UserController extends Controller
         }
 
         $teacher->update($input);
-        return redirect('Profesor')->with('flash_message', 'student Updated!'); 
+        return redirect('Profesor')->with('flash_message', 'Updated!'); 
     }
 
     /**
@@ -129,6 +129,6 @@ class UserController extends Controller
         if (!empty($imagen) && file_exists(public_path($imagen))){
             unlink(public_path($imagen));
         }
-        return redirect('Profesor')->with('flash_message', 'Teacher deleted!');  
+        return redirect('Profesor')->with('flash_message', 'deleted!');  
     }
 }

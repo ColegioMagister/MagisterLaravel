@@ -25,7 +25,6 @@ Route::get('/Home', [HomeController::class, 'index'])->name('home');
 
 Route::resource('/Employees',EmployeesController::class);
 Route::get('/Employees', [EmployeesController::class, 'index'])->name('user.index');
-Route::post('/Employees', [EmployeesController::class, 'store'])->name('user.store');
 
 Route::resource("/Students", StudentController::class);
 Route::get('/Students', [StudentController::class, 'index'])->name('students.index');

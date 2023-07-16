@@ -3,7 +3,11 @@
 <script src="assets/js/plugins/perfect-scrollbar.min.js"></script>
 <script src="assets/js/plugins/smooth-scrollbar.min.js"></script>
 <script src="assets/js/plugins/chartjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="assets/js/ventana.js"></script>
+<script src="assets/js/alert2.js"></script>
+
+@include('partials.sweet')
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 

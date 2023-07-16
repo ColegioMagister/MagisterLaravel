@@ -59,7 +59,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                                                                                     <!-- #para que cargue  -->
-                                        <form role="form" class="text-start" method="POST" action="{{ url('Profesor/'. $item->id) }}" enctype="multipart/form-data">
+                                        <form role="form" class="text-start alertEdits" method="POST" action="{{ url('Profesor/'. $item->id) }}" enctype="multipart/form-data">
                                         {!! csrf_field() !!}
                                         @method("PATCH")
                                             <div class="modal-body">
@@ -108,7 +108,8 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                                                <input class="btn btn-primary" type="submit" value="Actualizar">
+                                                <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">
+                                                    <i class="fa-solid fa-plus"></i> Actualizar</button>
                                             </div>
                                         </form>        
                                     </div>
@@ -116,10 +117,10 @@
                             </div>
                         </td>
                         <td class="align-middle text-uppercase text-sm">
-                            <form method="POST" action="{{ url('/Profesor' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                            <form  class="alertDelete" method="POST" action="{{ url('/Profesor' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
                                 {{ method_field('DELETE') }}
                                 {{ csrf_field() }}
-                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Teacher"onclick="return confirm("Confirm delete?")"><i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar</button>
+                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Teacher" ><i class="fa fa-trash-o" aria-hidden="true"></i>Eliminar</button>
                             </form>
                         </td>
                     <tr>
@@ -135,7 +136,7 @@
                         </div>
                         
                                                                             <!-- #para que cargue  -->
-                        <form role="form" class="text-start" method="POST" action="{{ url('Profesor') }}" enctype="multipart/form-data">
+                        <form class="text-start" role="form" method="POST" action="{{ url('Profesor') }}" enctype="multipart/form-data">
                         {!! csrf_field() !!}
                             <div class="modal-body">
                                 <div class="input-group input-group-outline mt-2 mb-4">

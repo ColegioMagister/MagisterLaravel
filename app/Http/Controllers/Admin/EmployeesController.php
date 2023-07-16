@@ -57,10 +57,8 @@ class EmployeesController extends Controller
             'password' => Hash::make($request['password']),
         ]);
 
-        return redirect()->route('user.store');
+        return redirect('Employees')->with('flash_message', 'Addedd!');
     }
-
- 
     
     /**
      * Display the specified resource.
@@ -105,6 +103,6 @@ class EmployeesController extends Controller
     public function destroy($id)
     {
         User::destroy($id);
-        return redirect('Employees')->with('flash_message', 'Usuario deleted!');  
+        return redirect('Employees')->with('flash_message', 'deleted!');  
     }
 }
