@@ -28,6 +28,7 @@ Route::get('/Employees', [EmployeesController::class, 'index'])->name('user.inde
 
 Route::resource("/Students", StudentController::class);
 Route::get('/Students', [StudentController::class, 'index'])->name('students.index');
+Route::get('/Students/{student}/editar', [StudentController::class, 'edit'])->name('students.ajax.edit');
 
 Route::resource("/Profesor", UserController::class);
 Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');

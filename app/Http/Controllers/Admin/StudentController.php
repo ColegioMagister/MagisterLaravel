@@ -39,14 +39,16 @@ class StudentController extends Controller
     {
         $input = $request->all();
         
-        if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
-        $imagen = $request->file('url_img');
-        $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
-        $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
+        if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) 
+        {
+            $imagen = $request->file('url_img');
+            $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
+            $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
 
-        $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
-        $input['url_img'] = $rutaArchivo;
-    }
+            $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
+            $input['url_img'] = $rutaArchivo;
+        }
+
         Student::create($input);
         return redirect('Students')->with('flash_message', 'Addedd!');
     }
@@ -68,9 +70,17 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Student $student)
     {
-        
+        return response()->json([
+            'name' => $student->name,
+            'lastnanme' => $student->lastname,
+            'birthdate' => $student->bithdate,
+            'gender' => $student->gender,
+            'phone' => $student->phone_number,
+            'dni' => $student->dni,
+            'url_img' => $student->url_img
+        ]);
     }
 
     /**
@@ -131,6 +141,7 @@ class StudentController extends Controller
         if (!empty($imagen) && file_exists(public_path($imagen))){
             unlink(public_path($imagen));
         }
+        
         return redirect('Students')->with('flash_message', 'deleted!');  
     }
     

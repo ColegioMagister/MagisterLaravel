@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             'phone_number'=>'992504498',
             'url_img'=>''
         ]);
+        
         User::create([
             'id_employee'=>'1',
             'username' => 'admin',

@@ -1,7 +1,5 @@
-//''''ajax formulario registar usuario
 
 $(document).ready(function () {
-
 
   $('#submitBtn').click(function(e) {
 
@@ -23,13 +21,51 @@ $(document).ready(function () {
         $('#password-coincide-message').css('display', 'none');
         $('#password-lenght-message').css('display', 'block');
       }
+
   });
 
 
+  /* -----  EDIT ESTUDIANTE MODAL AJAX -------*/
 
+  $('#EditarEstudiante').on('show.bs.modal', function(event){
+	var button = $(event.relatedTarget)
+	var url = button.data('url')
+	var getDataUrl = button.data('send') 
+	var modal = $(this)
+
+	$.ajax({
+		type: 'GET',
+		url: getDataUrl,
+		dataType: 'JSON',
+		success: function (data)
+		{
+			var name = data.name
+			var lastname = data.lastnanme
+			var birthdate = data.birthdate
+			var gender = data.gender
+			var phone = data.phone
+			var dni = data.dni
+			var url_img = data.url_img
+
+			modal.find('.name').val(name)
+			modal.find('.lastname').val(lastname)
+			modal.find('.birthdate').val(birthdate)
+			modal.find('.gender').val(gender)
+			modal.find('.phone_number').val(phone)
+			modal.find('.dni').val(dni)
+			modal.find('#previewImage').attr('src', url_img)
+		},
+		error: function(response){
+
+		}
+	})
+
+	modal.find('#edit-students-form').attr('action', url)
+  });
   
-
+  
 });
+
 
 
 
