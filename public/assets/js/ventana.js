@@ -40,10 +40,10 @@ $(document).ready(function () {
 		success: function (data)
 		{
 			var name = data.name
-			var lastname = data.lastnanme
-			var birthdate = data.birthdate
+			var lastname = data.lastname
+			var birthdate = data.bithdate
 			var gender = data.gender
-			var phone = data.phone
+			var phone = data.phone_number
 			var dni = data.dni
 			var url_img = data.url_img
 
@@ -61,6 +61,7 @@ $(document).ready(function () {
 	})
 
 	modal.find('#edit-students-form').attr('action', url)
+  
   });
   
   

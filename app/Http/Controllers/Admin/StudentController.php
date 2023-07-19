@@ -72,15 +72,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
-        return response()->json([
-            'name' => $student->name,
-            'lastnanme' => $student->lastname,
-            'birthdate' => $student->bithdate,
-            'gender' => $student->gender,
-            'phone' => $student->phone_number,
-            'dni' => $student->dni,
-            'url_img' => $student->url_img
-        ]);
+        return response()->json($student);
     }
 
     /**
