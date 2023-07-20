@@ -63,11 +63,83 @@ $(document).ready(function () {
 	modal.find('#edit-students-form').attr('action', url)
   
   });
+ 
+  /* -----  EDIT SECCION MODAL AJAX -------*/
+
+
+  $('#SectionUpdateModal').on('show.bs.modal', function(event){
+    var button = $(event.relatedTarget)
+    var url = button.data('url')
+    var getDataUrl = button.data('send') 
+    var modal = $(this)
   
+    $.ajax({
+      type: 'GET',
+      url: getDataUrl,
+      dataType: 'JSON',
+      success: function (data)
+      {
+        var id_sectionType = data.id_sectiontype
+        var id_period = data.id_period
+        var id_level = data.id_level
+        var name = data.section_name
+        var amount = data.total_amount
+        var level_name = data.level_name 
+        var sectionType_name = data.sectionType_name
+        var period_name = data.period_name
   
+        modal.find('.type_select').val(id_sectionType)
+        modal.find('.type_select').text(sectionType_name)
+        modal.find('.period_select').val(id_period)
+        modal.find('.period_select').text(period_name)
+        modal.find('.level-select').val(id_level)
+        modal.find('.level-select').text(level_name)
+        modal.find('.section_name').val(name)
+        modal.find('.total_amount').val(amount)
+      },
+      error: function(response){
+  
+      }
+    })
+  
+    modal.find('#SectionUpdate-form').attr('action', url)
+    
+    });
+  
+
 });
 
+  /* -----  EDIT Materias MODAL AJAX -------*/
 
+    
+  $(document).ready(function () {
+
+    $('#EditarMateria').on('show.bs.modal', function(event){
+    var button = $(event.relatedTarget)
+    var url = button.data('url')
+    var getDataUrl = button.data('send') 
+    var modal = $(this)
+  
+    $.ajax({
+      type: 'GET',
+      url: getDataUrl,
+      dataType: 'JSON',
+      success: function (data)
+      {
+        var subject_name = data.subject_name
+        modal.find('.subject_name').val(subject_name)
+      },
+      error: function(response){
+  
+      }
+    })
+  
+    modal.find('#edit-subject-form').attr('action', url)
+    
+    });
+
+  });
+  /* ----- -------*/
 
 
 document.getElementById('url_img').addEventListener('change', function (e) {

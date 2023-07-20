@@ -13,6 +13,11 @@
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModRegAlumno">
                         <i class="fa-solid fa-plus"></i> Ingresar
                     </button>
+                    <td class="align-middle text-uppercase text-sm">
+                        <a href="{{route('reportes.alumnos')}}" class="btn btn-primary" type="submit">
+                            <i class="fa-solid fa-plus"></i> Descargar Lista de alumnos
+                        </a>  
+                    </td>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="table-responsive p-0">
@@ -68,8 +73,6 @@
                                         </form>
                                     </td>
 
-                                    
-
                                     <td class="align-middle text-uppercase text-sm">
                                         <a href="{{route('reportes.libreta', $student)}}" class="btn btn-primary" type="submit">
                                             <i class="fa-solid fa-plus"></i> Descargar
@@ -86,7 +89,75 @@
         </div>
     </div>
 </div>
+<!------------- #MODAL REGISTRAR-------------------------  -->
 
+<div class="modal fade" id="ModRegAlumno" tabindex="-1" aria-labelledby="ModRegAlumno" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title text-white">Registrar Estudiante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- #para que cargue  -->
+            <form role="form" class="text-start" method="POST" action="{{ url('Students') }}"
+                enctype="multipart/form-data">
+                {!! csrf_field() !!}
+                <div class="modal-body">
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" class="form-control" name="lastname" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-4">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label ">Nacimiento</label>
+                                <input type="date" class="form-control" name="bithdate" required>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group input-group-outline me-2 focused is-focused">
+                                <select class="form-control" name="gender" required>
+                                    <option selected disabled>Genero</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group input-group-outline">
+                                <label class="form-label">Celular</label>
+                                <input type="number" class="form-control" name="phone_number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-outline mb-3">
+                        <label class="form-label">dni</label>
+                        <input type="number" class="form-control" name="dni" required>
+                    </div>
+                    <span class="text-secondary text-xs ms-1" for="url_img">Foto del Alumno</span>
+                    <div class="input-group input-group-outline mb-3">
+                        <input type="file" class="form-control" id="url_img" name="url_img">
+                    </div>
+                        <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen"> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Registrar" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('modals')
@@ -132,8 +203,11 @@
 
                         <div class="col-4">
                             <div class="input-group input-group-outline me-2 focused is-focused">
-                                <label class="form-label">Genero</label>
-                                <input type="text" class="form-control gender" name="gender">
+                                <select class="form-control gender" name="gender" required>
+                                    <option selected disabled>Genero</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
                             </div>
                         </div>
 
@@ -164,81 +238,5 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-<!------------- #MODAL REGISTRAR-------------------------  -->
-
-
-
-<div class="modal fade" id="ModRegAlumno" tabindex="-1" aria-labelledby="ModRegAlumno" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-gradient-primary">
-                <h5 class="modal-title text-white">Registrar Estudiante</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- #para que cargue  -->
-            <form role="form" class="text-start" method="POST" action="{{ url('Students') }}"
-                enctype="multipart/form-data">
-                {!! csrf_field() !!}
-                <div class="modal-body">
-                    <div class="input-group input-group-outline mt-2 mb-4">
-                        <div class="col-6">
-                            <div class="input-group input-group-outline me-2">
-                                <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" name="name" required>
-                            </div>
-                        </div>
-                        <div class="col-6">
-                            <div class="input-group input-group-outline">
-                                <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" name="lastname" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group input-group-outline mt-2 mb-4">
-                        <div class="col-4">
-                            <div class="input-group input-group-outline me-2">
-                                <label class="form-label ">Nacimiento</label>
-                                <input type="date" class="form-control" name="bithdate" required>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="input-group input-group-outline me-2">
-                                <label class="form-label">Genero</label>
-                                <input type="text" class="form-control" name="gender" required>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="input-group input-group-outline">
-                                <label class="form-label">Celular</label>
-                                <input type="number" class="form-control" name="phone_number" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">dni</label>
-                        <input type="number" class="form-control" name="dni" required>
-                    </div>
-                    <span class="text-secondary text-xs ms-1" for="url_img">Foto del estudiante</span>
-                    <div class="input-group input-group-outline mb-3">
-                        <input type="file" class="form-control" id="url_img" name="url_img">
-                    </div>
-                    <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg"
-                        alt="Vista previa de la imagen">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <input type="submit" value="Registrar" class="btn btn-primary">
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
 
 @endsection

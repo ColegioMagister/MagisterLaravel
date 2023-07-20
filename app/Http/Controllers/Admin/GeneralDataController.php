@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Subject;
+use App\Models\{School_info};
 
-class SubjectsController extends Controller
+
+class GeneralDataController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,11 @@ class SubjectsController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::all();
-        return view ('subject.index')->with('subjects', $subjects);
+        $school = School_info::first();
+
+        return view('schoolData.index', [
+            'school' => $school
+        ]);
     }
 
     /**
@@ -37,9 +41,7 @@ class SubjectsController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        Subject::create($input);
-        return redirect('Home')->with('flash_message', 'Addedd!');
+        //
     }
 
     /**
@@ -59,10 +61,9 @@ class SubjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Subject $subject)
+    public function edit($id)
     {
-        return response()->json($subject);
-
+        //
     }
 
     /**
@@ -74,10 +75,7 @@ class SubjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $subject = Subject::find($id);
-        $input = $request->all();
-        $subject->update($input);
-        return redirect('Subject')->with('flash_message', 'Updated!');
+        //
     }
 
     /**
@@ -88,7 +86,6 @@ class SubjectsController extends Controller
      */
     public function destroy($id)
     {
-        Subject::destroy($id);
-        return redirect('Subject')->with('flash_message', 'deleted!');  
+        //
     }
 }
