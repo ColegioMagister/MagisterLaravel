@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Student;
+
 
 class AssessmentController extends Controller
 {
@@ -17,6 +19,7 @@ class AssessmentController extends Controller
         return view('assessment.index');
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *

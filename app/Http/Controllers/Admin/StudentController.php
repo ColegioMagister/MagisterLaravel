@@ -19,6 +19,21 @@ class StudentController extends Controller
         return view ('students.index')->with('students', $students);
     }
     
+
+    public function ReporteLibreta(Student $student)
+    {
+       //$user = User::all();
+       $pdf = \PDF::loadView('reportes.libreta', compact('student'));
+       
+       //$pdf->setPaper(array(0,0,580.00,800.00),'landscape');
+
+       $pdf_name = 'libreta.pdf';
+       return $pdf->stream($pdf_name);
+       //return $pdf->download($pdf_name);
+
+       //return view ('reporte.libreta');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

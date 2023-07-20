@@ -39,3 +39,5 @@ Route::get('/Schedule', [ScheduleController::class, 'index'])->name('schedule.in
 Route::get('/Sections', [SectionController::class, 'index'])->name('sections.index');
 Route::get('/Subject', [SubjectsController::class, 'index'])->name('subject.index');
 Route::get('/SchoolYear', [YearController::class, 'index'])->name('schoolYear.index');
+
+Route::get('/descarga-libreta/{student}', [App\Http\Controllers\Admin\StudentController::class, 'ReporteLibreta'])->name('reportes.libreta');

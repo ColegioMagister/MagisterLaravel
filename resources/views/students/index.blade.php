@@ -56,17 +56,24 @@
                                              data-send="{{route('students.ajax.edit', $student)}}" enctype="multipart/form-data">
                                             <i class="fa-solid fa-plus"></i> Editar
                                         </button>
-                                    </td>
-                                    <td class="align-middle text-uppercase text-sm">
+                                          
                                         <form class="alertDelete" method="POST"
                                             action="{{ url('/Students' . '/' . $student->id) }}" accept-charset="UTF-8"
                                             style="display:inline">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger btn-sm"
+                                            <button type="submit" class="btn btn-primary""
                                                 title="Delete Student"><i class="fa fa-trash-o"
                                                     aria-hidden="true"></i>Eliminar</button>
                                         </form>
+                                    </td>
+
+                                    
+
+                                    <td class="align-middle text-uppercase text-sm">
+                                        <a href="{{route('reportes.libreta', $student)}}" class="btn btn-primary" type="submit">
+                                            <i class="fa-solid fa-plus"></i> Descargar
+                                        </a>  
                                     </td>
                                 <tr>
                                 @endforeach
