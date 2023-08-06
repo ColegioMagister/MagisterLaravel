@@ -9,6 +9,9 @@
         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
             <h6 class="text-white text-capitalize ps-3">Materias</h6>
         </div>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModRegisMate">
+            <i class="fa-solid fa-plus"></i> Registrar
+        </button>
     </div>
     <div class="card-body px-0 pb-2">
         <div class="table-responsive p-0">
@@ -42,7 +45,7 @@
                                 style="display:inline">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-primary""
+                                <button type="submit" class="btn btn-danger"
                                     title="Delete Subject"><i class="fa fa-trash-o"
                                         aria-hidden="true"></i>Eliminar</button>
                             </form>
@@ -60,6 +63,35 @@
 @endsection
 @section('modals')
 
+<!---------------- #MODAL REGISTRAR-------------------------  -->
+
+<div class="modal fade" id="ModRegisMate" tabindex="-1" aria-labelledby="ModRegisMate" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title text-white">Registrar Estudiante</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form role="form" class="text-start" method="POST" action="" enctype="multipart/form-data">
+                {!! csrf_field() !!}
+                <div class="modal-body">
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label">Materia</label>
+                                <input type="text" class="form-control" name="subject_name" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
+                    <input type="submit" value="Registrar" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <!---------------- #MODAL EDITAR-------------------------  -->
 

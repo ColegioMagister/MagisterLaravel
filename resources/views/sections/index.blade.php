@@ -64,7 +64,6 @@
                         </td>
 
                     <tr>
-
                     @endforeach
                 </tbody>
 
@@ -181,7 +180,6 @@
             <form role="form" id='SectionUpdate-form' class="text-start alertEdits" method="POST" action="">
                 @method("PATCH")
                 @csrf
-
                 <div class="modal-body">
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">

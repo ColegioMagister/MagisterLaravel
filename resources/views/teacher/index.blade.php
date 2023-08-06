@@ -55,7 +55,7 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header bg-gradient-primary">
-                                            <h5 class="modal-title text-white" id="ModRegTeacher">Editar Profesor</h5>
+                                            <h5 class="modal-title text-white" >Editar Profesor</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                                                                                     <!-- #para que cargue  -->
@@ -71,7 +71,7 @@
                                                             @foreach($roles as $rol)
                                                                 <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
                                                             @endforeach
-                                                        </select>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">

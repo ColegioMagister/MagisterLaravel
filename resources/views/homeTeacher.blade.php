@@ -78,7 +78,29 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
               <div  tabindex="-1" aria-labelledby="ModRegAlumno" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                  
+                    <div class="modal-content">
+                        <div class="modal-header bg-gradient-primary">
+                            <h5 class="modal-title text-white">Registrar Materias</h5>
+                        </div>
+                        <!-- #para que cargue  -->
+                        <form role="form" class="text-start" method="POST" action="{{ url('Home') }}"
+                            enctype="multipart/form-data">
+                            {!! csrf_field() !!}
+                            <div class="modal-body">
+                                <div class="input-group input-group-outline mt-2 mb-4">
+                                    <div class="col-6">
+                                        <div class="input-group input-group-outline me-2">
+                                            <label class="form-label">Materia</label>
+                                            <input type="text" class="form-control" name="subject_name" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <input type="submit" value="Registrar" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
             </div>

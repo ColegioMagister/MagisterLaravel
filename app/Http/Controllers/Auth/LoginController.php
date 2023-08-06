@@ -26,7 +26,8 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/Home';
+    /**protected $redirectTo = '/Home';*/
+    protected $redirectTo = RouteServiceProvider::HOME;
 
     public function username()
     {
@@ -41,4 +42,22 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+////////////////////////
+    protected function redirectTo()
+    {
+    // Obtener el rol del usuario autenticado
+    if (auth()->user()->employee->roles) {
+        $role = auth()->user()->employee->roles->role_name;
+
+        // Redirigir según el rol
+        if ($role === 'Admin') {
+            return '/Home';
+        } else {
+            return '/HomeTeacher';
+        }
+    }else{
+        return '/';
+    }
+}
 }

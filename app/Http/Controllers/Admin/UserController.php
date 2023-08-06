@@ -22,6 +22,7 @@ class UserController extends Controller
             "teacher"=>$teacher,
             "roles"=>$roles
         ]);
+
     }
     /**
      * Show the form for creating a new resource.

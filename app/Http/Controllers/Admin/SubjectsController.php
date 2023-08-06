@@ -39,7 +39,7 @@ class SubjectsController extends Controller
     {
         $input = $request->all();
         Subject::create($input);
-        return redirect('Home')->with('flash_message', 'Addedd!');
+        return redirect('Subject')->with('flash_message', 'Addedd!');
     }
 
     /**

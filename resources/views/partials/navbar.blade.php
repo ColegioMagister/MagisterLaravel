@@ -6,7 +6,7 @@
       <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
         <div class="ms-md-auto pe-md-3 d-flex text-uppercase align-items-center">
           
-          <p class="mb-0">¡Bienvenido {{ Auth::user()->name }}!</p>
+          <p class="mb-0">¡Bienvenido {{ Auth::user()->employee->name}}!</p>
           
         </div>
         <ul class="navbar-nav  justify-content-end">
