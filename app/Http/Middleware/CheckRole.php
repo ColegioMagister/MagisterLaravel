@@ -24,11 +24,6 @@ class CheckRole
                 if ($request->user()->employee->roles->role_name === $role) {
                     return $next($request);
                 }
-
-                /* // Permitir acceso a las rutas de "Profesor" para el rol "Admin"
-                if ($role === 'Profesor' && $request->user()->employee->roles->role_name === 'Admin') {
-                    return $next($request);
-                }*/
             }
         } else {
             abort(403, "Acceso no autorizado");

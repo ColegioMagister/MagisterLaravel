@@ -18,8 +18,8 @@ return new class extends Migration
             $table->integer('id_section')->index('fk_sch_id_section');
             $table->integer('id_weekday')->index('fk_sch_id_weekday');
             $table->integer('id_subject')->index('fk_sch_id_subject');
-            $table->dateTime('start_datetime');
-            $table->dateTime('end_datetime');
+            $table->timestamp('start_datetime')->nullable();
+            $table->timestamp('end_datetime')->nullable();
             $table->timestamps();
         });
     }

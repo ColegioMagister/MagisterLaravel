@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Models\{
+        Section,
+        Weekday,
+        Subject,
+};
+
+class Schedule extends Model
+{
+    use HasFactory;
+    protected $table='schedules';
+    protected $guarded=[];
+
+    public function weekday()
+    {
+        return $this->belongsTo(Weekday::class, 'id_weekday', 'id');
+    }
+
+    public function section()
+    {
+        return $this->belongsTo(Section::class, 'id_section', 'id');
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class, 'id_subject', 'id');
+    }
+}
+

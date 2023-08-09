@@ -4,23 +4,45 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{Teacher_has_subjects,Assessment,Schedules,Section_has_subjects};
+use App\Models\{
+                Assessment,
+                Schedule,
+                Section,
+                TeacherSections,
+                Employee
+            };
+
 class Subject extends Model
 {
     use HasFactory;
     protected $table='subjects';
+    protected $guarded=[];
 
-    public function teacherSubjects(){
-        return $this->belongsToMany(Teacher_has_subjects::class,'teacher_has_subjects');
+    public function teacherSubjects()
+    {
+        return $this->belongsToMany(Employee::class,'teacher_has_subjects', 'id_subject', 'id_teacher')
+                                    ->withPivot('id')->withTimestamps();
     }
-    public function assessment(){
+
+    public function assessment()
+    {
         return $this->belongsToMany(Assessment::class,'assessment');
     }
-    public function schedules(){
-        return $this->belongsToMany(Schedules::class,'schedules');
+
+    public function subjectSection()
+    {
+        return $this->belongsToMany(Section::class,'section_has_subjects', 'id_subject', 'id_section')
+                                    ->withPivot('id')->withTimestamps();
     }
-    public function sectionSubjects(){
-        return $this->belongsToMany(Section_has_subjects::class,'section_has_subjects');
+
+    public function teacherInSections()
+    {
+        return $this->hasMany(TeacherSections::class, 'id_subject', 'id');
     }
-    protected $guarded=[];
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'id_subject', 'id');
+    }
+    
 }

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('teacher_in_sections', function (Blueprint $table) {
             $table->foreign(['id_section'], 'fk_teas_id_section')->references(['id'])->on('sections');
+            $table->foreign(['id_subject'], 'fk_teas_id_subject')->references(['id'])->on('subjects');
             $table->foreign(['id_teacher'], 'fk_teas_id_teacher')->references(['id'])->on('employees');
         });
     }
@@ -28,6 +29,7 @@ return new class extends Migration
     {
         Schema::table('teacher_in_sections', function (Blueprint $table) {
             $table->dropForeign('fk_teas_id_section');
+            $table->dropForeign('fk_teas_id_subject');
             $table->dropForeign('fk_teas_id_teacher');
         });
     }

@@ -19,7 +19,6 @@ return new class extends Migration
             $table->integer('id_period')->index('fk_sec_id_period');
             $table->integer('id_level')->index('fk_s_id_level');
             $table->string('section_name', 50);
-            $table->decimal('total_amount', 10);
             $table->timestamps();
         });
     }

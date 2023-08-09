@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('teacher_in_sections', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('id_teacher')->index('fk_teas_id_teacher');
+            $table->integer('id_subject')->index('fk_teas_id_subject');
             $table->integer('id_section')->index('fk_teas_id_section');
             $table->timestamps();
         });

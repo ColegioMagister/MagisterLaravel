@@ -4,13 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{SchoolPeriod,Level,SectionType};
+use App\Models\{SchoolPeriod,
+                Level,
+                SectionType,
+                Student,
+                Subject,
+                TeacherSections,
+                Schedule
+            };
 
 class Section extends Model
 {
     use HasFactory;
 
     protected $table = 'sections';
+    protected $guarded=[];
+
 
     public function school_period()
     {
@@ -27,5 +36,25 @@ class Section extends Model
         return $this -> belongsTo(SectionType::class, 'id_sectiontype', 'id');
     }
 
-    protected $guarded=[];
+    public function studentSections()
+    {
+        return $this->belongsToMany(Student::class, 'student_in_section', 'id_section', 'id_student')
+                                    ->withPivot(['id', 'status'])->withTimestamps();
+    }
+
+    public function subjectSection()
+    {
+        return $this->belongsToMany(Subject::class, 'section_has_subjects', 'id_section', 'id_subject')
+                                    ->withPivot('id')->withTimestamps();
+    }
+
+    public function teacherInSections()
+    {
+        return $this->hasMany(teacherInSections::class, 'id_section', 'id');
+    }
+
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class, 'id_section', 'id');
+    }
 }

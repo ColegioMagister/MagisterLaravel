@@ -43,11 +43,32 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::get('/Quota', [QuotaController::class, 'index'])->name('quota.index');
     Route::get('/Schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
-    Route::get('/Sections', [SectionController::class, 'index'])->name('sections.index');
-    Route::get('/sections/editAjax/{section}', [SectionController::class, 'getAjaxUpdate'])->name('sections.getUpdateAjax');
-    Route::post('/Section/Registrar', [SectionController::class, 'store'])->name('sections.store');
-    Route::delete('/Section/Eliminar/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
+
+
+    
+    Route::get('/Sections', [SectionController::class, 'index'])->name('sections.principalIndex');
+    Route::get('/Sections/periodo/{school_period}', [SectionController::class, 'innerShow'])->name('sections.index');
+    Route::get('/Sections/{section}', [SectionController::class, 'show'])->name('sections.show');
+    Route::get('/Sections/editAjax/{section}', [SectionController::class, 'getAjaxUpdate'])->name('sections.getUpdateAjax');
+    Route::get('/Section/editStudentAjax/{section}/{student}', [SectionController::class, 'getAjaxStudentUpdate'])->name('sections.getStudentUpdateAjax');
+    Route::get('/Section/editSubjectAjax/{section}/{subject}', [SectionController::class, 'getAjaxSubjectUpdate'])->name('sections.getSubjectUpdateAjax');
+    Route::get('/Section/Horarios/{section}', [SectionController::class, 'scheduleIndex'])->name('sections.schedules.index');
+    Route::post('/Section/Registrar/{school_period}', [SectionController::class, 'store'])->name('sections.store');
     Route::patch('/Section/Editar/{section}', [SectionController::class, 'update'])->name('sections.update');
+    Route::patch('/Section/estudiante/actualizar/{section}/{student}', [SectionController::class, 'updateStudent'])->name('sections.updateStudent');
+    Route::patch('/Section/materia/actualizar/{section}/{subject}', [SectionController::class, 'updateSubject'])->name('sections.updateSubject');
+    Route::post('/Section/{section}/registrar-materia', [SectionController::class, 'registerSubject'])->name('sections.registerSubject');
+    Route::post('/Section/{section}/registrar-estudiante', [SectionController::class, 'registerStudent'])->name('sections.registerStudent');
+
+    Route::post('/Section/{section}/registrar-horarios', [SectionController::class, 'storeSchedules'])->name('sections.storeSchedules');
+
+    Route::delete('/Section/Eliminar/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
+    Route::delete('/Section/materia/Eliminar/{section}/{subject}', [SectionController::class, 'subjectDelete'])->name('sections.deleteSubject');
+    Route::delete('/Section/estudiante/Eliminar/{section}/{student}', [SectionController::class, 'studentDetached'])->name('sections.studentDetached');
+
+
+
+
 
     Route::resource('/Subject',SubjectsController::class);
     Route::get('/Subject', [SubjectsController::class, 'index'])->name('subject.index');

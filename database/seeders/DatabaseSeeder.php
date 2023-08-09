@@ -11,7 +11,9 @@ use App\Models\{
     Level,
     SchoolPeriod,
     SectionType,
-    School_Info
+    School_Info,
+    Weekday,
+    Subject
     };
 
 class DatabaseSeeder extends Seeder
@@ -92,6 +94,35 @@ class DatabaseSeeder extends Seeder
             'username' => 'admin',
             'password'=>Hash::make('magister23')
         ]);
+
+        $weekdays_data = [
+            ['day_name' => 'DOMINGO'],
+            ['day_name' => 'LUNES'],
+            ['day_name' => 'MARTES'],
+            ['day_name' => 'MIÉRCOLES'],
+            ['day_name' => 'JUEVES'],
+            ['day_name' => 'VIERNES'],
+            ['day_name' => 'SÁBADO'],
+        ];
+
+        foreach($weekdays_data as $weekday)
+        {
+            WeekDay::create($weekday);
+        }
+
+        $subjects_data = [
+            ['subject_name' => 'Historia'],
+            ['subject_name' => 'Aritmética'],
+            ['subject_name' => 'Geometría'],
+            ['subject_name' => 'Geografía'],
+            ['subject_name' => 'Física'],
+            ['subject_name' => 'Trigonometría'],
+        ];
+
+        foreach($subjects_data as $subject){
+            Subject::create($subject);
+        }
+
         // \App\Models\User::factory(10)->create();
     }
 }

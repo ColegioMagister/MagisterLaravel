@@ -80,22 +80,16 @@ $(document).ready(function () {
       success: function (data)
       {
         var id_sectionType = data.id_sectiontype
-        var id_period = data.id_period
         var id_level = data.id_level
         var name = data.section_name
-        var amount = data.total_amount
-        var level_name = data.level_name 
+        var level_name = data.level_name
         var sectionType_name = data.sectionType_name
-        var period_name = data.period_name
   
         modal.find('.type_select').val(id_sectionType)
         modal.find('.type_select').text(sectionType_name)
-        modal.find('.period_select').val(id_period)
-        modal.find('.period_select').text(period_name)
         modal.find('.level-select').val(id_level)
         modal.find('.level-select').text(level_name)
         modal.find('.section_name').val(name)
-        modal.find('.total_amount').val(amount)
       },
       error: function(response){
   
@@ -105,9 +99,171 @@ $(document).ready(function () {
     modal.find('#SectionUpdate-form').attr('action', url)
     
     });
+
+
+
+
+    $('#SectionUpdateStudentModal').on('show.bs.modal', function(event){
+      var button = $(event.relatedTarget)
+      var url = button.data('url')
+      var getDataUrl = button.data('send') 
+      var modal = $(this)
+
+      $.ajax({
+        type:'GET',
+        url: getDataUrl,
+        dataType: 'JSON',
+        success: function(data)
+        {
+          var status = data.status;
+          var name = data.completeName;
+
+          modal.find('.student_name').val(name);
+          if(status == 1)
+          {
+            modal.find('.activeSectionStudent').prop('checked', true);
+          }else{
+            modal.find('.activeSectionStudent').prop('checked', false);
+          }
+        }
+      })
+
+      modal.find('#SectionStudentUpdate-form').attr('action', url);
+
+    });
+
+
+    $('#SectionUpdateSubjectModal').on('show.bs.modal', function(event){
+      var button = $(event.relatedTarget)
+      var url = button.data('url')
+      var getDataUrl = button.data('send')
+      var modal = $(this)
+      var select = modal.find('.select-teachers-subject');
+
+      select.html("<option value='' selected disabled> Selecciona un profesor </option>");
+
+      $.ajax({
+        type:'GET',
+        url: getDataUrl,
+        dataType: 'JSON',
+        success: function(arr)
+        {
+          $.each(arr['content'], function(indexes, values){
+            select.append("<option value='"+values['id']+"'>"+values['name']+" "+values['lastname']+"</option>");
+          });
+        }
+      })
+      modal.find('#SectionSubjectUpdate-form').attr('action', url);
+    });
+
+
+    $('#btn-submit-updateSubjectSection').click(function(e){
+      if($('#select-teachers-subject').val() != null)
+      {
+        $('#SectionUpdateSubjectModal').modal('toggle');
+      }
+    });
   
 
+    /* ----------- FULL CALENDAR ------------*/
+
+    $('.draggable-event').draggable({
+      revert: true,
+      revertDuration: 0
+    });
+
+
+
+
+    if($('#full-calendar-container').length)
+    {
+      $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+
+      var scheduleCaldendar = $('#full-calendar-container').fullCalendar({
+        eventClick: function(calEvent){
+          scheduleCaldendar.fullCalendar('removeEvents', [calEvent._id]);
+        },
+        editable: true,
+        defaultView: 'agendaWeek',
+        header: false,
+        allDaySlot: false,
+        columnHeaderFormat: 'dddd',
+        dayNames: [
+          'DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'
+        ],
+        selectHelper: true,
+        droppable: true
+      }); 
+
+
+      $('#btn-schedule-save').click(function(e){
+        e.preventDefault();
+        var events= scheduleCaldendar.fullCalendar('clientEvents');
+        var url = $(this).data('url');
+        var de = [];
+
+        if(events.length)
+        {
+          $.each(events, function(index, value){
+            de.push({
+              id: value._id,
+              Item: [{
+                title: value.title,
+                start: value.start.format(),
+                end: value.end.format(),
+                id: value.className[0]
+              }],
+            })
+          })
+  
+          $.ajax({
+            type:'POST',
+            url: url,
+            data: {events:de},
+            dataType: 'JSON',
+            success: function(ele)
+            {
+              if(ele.message == 'stored')
+              {
+                Swal.fire({
+                  position: 'top-center',
+                  icon: 'success',
+                  title: 'Guardado',
+                  showConfirmButton: false,
+                  timer: 1000
+                })
+              }
+            },
+            error: function(e){
+              console.log(e.responseText);
+            }
+          })
+        }
+      })
+
+    }
+ 
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   /* -----  EDIT Materias MODAL AJAX -------*/
 
@@ -130,7 +286,7 @@ $(document).ready(function () {
         modal.find('.subject_name').val(subject_name)
       },
       error: function(response){
-  
+        
       }
     })
   
@@ -139,6 +295,11 @@ $(document).ready(function () {
     });
 
   });
+
+
+
+
+
   /* ----- -------*/
 
 

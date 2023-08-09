@@ -2,7 +2,7 @@
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href="{{ route('home') }}">
-        <img src="assets/img/login-bg/logo-magister.png" class="navbar-brand-img h-100" alt="main_logo">
+        <img src="{{asset('assets/img/login-bg/logo-magister.png')}}" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold text-white">I.E.P. "MAGISTER</span>
       </a>
     </div>
@@ -19,7 +19,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('data.index') }}">
+          <a class="nav-link text-white {{setActive('data.*')}}" href="{{ route('data.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
@@ -27,7 +27,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{{ route('user.index') }}">
+          <a class="nav-link text-white {{setActive('user.*')}}" href="{{ route('user.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-people-group"></i>
             </div>
@@ -35,7 +35,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('schoolYear.index') }}">
+          <a class="nav-link text-white {{setActive('schoolYear.*')}}" href="{{ route('schoolYear.index') }}">
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-regular fa-calendar-days"></i>
             </div>
@@ -43,7 +43,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('sections.index') }}">
+          <a class="nav-link text-white {{setActive('sections.*')}}" href="{{ route('sections.principalIndex') }}">
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-cubes"></i>
             </div>
@@ -51,7 +51,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('subject.index') }}">
+          <a class="nav-link text-white {{setActive('subject.*')}}" href="{{ route('subject.index') }}">
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-book"></i>
             </div>
@@ -59,15 +59,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('schedule.index') }}">
-            <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-clock"></i>
-            </div>
-            <span class="nav-link-text ms-1">Horarios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{{ route('teacher.index') }}">
+          <a class="nav-link text-white {{setActive('teacher.*')}}" href="{{ route('teacher.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-chalkboard-user"></i>
             </div>
@@ -75,7 +67,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{{ route('students.index') }}">
+          <a class="nav-link text-white {{setActive('students.*')}}" href="{{ route('students.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-people-group"></i>
             </div>
@@ -83,19 +75,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('assessment.index') }}">
+          <a class="nav-link text-white {{setActive('assessment.*')}}" href="{{ route('assessment.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-file-pen"></i>
             </div>
             <span class="nav-link-text ms-1">Evaluaciones</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="{{ route('quota.index') }}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-file-invoice-dollar"></i>
-            </div>
-            <span class="nav-link-text ms-1">Pagos</span>
           </a>
         </li>
         <li class="nav-item mt-3">

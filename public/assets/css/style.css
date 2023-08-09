@@ -50,3 +50,255 @@
        background-color: rgba(0, 0,0,0.8);
        z-index: 0;
     }
+
+
+
+.navbar-vertical .navbar-nav > .nav-item .nav-link.active
+{
+   background: linear-gradient(200deg, #26a1df -10%, #2563af 80%);
+}
+
+
+.periods-container
+{
+   display: flex;
+   justify-content: space-around;
+   gap: 4em;
+   margin: 3em 0;
+   flex-wrap: wrap;
+}
+
+.periods-container
+.period-box
+{
+   width: 500px !important;
+   height: 300px;
+   border-radius: 10px;
+   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.164);
+   padding: 1.4em;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+}
+
+.period-box
+.period-title-box
+{
+   text-align: center;
+   color: rgb(107, 107, 107);
+}
+
+.period-title-box > div
+{
+   padding: 0.1em;
+   font-size: 1.4em;
+   text-transform: uppercase;
+}
+
+.period-title-box .title
+{
+   font-weight: 700;
+   font-size: 1.8em;
+}
+
+.period-dates
+{
+   display: flex;
+   justify-content: space-around;
+   text-align: center;
+   padding: 1em 0;
+}
+
+.period-dates
+.date
+{
+   font-size: 1.2em;
+   color: #4CAF50;
+   font-weight: 600;
+}
+
+.period-btn-enter-box
+{
+   display: flex;
+   justify-content: center;
+}
+
+.period-btn-enter-box a 
+{
+   text-align: center;
+   width: 60%;
+   padding: 1.2em;
+   display: block;
+   background-color: rgb(228, 2, 2);
+   color: white;
+   border-radius: 30px;
+   transition: all .1s;
+}
+
+.period-btn-enter-box a:hover
+{
+   filter: brightness(1.1);
+}
+
+.input-group select
+{
+   padding: 8px 10px !important;
+}
+
+.input-group select:focus
+{
+   border: 1px solid #26a1df;
+}
+
+.show-title-module
+{
+   display: flex;
+   gap: 2em;
+   padding-left: 1em;
+}
+
+.show-title-module > h6
+{
+   color: white;
+}
+
+.empty-table-message > td
+{
+   text-align: center;
+   padding: 1.7em;
+   font-size: 1.3em;
+   font-weight: 600;
+   color: rgb(163, 163, 163);
+}
+
+
+.student-section-icon
+{
+   display: block;
+   width: 20px;
+   height: 20px;
+   border-radius: 50%;
+}
+
+.student-section-icon.active
+{
+   background-color: #4CAF50;
+}
+
+.student-section-icon.inactive
+{
+   background-color: #F44335;
+}
+
+.table-title
+{
+   margin-top: 1em;
+   padding: .5em 2em;
+   border-top: 2px dashed #2563af;
+   border-bottom: 2px dashed #2563af;
+}
+
+.table-title > h4
+{
+   color: rgb(102, 102, 102);
+}
+
+.table-responsive.subjects
+{
+   width: 100%;
+   max-width: 1200px;
+   margin: auto;
+}
+
+.schedules-container
+{
+   display: flex;
+   padding: 0 3em;
+}
+
+#full-calendar-container
+{
+   height: 74vh;
+   width: 100%;
+}
+
+.fc-scroller.fc-scroller.fc-time-grid-container{
+   height: 70vh !important;
+}
+
+.courses-schedule-container
+{
+   min-width: 30%;
+   display: flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: center;
+   padding: 2.5em 2em 4em 0;
+}
+
+.courses-schedule-container
+.btn-schedule-save
+{
+   width: 100%;
+   max-width: 180px;
+   height: 50px;
+}
+
+.courses-schedule-container
+.btn-schedule-save a
+{
+   font-size: 0.9em;
+   width: 100%;
+}
+
+.calendar-title
+{
+   padding: 0.5em 0 2em 0;
+   text-align: center;
+   font-size: 1.4em;
+   color: rgb(75, 75, 75);
+   font-weight: 700;
+}
+
+.schedules-container
+.draggable-events-container
+{
+   z-index: 999;
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   gap: 1.5em;
+}
+
+.draggable-events-container
+.dgev-container-title
+{
+   font-size: 1.4em;
+   text-transform: uppercase;
+   font-weight: 700;
+   color: #2563af;
+   width: 100%;
+   text-align: center;
+   border-bottom: 2px dashed #2563af;
+}
+
+.draggable-events-container
+.draggable-event
+{
+   height: 80px;
+   width: 100%;
+   max-width: 200px;
+   border-radius: 20px;
+   border: 1px solid #2563af;
+   background-color: #2563af31;
+   cursor: pointer;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   color: rgb(97, 97, 97);
+   font-size: 1.1em;
+   box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.11);
+}
+
+
