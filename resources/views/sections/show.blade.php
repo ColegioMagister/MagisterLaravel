@@ -112,7 +112,7 @@
                                 @empty
 
                                 <tr class="empty-table-message">
-                                    <td colspan="6">No hay alumnos registrados en esta sección</td>
+                                    <td class="w-100" colspan="6">No hay alumnos registrados en esta sección</td>
                                 </tr>
 
                                 @endforelse
@@ -153,7 +153,7 @@
                                     <th class="text-center opacity-7">#COD</th>
                                     <th class="text-uppercase text-secondary ps-2">Descripción</th>
                                     <th class="text-uppercase text-secondary ps-2">Profesor</th>
-                                    <th class="text-secondary opacity-7"></th>
+                                    <th class="text-center text-uppercase"> Acción </th>
                                 </tr>
                             </thead>
 
@@ -181,33 +181,34 @@
 
                                     <td class="text-uppercase text-sm w-15 pe-4">
 
-                                        <button type="submit" class="btn btn-primary ms-3 me-3" data-bs-toggle="modal"
+                                        <button type="submit" class="btn btn-primary ms-2 me-2" data-bs-toggle="modal"
                                             data-bs-target="#SectionUpdateSubjectModal" data-url='{{route('sections.updateSubject', [$section, $subject])}}'
                                             data-send="{{route('sections.getSubjectUpdateAjax', [$section, $subject])}}">
                                             <i class="fa-solid fa-chalkboard-user fa-xl"></i> &nbsp; Seleccionar profesor
                                         </button>
 
+                                        <a href="{{route('sections.assessments.index', [$section, $subject])}}" class="btn btn-success ms-2 me-2">
+                                            <i class="fa-solid fa-file-pen fa-xl"></i>
+                                        </a>
+
                                         <form class="alertDelete" method="POST" action="{{route('sections.deleteSubject', [$section, $subject])}}" accept-charset="UTF-8"
                                             style="display:inline">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger ms-3" title="Delete Student"><i
+                                            <button type="submit" class="btn btn-danger ms-2" title="Delete Student"><i
                                                     class="fa fa-trash-o fa-xl" aria-hidden="true"></i> &nbsp;
                                                 Eliminar
                                             </button>
                                         </form>
                                     </td>
-
                                 <tr>
-
 
                                 @empty
                                 <tr class="empty-table-message">
-                                    <td colspan="3">No hay materias registradas en esta sección</td>
+                                    <td colspan="4">No hay materias registradas en esta sección</td>
                                 </tr>
                                 @endforelse
                                 
-
                             </tbody>
 
                         </table>

@@ -24,9 +24,9 @@ class Subject extends Model
                                     ->withPivot('id')->withTimestamps();
     }
 
-    public function assessment()
+    public function assessments()
     {
-        return $this->belongsToMany(Assessment::class,'assessment');
+        return $this->hasMany(Assessment::class, 'id_subject', 'id');
     }
 
     public function subjectSection()

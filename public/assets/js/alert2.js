@@ -1,4 +1,3 @@
-
 $('.alertDelete').submit(function(e){
     e.preventDefault();
 
@@ -16,21 +15,27 @@ $('.alertDelete').submit(function(e){
     }
     })
 })
+
 $('.alertEdits').submit(function(e){
     e.preventDefault();
-
-    Swal.fire({
-    title: 'Confirmar cambios',
-    icon: 'info',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '¡Sí, Actualizar!'
-    }).then((result) => {
-    if (result.isConfirmed) {
-        this.submit();
+    var form = $(this);
+    if(form.valid()){
+        form.closest('.modal').modal('toggle');
+        Swal.fire({
+            title: 'Confirmar cambios',
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '¡Sí, Actualizar!'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        })
     }
-    })
+
+    
 })
 
 

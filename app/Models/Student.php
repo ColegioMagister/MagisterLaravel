@@ -4,16 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{Student_has_assessments,Section};
+use App\Models\{Section,Assessment};
 class Student extends Model
 {
     use HasFactory;
     protected $table='student';
     protected $guarded=[];
-
-    public function studentAssessment(){
-        return $this->belongsTo(Student_has_assessments::class,'id_student','id');
-    }
 
     public function studentSections()
     {
@@ -21,5 +17,9 @@ class Student extends Model
                                     ->withPivot(['id', 'status'])->withTimestamps();
     }
 
-   
+    public function studentAssessment()
+    {
+        return $this->belongsToMany(Assessment::class, 'student_has_assessments', 'id_student', 'id_assessment')
+                                    ->withPivot('id','grade','status')->withTimestamps();;
+    }
 }

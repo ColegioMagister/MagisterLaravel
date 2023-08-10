@@ -39,7 +39,7 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::resource("/Profesor", UserController::class);
     Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');
 
-    Route::get('/Assessment', [AssessmentController::class, 'index'])->name('assessment.index');
+ 
     Route::get('/Quota', [QuotaController::class, 'index'])->name('quota.index');
     Route::get('/Schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
@@ -53,19 +53,27 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::get('/Section/editStudentAjax/{section}/{student}', [SectionController::class, 'getAjaxStudentUpdate'])->name('sections.getStudentUpdateAjax');
     Route::get('/Section/editSubjectAjax/{section}/{subject}', [SectionController::class, 'getAjaxSubjectUpdate'])->name('sections.getSubjectUpdateAjax');
     Route::get('/Section/Horarios/{section}', [SectionController::class, 'scheduleIndex'])->name('sections.schedules.index');
+    Route::get('/Section/Evaluaciones/{section}/{subject}', [SectionController::class, 'assessmentIndex'])->name('sections.assessments.index');
     Route::post('/Section/Registrar/{school_period}', [SectionController::class, 'store'])->name('sections.store');
     Route::patch('/Section/Editar/{section}', [SectionController::class, 'update'])->name('sections.update');
     Route::patch('/Section/estudiante/actualizar/{section}/{student}', [SectionController::class, 'updateStudent'])->name('sections.updateStudent');
     Route::patch('/Section/materia/actualizar/{section}/{subject}', [SectionController::class, 'updateSubject'])->name('sections.updateSubject');
     Route::post('/Section/{section}/registrar-materia', [SectionController::class, 'registerSubject'])->name('sections.registerSubject');
     Route::post('/Section/{section}/registrar-estudiante', [SectionController::class, 'registerStudent'])->name('sections.registerStudent');
-
+    Route::post('/Section/{section}/registrar-evaluación/{subject}', [SectionController::class, 'registerAssessment'])->name('assessmentSection.store');
     Route::post('/Section/{section}/registrar-horarios', [SectionController::class, 'storeSchedules'])->name('sections.storeSchedules');
-
+    Route::post('/Section/load-date/{section}/{subject}', [SectionController::class, 'ajaxLoadDate'])->name('assessmentSection.LoadDate');
     Route::delete('/Section/Eliminar/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
     Route::delete('/Section/materia/Eliminar/{section}/{subject}', [SectionController::class, 'subjectDelete'])->name('sections.deleteSubject');
     Route::delete('/Section/estudiante/Eliminar/{section}/{student}', [SectionController::class, 'studentDetached'])->name('sections.studentDetached');
 
+
+
+    Route::get('/Assessment', [AssessmentController::class, 'index'])->name('assessment.index');
+    Route::get('/Assessment/get-edit-ajax-data/{assessment}', [AssessmentController::class, 'getEditAjaxData'])->name('assessment.getEditAjaxData');
+    Route::post('/Assessment/registrar', [AssessmentController::class, 'store'])->name('assessment.store');
+    Route::patch('/Assessment/actualizar/{assessment}', [AssessmentController::class, 'update'])->name('assessment.update');
+    Route::delete('/Assessment/eliminar/{assessment}', [AssessmentController::class, 'destroy'])->name('assessment.destroy');
 
 
 

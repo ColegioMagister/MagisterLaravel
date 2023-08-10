@@ -12,7 +12,8 @@ use App\Models\{
     Student,
     Subject,
     TeacherSections,
-    Schedule
+    Schedule,
+    AssessmentType
 };
 use Carbon\Carbon;
 use DateTime;
@@ -220,8 +221,51 @@ class SectionController extends Controller
     /* ------------ SCHEDULES METHODS --------------*/
 
 
-    public function scheduleIndex(Section $section)
+    public function scheduleIndex(Request $request, Section $section)
     {
+        if($request->ajax())
+        {
+            $weekDays = $section->schedules()->with('subject:id,subject_name')
+                                            ->get(
+                                                ['id',
+                                                'id_section',
+                                                'id_subject',
+                                                'id_weekday',
+                                                'end_datetime',
+                                                'start_datetime'
+                                                ])
+                                                ->groupBy('id_weekday');
+                                                
+            $periodEndDate = new DateTime($section->school_period->end_date);
+            $events = array();
+                              
+            foreach($weekDays as $weekday)
+            {
+                $start_date = explode(" ", ($weekday->first())->start_datetime)[0];
+
+                $subjects = $weekday->filter(function($subject) use($start_date){
+                    return explode(" ", $subject->start_datetime)[0] == $start_date;
+                });
+
+                foreach($subjects as $subject)
+                {
+                    $dayOfWeekday = $subject->id_weekday;
+                    $event_date = (Carbon::now())->startOfWeek()->addDays(($subject->id_weekday)-2)->format('Y-m-d');
+                    $start_date = $event_date.'T'.explode(" ", $subject->start_datetime)[1];
+                    $end_date = $event_date.'T'.explode(" ", $subject->end_datetime)[1];
+
+                    array_push($events, [
+                        'className' => [$subject->id_subject],
+                        'title' => $subject->subject->subject_name,
+                        'start' => $start_date,
+                        'end' => $end_date,
+                        'allDay' => false
+                    ]);
+                }
+            }
+            return response()->json($events);
+        }
+
         $subjects = $section->subjectSection;
         $section = $section->where('id', $section->id)
                             ->with('level')
@@ -291,6 +335,83 @@ class SectionController extends Controller
         return response()->json([
             'message' => 'stored'
         ]);
+
+    }
+
+
+
+
+    /*---------- ASSESSMENTS METHODS -----------*/
+
+    public function assessmentIndex(Section $section, Subject $subject)
+    {
+        $section = $section->where('id', $section->id)
+                            ->with('school_period')
+                            ->with('level')
+                            ->with('section_type')
+                            ->first();
+
+        $assessments = $subject->assessments()->where('id_section', $section->id)->get();
+
+        $validYears = $subject->schedules()->where('id_section', $section->id)->get()
+                                ->pluck('start_datetime')
+                                ->map(function($date){
+                                    return explode("-", explode(" ", $date)[0])[0];
+                                })->unique();
+
+        $assessmentsTypes = AssessmentType::all();
+
+        return view('sections.assessments.index', [
+            'section' => $section,
+            'subject' => $subject,
+            'assessments' => $assessments,
+            'validYears' => $validYears,
+            'assessmentsTypes' => $assessmentsTypes
+        ]);
+    }
+
+    public function ajaxLoadDate(Request $request, Section $section, Subject $subject)
+    {
+        $data = $request->all();
+
+        if($data['type'] == 'loadYear')
+        {
+            $year = $data['year'];
+            $months = $subject->schedules()->where('id_section', $section->id)->get()
+                                ->pluck('start_datetime')
+                                ->map(function($date){
+                                    return explode('-', explode(" ", $date)[0]);
+                                })->filter(function ($date) use($year){
+                                    return $date[0] == $year;
+                                })->map(function($year){
+                                    return $year[1];
+                                })->unique();
+
+            return response()->json($months);
+        }
+        elseif($data['type'] == 'loadMonth')
+        {
+            $year = $data['year'];
+            $month = $data['month'];
+            $days = $subject->schedules()->where('id_section', $section->id)->get()
+                            ->pluck('start_datetime')
+                            ->map(function($date){
+                                return explode('-', explode(" ", $date)[0]);
+                            })->filter(function ($date) use($year,$month){
+                                return $date[0] == $year && $date[1] == $month;
+                            })->map(function($day){
+                                return $day[2];
+                            })->unique()->toArray();
+            sort($days);
+
+            return response()->json($days);
+        }
+        
+    }
+
+
+    public function registerAssessment(Request $request, Section $section, Subject $subject)
+    {
 
     }
 

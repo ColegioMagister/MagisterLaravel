@@ -15,8 +15,6 @@
     <!-- End Navbar -->
   
   </main>
-
-    @include('partials.fixed-plugin')
    
     <!--   Core JS Files   -->
 

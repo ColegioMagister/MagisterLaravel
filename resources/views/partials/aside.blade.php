@@ -51,6 +51,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white {{setActive('assessment.*')}}" href="{{ route('assessment.index') }}">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa-solid fa-file-pen"></i>
+            </div>
+            <span class="nav-link-text ms-1">Evaluaciones</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white {{setActive('subject.*')}}" href="{{ route('subject.index') }}">
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-book"></i>
@@ -74,14 +82,7 @@
             <span class="nav-link-text ms-1">Alumnos</span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white {{setActive('assessment.*')}}" href="{{ route('assessment.index') }}">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa-solid fa-file-pen"></i>
-            </div>
-            <span class="nav-link-text ms-1">Evaluaciones</span>
-          </a>
-        </li>
+      
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Configuración de usuario</h6>
         </li>

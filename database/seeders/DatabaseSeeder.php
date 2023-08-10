@@ -13,7 +13,7 @@ use App\Models\{
     SectionType,
     School_Info,
     Weekday,
-    Subject
+    Subject,
     };
 
 class DatabaseSeeder extends Seeder

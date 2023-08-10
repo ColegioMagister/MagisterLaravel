@@ -10,7 +10,6 @@
 @if (session('flash_message')=='Addedd!')
 <script>
      Swal.fire({
-        position: 'top-center',
         icon: 'success',
         title: 'Guardado',
         showConfirmButton: false,
@@ -21,7 +20,6 @@
 @if (session('flash_message')=='Updated!')
 <script>
      Swal.fire({
-        position: 'top-center',
         icon: 'success',
         title: 'Actualizado',
         showConfirmButton: false,

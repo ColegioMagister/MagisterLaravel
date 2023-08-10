@@ -163,16 +163,48 @@ $(document).ready(function () {
         $('#SectionUpdateSubjectModal').modal('toggle');
       }
     });
+
+
+
+
+    /* ------ EDIT ASSESSMENT TYPE MODAL  ----------*/
+
+
+
+    $('#AssessmentEditModal').on('show.bs.modal', function(event){
+      var button = $(event.relatedTarget)
+      var url = button.data('url')
+      var getDataUrl = button.data('send')
+      var modal = $(this)
+
+      $.ajax({
+        type: 'GET',
+        url: getDataUrl,
+        dataType: 'JSON',
+        success: function(data)
+        {
+          var name = data.name
+          var value = data.value
+          modal.find('.name').val(name);
+          modal.find('.value').val(value)
+        }
+      })
+      modal.find('#editAssessmentForm').attr('action', url)
+
+    })
+
+
+
   
 
     /* ----------- FULL CALENDAR ------------*/
+
+
 
     $('.draggable-event').draggable({
       revert: true,
       revertDuration: 0
     });
-
-
 
 
     if($('#full-calendar-container').length)
@@ -183,7 +215,9 @@ $(document).ready(function () {
         }
       });
 
-      var scheduleCaldendar = $('#full-calendar-container').fullCalendar({
+      var calendarContainer = $('#full-calendar-container');
+      var getEventsUrl = calendarContainer.data('url');
+      var scheduleCaldendar = calendarContainer.fullCalendar({
         eventClick: function(calEvent){
           scheduleCaldendar.fullCalendar('removeEvents', [calEvent._id]);
         },
@@ -196,18 +230,28 @@ $(document).ready(function () {
           'DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'
         ],
         selectHelper: true,
-        droppable: true
+        droppable: true,
+        slotDuration: '00:20:00',
+        events: getEventsUrl
       }); 
-
 
       $('#btn-schedule-save').click(function(e){
         e.preventDefault();
         var events= scheduleCaldendar.fullCalendar('clientEvents');
         var url = $(this).data('url');
+        var gif_url = $(this).data('gif');
         var de = [];
 
         if(events.length)
         {
+          Swal.fire({
+            imageUrl: gif_url,
+            title: 'Guardando...',
+            text: 'Por favor, espere',
+            showConfirmButton: false,
+            allowOutsideClick: false
+          });
+
           $.each(events, function(index, value){
             de.push({
               id: value._id,
@@ -230,7 +274,6 @@ $(document).ready(function () {
               if(ele.message == 'stored')
               {
                 Swal.fire({
-                  position: 'top-center',
                   icon: 'success',
                   title: 'Guardado',
                   showConfirmButton: false,
@@ -246,7 +289,64 @@ $(document).ready(function () {
       })
 
     }
- 
+
+
+    if($('#assessYearSelect').length)
+    {
+      $('#assessYearSelect').on('change', function(e){
+
+        var getDataUrl = $(this).data('send');
+        var year = $(this).val();
+
+        $.ajax({
+          type: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: getDataUrl,
+          dataType: 'JSON',
+          data: {
+            "year": year,
+            "type": "loadYear"
+          },
+          success: function(e)
+          {
+            var monthSelect = $('#assessMonthSelect');
+            $.each(e, function(indexes, values){
+              monthSelect.append('<option value="'+values+'">'+ values +'</option>')
+            })
+          }
+        })
+      });
+
+      $('#assessMonthSelect').on('change', function(e){
+        var getDataUrl = $(this).data('send');
+        var month = $(this).val();
+        var year = $('#assessYearSelect').val();
+
+        $.ajax({
+          type: 'POST',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          },
+          url: getDataUrl,
+          dataType: 'JSON',
+          data: {
+            "month": month,
+            "year": year,
+            "type": "loadMonth"
+          },
+          success: function(e)
+          {
+            var daysSelect = $('#assessDaySelect');
+            $.each(e, function(indexes, values){
+              daysSelect.append('<option value="'+values+'">'+ values +'</option>')
+            })
+          }
+        })
+
+      });
+    }
 
 
 });

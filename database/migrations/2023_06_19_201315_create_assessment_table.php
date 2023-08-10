@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('id_section')->index('fk_a_id_section');
             $table->integer('id_subject')->index('fk_a_id_subject');
             $table->integer('id_assessment_type')->index('fk_a_id_typ_assess');
-            $table->decimal('grade', 10);
+            $table->date('date');
             $table->timestamps();
         });
     }

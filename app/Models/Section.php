@@ -10,7 +10,8 @@ use App\Models\{SchoolPeriod,
                 Student,
                 Subject,
                 TeacherSections,
-                Schedule
+                Schedule,
+                Assessment
             };
 
 class Section extends Model
@@ -56,5 +57,10 @@ class Section extends Model
     public function schedules()
     {
         return $this->hasMany(Schedule::class, 'id_section', 'id');
+    }
+
+    public function assessments()
+    {
+        return $this->hasMany(Assessment::class, 'id_section', 'id');
     }
 }
