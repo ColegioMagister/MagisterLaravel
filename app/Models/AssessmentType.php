@@ -12,8 +12,9 @@ class AssessmentType extends Model
     protected $table='assessment_type';
     protected $guarded = [];
 
-    public function assessment(){
-        return $this->hasMany(Assessment::class,'id_assessment_type','id');
+    public function assessments(){
+
+        return $this->hasMany(Assessment::class, 'id_assessment_type', 'id');
     }
 
 }

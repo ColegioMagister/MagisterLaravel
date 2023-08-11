@@ -291,12 +291,17 @@ $(document).ready(function () {
     }
 
 
+    
     if($('#assessYearSelect').length)
     {
       $('#assessYearSelect').on('change', function(e){
 
         var getDataUrl = $(this).data('send');
         var year = $(this).val();
+        var monthSelect = $('#assessMonthSelect');
+        var daysSelect = $('#assessDaySelect');
+        monthSelect.html("<option value='' selected disabled> Selecciona un mes </option>");
+        daysSelect.html("<option value='' selected disabled> Selecciona un día </option>");
 
         $.ajax({
           type: 'POST',
@@ -311,7 +316,6 @@ $(document).ready(function () {
           },
           success: function(e)
           {
-            var monthSelect = $('#assessMonthSelect');
             $.each(e, function(indexes, values){
               monthSelect.append('<option value="'+values+'">'+ values +'</option>')
             })
@@ -323,6 +327,8 @@ $(document).ready(function () {
         var getDataUrl = $(this).data('send');
         var month = $(this).val();
         var year = $('#assessYearSelect').val();
+        var daysSelect = $('#assessDaySelect');
+        daysSelect.html("<option value='' selected disabled> Selecciona un día </option>");
 
         $.ajax({
           type: 'POST',
@@ -338,7 +344,6 @@ $(document).ready(function () {
           },
           success: function(e)
           {
-            var daysSelect = $('#assessDaySelect');
             $.each(e, function(indexes, values){
               daysSelect.append('<option value="'+values+'">'+ values +'</option>')
             })

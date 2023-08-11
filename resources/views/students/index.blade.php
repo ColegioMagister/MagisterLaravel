@@ -196,7 +196,7 @@
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-4">
                             <div class="input-group input-group-outline me-2 focused is-focused">
-                                <label class="form-label ">Nacimiento</label>
+                                <label class="form-label">Nacimiento</label>
                                 <input type="date" class="form-control birthdate" name="bithdate">
                             </div>
                         </div>

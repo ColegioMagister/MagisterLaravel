@@ -13,7 +13,8 @@ use App\Models\{
     Subject,
     TeacherSections,
     Schedule,
-    AssessmentType
+    AssessmentType,
+    Assessment
 };
 use Carbon\Carbon;
 use DateTime;
@@ -85,11 +86,14 @@ class SectionController extends Controller
 
         $section_students = $section->studentSections->sortByDesc('pivot.id');
 
-        $students = Student::with('studentSections')
+        $students = Student::with(['studentSections'=>function($query) use($section_data){
+                                $query->where('id_period', $section_data->id_period);
+                            }])
                             ->get()
                             ->filter(function($student){
                                 return $student->studentSections->count() == 0;
                             });
+
 
         $section_subjects = $section->subjectSection()
                                     ->with(['teacherInSections' => function($query) use ($section){
@@ -351,7 +355,9 @@ class SectionController extends Controller
                             ->with('section_type')
                             ->first();
 
-        $assessments = $subject->assessments()->where('id_section', $section->id)->get();
+        $assessments = $subject->assessments()
+                                ->with('assessmentType')
+                                ->where('id_section', $section->id)->get();
 
         $validYears = $subject->schedules()->where('id_section', $section->id)->get()
                                 ->pluck('start_datetime')
@@ -412,7 +418,26 @@ class SectionController extends Controller
 
     public function registerAssessment(Request $request, Section $section, Subject $subject)
     {
+        $date = $request['assessYear'].'-'.$request['assessMonth'].'-'.$request['assessDay'];
 
+        Assessment::create([
+            'id_section' => $section->id,
+            'id_subject' => $subject->id,
+            'id_assessment_type' => $request['assessType'],
+            'date' => $date
+        ]);
+
+        return redirect()->route('sections.assessments.index', [$section, $subject])->with('flash_message', 'Addedd!');
+    }
+
+    public function assessmentDestroy(Assessment $assessment)
+    {
+        $section = $assessment->section;
+        $subject = $assessment->subject;
+
+        $assessment->delete();
+
+        return redirect()->route('sections.assessments.index', [$section, $subject])->with('flash_message', 'deleted!');
     }
 
 }

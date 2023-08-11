@@ -18,11 +18,11 @@ class Assessment extends Model
     }
     public function section()
     {
-        return $this->belongsTo(Section::class, 'id_section ', 'id');
+        return $this->belongsTo(Section::class, 'id_section', 'id');
     }
     public function assessmentType()
     {
-        return $this->belongsTo(AssessmentType::class, 'id_assessment_type ', 'id');
+        return $this->belongsTo(AssessmentType::class, 'id_assessment_type', 'id');
     }
     
     public function studentAssessment()

@@ -8,8 +8,21 @@
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Evaluaciones</h6>
+                        <h6 class="text-white text-capitalize ps-3">
+                            Sección {{$section->school_period->period_name}}
+                                    {{$section->level->description}}
+                                    {{$section->section_type->section_type}}
+                                    {{$section->section_name}}:
+                            Curso: {{strtoupper($subject->subject_name)}}
+                        </h6>
+
                     </div>
+
+                    <a class="btn btn-primary" href="{{route('sections.show', $section)}}">
+                        <i class="fa-solid fa-chevron-left"></i> &nbsp;
+                        Volver a la sección
+                    </a>
+                    <br>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#AssessmentSectionRegisterModal">
                         <i class="fa-solid fa-plus"></i> &nbsp; Ingresar
                     </button>
@@ -31,28 +44,22 @@
                                 @foreach ($assessments as $assessment)
                                 <tr>
                                     <td class="align-middle text-center text-sm">
-
+                                        {{$assessment->id}}
                                     </td>
                                     <td class="align-middle text-uppercase text-sm">
-                                        
+                                        {{$assessment->assessmentType->assessment_name}}
                                     </td>
                                     <td class="align-middle text-uppercase text-sm">
-                                        
+                                        {{$assessment->assessmentType->value}}
                                     </td>
                                     <td class="align-middle text-uppercase text-sm">
-                                        
+                                        {{$assessment->date}}
                                     </td>
 
                                     <td class="text-uppercase text-sm w-15 pe-4">
-                                        <button type="submit" class="btn btn-primary ms-3 me-3 assessmentBtnEdit" data-bs-toggle="modal"
-                                            data-bs-target="#AssessmentEditModal" 
-                                            data-url=""
-                                            data-send="">
-                                            <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
-                                        </button>
 
                                         <form class="alertDelete" method="POST"
-                                            action="" accept-charset="UTF-8"
+                                            action="{{route('sections.assessment.destroy', $assessment)}}" accept-charset="UTF-8"
                                             style="display:inline">
                                             @method('DELETE')
                                             @csrf
@@ -61,6 +68,7 @@
                                                     Eliminar
                                             </button>
                                         </form>
+
                                     </td>
                                 <tr>
                                 @endforeach
@@ -96,7 +104,7 @@
                     </label>
 
                     <div class="input-group input-group-outline mb-3 focused is-focused">
-                        <select id="assessTypeSelect" name='assessType' required>
+                        <select class="form-select" id="assessTypeSelect" name='assessType' required>
                             <option value="" disabled selected> Selecciona un tipo de evaluación </option>
                             @foreach ($assessmentsTypes as $type)
                                 <option value="{{$type->id}}"> {{$type->assessment_name}} </option>
@@ -108,26 +116,22 @@
                         Fecha de la evaluación *
                     </label>
                     <div class="input-group input-group-outline mb-3 focused is-focused">
-                        <select name="assessYear" id="assessYearSelect" 
+                        <select class="form-select me-1" name="assessYear" id="assessYearSelect" 
                         data-send="{{route('assessmentSection.LoadDate', [$section, $subject])}}" required>
                             <option value="" disabled selected> Selecciona un año </option>
                             @foreach ($validYears as $year)
                                 <option value="{{$year}}"> {{$year}} </option>
                             @endforeach
                         </select>
-                    </div>
 
-                    <div class="input-group input-group-outline mb-3 focused is-focused">
-                        <select name="assessMonth" id="assessMonthSelect"
+                        <select class="form-select ms-1 me-1" name="assessMonth" id="assessMonthSelect"
                         data-send="{{route('assessmentSection.LoadDate', [$section, $subject])}}" required>
                             <option value="" disabled selected> Selecciona un mes </option>       
                         </select>
-                    </div>
 
-                    <div class="input-group input-group-outline mb-3 focused is-focused">
-                        <select name="assessDay" id="assessDaySelect" required>
+
+                        <select class="form-select ms-1" name="assessDay" id="assessDaySelect" required>
                             <option value="" disabled selected> Selecciona un día </option>
-                                
                         </select>
                     </div>
 
@@ -142,12 +146,12 @@
 </div>
 
 
-{{-- 
-<div class="modal fade" id="AssessmentEditModal" tabindex="-1" aria-labelledby="AssessmentEditModal" aria-hidden="true">
+
+<div class="modal fade" id="AssessmentSectionEditModal" tabindex="-1" aria-labelledby="AssessmentSectionEditModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
-                <h5 class="modal-title text-white">Editar tipo de evaluación</h5>
+                <h5 class="modal-title text-white">Editar Evaluación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- #para que cargue  -->
@@ -174,6 +178,6 @@
             </form>
         </div>
     </div>
-</div> --}}
+</div>
     
 @endsection

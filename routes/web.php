@@ -66,6 +66,8 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::delete('/Section/Eliminar/{section}', [SectionController::class, 'destroy'])->name('sections.destroy');
     Route::delete('/Section/materia/Eliminar/{section}/{subject}', [SectionController::class, 'subjectDelete'])->name('sections.deleteSubject');
     Route::delete('/Section/estudiante/Eliminar/{section}/{student}', [SectionController::class, 'studentDetached'])->name('sections.studentDetached');
+    Route::delete('/Section/evaluación/Eliminar/{assessment}', [SectionController::class, 'assessmentDestroy'])->name('sections.assessment.destroy');
+    
 
 
 
