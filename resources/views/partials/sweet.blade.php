@@ -31,7 +31,7 @@
 <script>
    Swal.fire(
     'Error!',
-    'Ya sido registrado',
+    'Ya ha sido registrado',
     'error'
     )
   </script>
