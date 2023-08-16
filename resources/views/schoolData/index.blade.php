@@ -28,8 +28,8 @@
               <h5 class="text-white text-capitalize text-center" style="font-size: 1.6vw;">I.E.P. MAGISTER</h5>
             </div>
             <br>
-              <img src="{{asset('assets/img/login-bg/logo-magister2.png')}}" class="avatar avatar-xxl  position-absolute" >
-              <div class="text-end pt-1">
+            <img src="data:image/jpg;base64,
+            {{base64_encode(file_get_contents(base_path('public/'.$school->url_img)))}}" class="avatar avatar-xxl  position-absolute" >              <div class="text-end pt-1">
                 <h5 class="mb-2" style="font-size: 1vw;">{{$school->tax_number}}</h5>
                 <h5 class="mb-2" style="font-size: 1vw;">{{$school->phone_number}}</h5>
                 <h5 class="mb-2" style="font-size: 1vw;">{{$school->city}}, Perú</h5>

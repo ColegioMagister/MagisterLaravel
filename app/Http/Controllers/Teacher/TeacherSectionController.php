@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{Section,Level,SectionType,SchoolPeriod,
     Assessment,Attendance,Student,Subject,Student_has_assessments,Schedule,
-    Student_in_section
+    Student_in_section,TeacherSections
 
 };
 
@@ -42,20 +42,21 @@ class TeacherSectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(SchoolPeriod $school_period){
-        
+    public function show(SchoolPeriod $school_period) {
         $teacher = auth()->user();
         $levels = Level::all();
         $section_type = SectionType::all();
     
-        $sections = Section::whereHas('teacherInSections', function($query) use ($teacher, $school_period) {
-            $query->where('id_teacher', $teacher->employee->id);
-        })
-        ->with('section_type')
-        ->with('level')
-        ->with('school_period')
-        ->get();
-    
+        $sections = Section::whereHas('teacherInSections', function ($query) use ($teacher) {
+                $query->where('id_teacher', $teacher->employee->id);
+            })
+            ->whereHas('school_period', function ($query) use ($school_period) {
+                $query->where('id', $school_period->id);
+            })
+            ->with('section_type')
+            ->with('level')
+            ->with('school_period')
+            ->get();
     
         return view('teacherView.section', [
             'levels' => $levels,
@@ -66,30 +67,30 @@ class TeacherSectionController extends Controller
     }
     
     
+    
 
   
 
     public function showDetails(Section $section)
-    {
-        $section_data = $section->where('id',$section->id)
+{
+    $section_data = $section->where('id', $section->id)
         ->with('level')
         ->with('school_period')
         ->with('section_type')
         ->first();
+    $teacher = auth()->user();
 
+    $subjectIds = TeacherSections::where('id_teacher', $teacher->employee->id)
+        ->where('id_section', $section->id)
+        ->pluck('id_subject'); // Obtener las IDs de las materias que el profesor enseña en la sección
 
-        $subjectIds = $section->subjectSection->pluck('id');
+    $subjects = Subject::whereIn('id', $subjectIds)->get(); // Obtener las materias correspondientes a las IDs
 
-        $subjects = Subject::whereHas('subjectSection', function ($query) use ($section, $subjectIds) {
-            $query->where('id_section', $section->id)
-            ->whereIn('id_subject', $subjectIds);
-            })->get();
-                                    
-        return view('teacherView.subject', [
-            'section' => $section_data,
-            'subjects' => $subjects,
-        ]);
-    }
+    return view('teacherView.subject', [
+        'section' => $section_data,
+        'subjects' => $subjects,
+    ]);
+}
 
     public function index2(Section $section, Subject $subject)
     {
