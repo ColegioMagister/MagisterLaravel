@@ -51,7 +51,7 @@ class Section extends Model
 
     public function teacherInSections()
     {
-        return $this->hasMany(teacherInSections::class, 'id_section', 'id');
+        return $this->hasMany(TeacherSections::class, 'id_section', 'id');
     }
 
     public function schedules()

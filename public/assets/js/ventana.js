@@ -25,6 +25,9 @@ $(document).ready(function () {
   });
 
 
+
+
+
   /* -----  EDIT ESTUDIANTE MODAL AJAX -------*/
 
   $('#EditarEstudiante').on('show.bs.modal', function(event){
@@ -63,6 +66,43 @@ $(document).ready(function () {
 	modal.find('#edit-students-form').attr('action', url)
   
   });
+
+
+  /* -----  EDIT AÑO ESCOLAR MODAL AJAX -------*/
+
+$('#EditarAñoEs').on('show.bs.modal', function(event){
+  var button = $(event.relatedTarget)
+  var url = button.data('url')
+  var getDataUrl = button.data('send') 
+  var modal = $(this)
+
+  $.ajax({
+    type: 'GET',
+    url: getDataUrl,
+    dataType: 'JSON',
+    success: function (data)
+    {
+      var id = data.id
+      var period_name = data.period_name
+      var start_date = data.start_date
+      var end_date = data.end_date
+      var status = data.status
+
+      modal.find('.period_select').val(id)
+      modal.find('.period_select').text(period_name)
+      modal.find('.start_date').val(start_date)
+      modal.find('.end_date').val(end_date)
+      modal.find('.status').val(status)
+    },
+    error: function(response){
+
+    }
+  })
+
+  modal.find('#edit-school_period-form').attr('action', url)
+  
+  });
+
  
   /* -----  EDIT SECCION MODAL AJAX -------*/
 
@@ -291,7 +331,6 @@ $(document).ready(function () {
     }
 
 
-    
     if($('#assessYearSelect').length)
     {
       $('#assessYearSelect').on('change', function(e){
@@ -398,6 +437,60 @@ $(document).ready(function () {
     modal.find('#edit-subject-form').attr('action', url)
     
     });
+
+
+    
+    $('#AssesstUpdateStudentModal').on('show.bs.modal', function(event){
+      var button = $(event.relatedTarget)
+      var url = button.data('url')
+      var getDataUrl = button.data('send') 
+      var modal = $(this)
+
+      $.ajax({
+        type:'GET',
+        url: getDataUrl,
+        dataType: 'JSON',
+        success: function(data)
+        {
+          var grade = data.grade;
+          var name = data.nameStudent;
+
+          modal.find('.student_name').val(name);
+          modal.find('.grade').val(grade);
+        }
+      })
+
+      modal.find('#AssesstUpdateStudentModal-form').attr('action', url);
+
+    });
+
+
+    $('#SubjectTeacherModal').on('show.bs.modal', function(event) {
+      var button = $(event.relatedTarget);
+      var url = button.data('url');
+      var getDataUrl = button.data('send');
+      var modal = $(this);
+
+      $.ajax({
+        type: 'GET',
+        url: getDataUrl,
+        dataType: 'JSON',
+        success: function(data) {
+            if (data.error_message) {
+                alert(data.error_message);
+                return;
+            }
+            
+            var teacherName = data.teacher_name;
+
+            modal.find('.teacher_name').val(teacherName);
+        }
+    });
+          
+
+      modal.find('#SubjectTeacherModal-form').attr('action', url);
+  });
+
 
   });
 

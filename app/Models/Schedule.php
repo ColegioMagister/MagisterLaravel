@@ -8,6 +8,7 @@ use App\Models\{
         Section,
         Weekday,
         Subject,
+        Student_in_section
 };
 
 class Schedule extends Model
@@ -29,6 +30,12 @@ class Schedule extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class, 'id_subject', 'id');
+    }
+    public function attendances()
+    {
+      return $this->belongsToMany(Student_in_section::class, 'attendances', 'id_schedule', 'id_student')
+                    ->withPivot('id', 'status')
+                    ->withTimestamps();
     }
 }
 

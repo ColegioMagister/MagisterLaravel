@@ -27,3 +27,12 @@
       })
   </script>
 @endif
+@if (session('error_message')=='Error!')
+<script>
+   Swal.fire(
+    'Error!',
+    'Ya sido registrado',
+    'error'
+    )
+  </script>
+@endif

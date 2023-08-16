@@ -24,35 +24,30 @@
                                     <th class="text-uppercase text-secondary ps-2">Rol</th>
                                     <th class="text-uppercase text-secondary ps-2 ">Nombre</th>
                                     <th class="text-uppercase text-secondary ps-2 ">Apellidos</th>
-                                    <th class="text-uppercase text-secondary ps-2">Usuario</th>
                                     <th colspan=2 class="text-secondary opacity-7"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($users as $user)
+                            @foreach($users as $user)
                                 <tr>
                                     <td class="align-middle text-center text-sm">{{ $loop->iteration }}</td>
                                     <td class="align-middle text-uppercase text-sm ">{{
                                         $user->employee->roles->role_name}}</td>
                                     <td class="align-middle text-uppercase text-sm ">{{ $user->employee->name }}</td>
                                     <td class="align-middle text-uppercase text-sm ">{{ $user->employee->lastname}}</td>
-                                    <td class="align-middle text-uppercase text-sm ">{{ $user->username }}</td>
                                     <td class="align-middle text-uppercase text-sm">
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#EditarProfesor{{ $user->id }}"
-                                            enctype="multipart/form-data">
-                                            <i class="fa-solid fa-plus"></i> Editar
-                                        </button>
+                                        <a href="{{route('user.show',$user->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver
                                     </td>
+
                                     <td class="align-middle text-uppercase text-sm">
                                         <form class="alertDelete" method="POST"
                                             action="{{ url('/Employees' . '/' . $user->id) }}" accept-charset="UTF-8"
                                             style="display:inline">
                                             {{ method_field('DELETE') }}
                                             {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                title="Delete Teacher"><i class="fa fa-trash-o"
-                                                    aria-hidden="true"></i>Eliminar</button>
+                                            <button type="submit" class="btn btn-danger ms-3"
+                                                title="Delete Teacher"><i class="fa fa-trash-o fa-xl"
+                                        aria-hidden="true"></i> &nbsp; Eliminar</button>
                                         </form>
                                     </td>
                                 <tr>

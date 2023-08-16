@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\{Employee,Roles};
+use App\Models\{Employee,Roles,Subject};
 
 class UserController extends Controller
 {
@@ -16,13 +16,49 @@ class UserController extends Controller
      */
     public function index()
     {
-        $teacher = Employee::all();
-        $roles=Roles::all();
-        return view ('teacher.index',[
-            "teacher"=>$teacher,
-            "roles"=>$roles
+        $teachers = Employee::whereHas('roles', function ($query) {
+            $query->where('role_name', '!=', 'Admin');
+        })->get();
+        $roles = Roles::all();
+        $subject = Subject::all();
+    
+        return view('teacher.index', [
+            'teacher' => $teachers,
+            'roles' => $roles,
+            'subjects' => $subject, 
         ]);
 
+    }
+    public function AsignarSubject(Request $request, Employee $employee)
+    {
+        $subjectId = $request->input('id_subject');
+        
+        if ($employee->teacherSubjects()->where('id_subject', $subjectId)->exists()) {
+            return redirect()->route('teacher.index')->with('error_message', 'Error!');
+        }else{
+            $employee->teacherSubjects()->attach($subjectId);
+    
+        return redirect()->route('teacher.index')->with('flash_message', 'Addedd!');
+        }
+        
+    }
+    public function AsignarSubjectAjax(Request $request, Employee $employee)
+    {
+        $subjectId = $request->input('id_subject');
+        
+        if ($employee->teacherSubjects()->where('id_subject', $subjectId)->exists()) {
+            return response()->json([
+                'error_message' => 'Error!'
+            ]);
+        }
+        
+        $employee->teacherSubjects()->attach($subjectId);
+    
+        $teacherName = $employee->name . ' ' . $employee->lastname;
+    
+        return response()->json([
+            'teacher_name' => $teacherName
+        ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -52,7 +88,9 @@ class UserController extends Controller
         $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
 
         $input['url_img'] = $rutaArchivo;
-    }
+        }else {
+            $input['url_img'] = 'assets/img/login-bg/default.png'; 
+        }
         Employee::create($input);
         return redirect('Profesor')->with('flash_message', 'Addedd!');
     }
@@ -65,7 +103,22 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $teacher = Employee::find($id);
+        return view('teacher.show', compact('teacher'));
+    }
+
+    public function showSubject(Employee $employee)
+    {        
+        $subjects = $employee->teacherSubjects;
+        
+        /*cualquiera de los 2
+        $subjects = $employee->teacherSubjects()
+            ->wherePivot('id_teacher', $employee->id) // Filtrar por id_teacher
+            ->get();*/
+
+        return view('teacher.teacherSubject',[
+            'teachers' => $employee,
+            'subjects' => $subjects]);
     }
 
     /**
@@ -107,7 +160,6 @@ class UserController extends Controller
             $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
             $input['url_img'] = $rutaArchivo;
         } else {
-            // Conservar la ruta de la imagen existente si no se carga una nueva imagen
             $input['url_img'] = $teacher->url_img;
         }
 
@@ -127,9 +179,18 @@ class UserController extends Controller
         $imagen=$teacher->url_img;
         $teacher->delete();
         
-        if (!empty($imagen) && file_exists(public_path($imagen))){
-            unlink(public_path($imagen));
+        if ($imagen !== 'assets/img/login-bg/default.png') {
+            if (!empty($imagen) && file_exists(public_path($imagen))) {
+                unlink(public_path($imagen));
+            }
         }
         return redirect('Profesor')->with('flash_message', 'deleted!');  
+    }
+
+    public function destroySubject(Employee $employee,Subject $subject)
+    {
+        $employee->teacherSubjects()->detach($subject);
+        
+        return redirect()->route('teacher.teacherSubject', $employee)->with('flash_message', 'deleted!');
     }
 }

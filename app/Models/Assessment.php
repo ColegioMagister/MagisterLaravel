@@ -27,7 +27,7 @@ class Assessment extends Model
     
     public function studentAssessment()
     {
-        return $this->belongsToMany(Student::class, 'student_has_assessments', 'id_assessment ', 'id_student')
+        return $this->belongsToMany(Student::class, 'student_has_assessments', 'id_assessment', 'id_student')
                     ->withPivot('id','grade','status')->withTimestamps();
     }
 

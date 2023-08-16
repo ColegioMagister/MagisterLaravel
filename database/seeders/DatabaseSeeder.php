@@ -36,11 +36,11 @@ class DatabaseSeeder extends Seeder
         Employee::create([
             'id'=>'1',
             'id_role'=>'1',
-            'name'=>'Daniel',
-            'lastname'=>'Alvarez',
-            'email'=>'daniel@hotmail.com',
-            'phone_number'=>'992504498',
-            'url_img'=>''
+            'name'=>'ADMINISTRADOR',
+            'lastname'=>'DIRECCTOR',
+            'email'=>'MAGISTER2023@hotmail.com',
+            'phone_number'=>'9876543210',
+            'url_img'=>'assets/img/login-bg/logomagister.jpg'
         ]);
         School_Info::create([
             'id'=>'1',
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
             'phone_number'=>'987654321',
             'city'=>'Lima',
             'adress'=>'Av. Pacífico 431, Independencia 15311',
-            'url_img'=>''
+            'url_img'=>'assets/img/login-bg/logomagister.jpg'
         ]);
 
         $levelsData = [

@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{School_info};
+use App\Models\Employee;
+use App\Models\Student;
+use App\Models\Subject;
+use App\Models\Section;
+use App\Models\SchoolPeriod;
 
 
 class GeneralDataController extends Controller
@@ -14,14 +19,48 @@ class GeneralDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
+
+
+
     public function index()
     {
-        $school = School_info::first();
+        $students = Student::count();
+        $subjects = Subject::count();
+        $sections = Section::count();
+        $teachers = Employee::whereHas('roles', function ($query) {
+            $query->where('role_name', '!=', 'Admin');
+        })->count();
+        $school = School_Info::first();
+        $period = SchoolPeriod::first();
 
-        return view('schoolData.index', [
-            'school' => $school
+        return view('schoolData.index',compact('students', 'subjects', 'sections', 'teachers'),[
+            'school' => $school,
+            'period' => $period
         ]);
     }
+    public function indexTeacher()
+    {
+        $students = Student::count();
+        $subjects = Subject::count();
+        $sections = Section::count();
+        $teachers = Employee::whereHas('roles', function ($query) {
+            $query->where('role_name', '!=', 'Admin');
+        })->count();
+        $school = School_Info::first();
+        $period = SchoolPeriod::first();
+
+        return view('schoolData.index',compact('students', 'subjects', 'sections', 'teachers'),[
+            'school' => $school,
+            'period' => $period
+        ]);
+    }
+    
 
     /**
      * Show the form for creating a new resource.

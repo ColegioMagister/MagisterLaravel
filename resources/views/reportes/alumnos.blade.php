@@ -1,226 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Anexo 4</title>
+    <title>Reporte</title>
 
       <meta charset="utf-8">
-
       <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
 </head>
 <style>
-    table{
-        border-collapse:collapse;
-        width: 100%; 
-        margin: auto;
-        table-layout: fixed;
-    }
-    tr,td{
-	border:1px solid;
-    padding: 1px;
-    }
-    body{
-        margin: auto;
-        width: 700px;
-        background: url("")
+    body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #666;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .alumnos-header {
+            background-color: #00c3ff;
+            color: #333;
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+        }
         
-    }
-    .footer-report
-{
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    padding: 20px 50px;
-}
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            text-align: center;
+            padding: 10px;
+            background-color: #9bdbf8;
+        }
 
-.footer-report > div
-{
-    width: 100%;
-}
-.footer-report .box-1
-{
-    display: flex;
-    justify-content: flex-end;
-}
+        .img1{
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+        }
 
-.footer-report .box-1 p
-{
-    width: auto;
-    padding-right: 150px;
-}
+        .img2{
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            float: right;
+        }
 
+        
 
-.box-2
-{
-    justify-content: space-between;
-    padding-top: 50px;
-}
+        .box-1 > p
+        {
+            top: 800px; 
+            position: fixed;
+            width: 240px;
+            border-top: 1px dashed black;
+            text-align: center;
+            padding: .5em;
+        }
+        
+        .box-2 > p
+        {
+            top: 800px; 
+            right: 20px;
+            position: fixed;
+            width: 240px;
+            border-top: 1px dashed black;
+            text-align: center;
+            padding: .5em;
+        }
 
-.box-2 > p
-{
-    width: 240px;
-    border-top: 1px dashed black;
-    text-align: center;
-    padding: .5em;
-}
+        .inf {
+            text-transform: uppercase;
+        }
 
-
-
-
-
-.letra{
-    font-weight:bolder;
-    line-height:5px;
-}
-
-
-.table1{
-    background-color: rgb(214, 234, 248); 
-}
-
-.table2{
-    margin-top: 7%;
-    table-layout: none;
-    background-color: rgb(214, 234, 248); 
-
-}
-
-
-.img1{
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    float: right;
-}
-
-.tr1{
-    font-weight:bolder;
-    text-align:center;
-    background-color: rgb(0, 155, 151);
-}
-
-.td2{
-    text-align:center;
-}
-
+        
 
   </style>
 
     <body>
-        <br>
-        <br>
-        <img class="img1" src="https://www.magisnet.com/wp-content/uploads/2019/04/19-04-10Jaime-Nubiola.jpg">
+        @foreach ($schools as $school)
+
+        <img class="img1"
+     src="data:image/jpg;base64,
+      {{base64_encode(file_get_contents(base_path('public/'.$school->url_img)))}}">
+
+        <img class="img2" src="https://yt3.googleusercontent.com/7EElj11xPg9EqaAFGIHPBMTp715eVFKSqVnsu2BgsMs6l-HaWAek46rHizWizs38MNEmJgRzKSA=s900-c-k-c0x00ffffff-no-rj">
         <div>
-        <center>
-        <div class="letra">
-        <p>INSTITUCIÓN EDUCATIVA PRIVADA MAGISTER</p>
-        </div>
-        <p>LISTADO GENERAL DE ALUMNOS</p>
-        </center>
-        <table class="table1" border="solid">
-
-            <tr>
-              <td>GRADO: </td>
-              <td>SECCIÓN: </td>
-            </tr>
-          
-            <tr>
-              <td>NRO DE ALUMNOS: </td>
-              <td>UGEL: </td>
-            </tr>
-
-            <tr>
-                <td>PROFESOR: </td>
-                <td>CODIGO DE PROFESOR: </td>
-            </tr>
-            
-            <tr>
-                <td>CIUDAD: </td>
-                <td>DIRECCIÓN: </td>
-            </tr>
-
-          </table>
-
-        </div>
-
-        <div>
-        <BR>
-        <center>
-        <p class="inf">INFORMACIÓN DEL AULA</p>
-        </center>
-        <table class="table1" border="solid">
-
-            <tr>
-              <td>NRO DE ALUMNOS: </td>
-              <td>CODIGO DE SECCIÓN: </td>
-            </tr>
-          
-            <tr>
-              <td>TURNO: </td>
-              <td>PISO: </td>
-            </tr>
-
-          </table>
-
-        </div>
+        
         
 
-        <table class="table2" border="solid">
+          </table>
 
-            <tr class="tr1">
-              <td>COD</td>
-              <td>NOMBRES Y APELLIDOS</td>
-              <td>DNI</td>
-              <td>TELEFONO</td>
+        </div>
 
-            </tr>
+        <center>
+    
+            <p class="inf">INSTITUCION EDUCATIVA PRIVADA {{ $school->school_name }}</p>
+            <p>Listado General de Alumnos</p>
+        </center>
+
+        <table>
+            <thead>
+                <tr>
+                    <th colspan="5" class="alumnos-header">TOTAL DE ALUMNOS  {{ $totalStudents }}</th>
+                </tr>
+                <tr>
+                    <th>ID</th>
+                    <th>NOMBRES Y APELLIDOS</th>
+                    <th>FECHA DE NACIMIENTO</th>
+                    <th>TELÉFONO</th>DNI
+                    <th>DNI</th>
+                    
+                </tr>
+            </thead>
+            
+            <tbody>
             @foreach ($students as $student)
-            <tr>
-              <td>{{$student->id}}</td>
-              <td>{{$student->name}} , {{$student->lastname}}</td>
-              <td>{{$student->dni}}</td>
-              <td>{{$student->phone_number}}</td>
-            </tr>
+                <tr>
+                <td>{{$student->id}}</td>
+                <td>{{$student->name}} , {{$student->lastname}}</td>
+                <td>{{$student->bithdate}}</td>
+                <td>{{$student->phone_number}}</td>
+                <td>{{$student->dni}}</td>
+                </tr>
+
+                
             @endforeach
-
-          </table>
-
-        
-          
-
-
-        <div class="footer-report">
-            
-            <br>
-            <div class="box-2">
+               
+                
+            </tbody>
+        </table>
+            <div class="box-1">
                 <p>
-                    FIRMA Y SELLO
-                    <br>
-                    DIRECTOR
+                    Sello
                 </p>
             </div>
 
-            <br>
+            <div class="box-2">
+                <p>
+                    Firma del Director
+                </p>
+            </div>
 
-
-            <p>
-                    Emitido: 17 de julio del 2023
-            </p>
-
-            <br>
-
-
-            <p>
-                NOTA: El presente formato tiene por finalidad de informar al padre de familia y/o apoderado los promedios finales de cada área de estudiante.
-            </p>
-
-            <!--  <p>Fecha</p>
-            <p>Firma delTrabajador.</p>
-            <p>V°B° del Gerente de Seguridad y Salud Ocupacional o Ingeniero de Seguridad</p> -->
-
+                <div class="footer">
+                    <p>Este reporte de alumnos es proporcionado por la Institucion Educativa Privada {{ $school->school_name }}.</p>
+                    <p>Contacto: {{ $school->email }} | Teléfono:  {{ $school->phone_number }} </p>
+                    <p>Direccion: {{ $school->city }} {{ $school->adress }} 
+                </div>
+    @endforeach 
         </div>
 
-
     </body>
-
 </html>

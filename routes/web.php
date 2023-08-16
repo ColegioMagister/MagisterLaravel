@@ -1,9 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Middleware\CheckRole;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\Teacher\{TeacherSectionController};
 use App\Http\Controllers\Admin\{
     UserController,
     StudentController,
@@ -14,7 +13,8 @@ use App\Http\Controllers\Admin\{
     SectionController,
     SubjectsController,
     YearController,
-    EmployeesController
+    EmployeesController,
+    ProfileController
 };
 
 
@@ -23,29 +23,36 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile');
+Route::get('/NewPassword',  [ProfileController::class,'NewPassword'])->name('user.editprofile')->middleware('auth');
+Route::post('/change/password',  [ProfileController::class,'changePassword'])->name('changePassword');
+
 Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 
-    Route::get('/Home', [HomeController::class, 'index'])->name('home');
-
-    Route::get('/Data', [GeneralDataController::class, 'index'])->name('data.index');
+    Route::get('/Home', [GeneralDataController::class, 'index'])->name('data.index');
 
     Route::resource('/Employees',EmployeesController::class);
     Route::get('/Employees', [EmployeesController::class, 'index'])->name('user.index');
+    Route::get('/user/{user}', [EmployeesController::class, 'show'])->name('user.show');
 
     Route::resource("/Students", StudentController::class);
     Route::get('/Students', [StudentController::class, 'index'])->name('students.index');
     Route::get('/Students/{student}/editar', [StudentController::class, 'edit'])->name('students.ajax.edit');
+    Route::get('/Student/{student}', [StudentController::class, 'show'])->name('students.show');
 
     Route::resource("/Profesor", UserController::class);
     Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');
+    Route::get('/Profesor/{teacher}', [UserController::class, 'show'])->name('teacher.show');
+    Route::get('/Profesor/Materias/{employee}', [UserController::class, 'showSubject'])->name('teacher.teacherSubject');
+    Route::delete('/Profesor/Materias/Eliminar/{employee}/{subject}', [UserController::class, 'destroySubject'])->name('teacher.deleteSubject');
+    Route::post('/Profesor/AsignarMateria/{employee}', [UserController::class, 'AsignarSubject'])->name('teacher.AddSubjec');
+    Route::get('/Profesor/AsignarMateriaAjax/{employee}', [UserController::class, 'AsignarSubjectAjax'])->name('teacher.AddSubjectAjax');
 
- 
+
     Route::get('/Quota', [QuotaController::class, 'index'])->name('quota.index');
     Route::get('/Schedule', [ScheduleController::class, 'index'])->name('schedule.index');
 
 
-
-    
     Route::get('/Sections', [SectionController::class, 'index'])->name('sections.principalIndex');
     Route::get('/Sections/periodo/{school_period}', [SectionController::class, 'innerShow'])->name('sections.index');
     Route::get('/Sections/{section}', [SectionController::class, 'show'])->name('sections.show');
@@ -86,8 +93,16 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::get('/Subject/{subject}/editar', [SubjectsController::class, 'edit'])->name('subjects.ajax.edit');
 
 
+    Route::resource('/SchoolYear',YearController::class);
     Route::get('/SchoolYear', [YearController::class, 'index'])->name('schoolYear.index');
+    Route::post('/SchoolYear', [YearController::class, 'store'])->name('schoolYear');
+    Route::get('/SchoolYear/{school_period}', [YearController::class, 'show'])->name('schoolYear.show');
+    Route::get('/SchoolYearSectionStudent/{section}', [YearController::class, 'showStudent'])->name('schoolYear.studentShow');
 
+    Route::get('/SchoolYear/{school_period}/editar', [YearController::class, 'edit'])->name('school_periods.ajax.edit');
+    
+
+    
     Route::get('/descarga-libreta/{student}', [StudentController::class, 'ReporteLibreta'])->name('reportes.libreta');
     Route::get('/descarga-alumnos', [StudentController::class, 'ReporteAlumnos'])->name('reportes.alumnos');
 
@@ -98,6 +113,22 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 
 Route::group(['middleware' => ['auth', 'check.role:Profesor']], function () {
 
-    Route::get('/HomeTeacher', [EmployeeController::class, 'index'])->name('homeTeacher');
+    Route::get('/HomeTeacher', [GeneralDataController::class, 'indexTeacher'])->name('homeTeacher');
+
+
+
+    Route::get('/Teacher', [TeacherSectionController::class, 'index'])->name('teacherView.index');
+    Route::get('/TeacherPeriodo/{school_period}', [TeacherSectionController::class, 'show'])->name('teacherView.section');
+    Route::get('/TeacherSeccion/{section}', [TeacherSectionController::class, 'showDetails'])->name('teacherView.subject');
+    Route::get('/Teacher{section}/AssessmentAttendace/{subject}', [TeacherSectionController::class, 'index2'])->name('teacherView.assessmentAttendaces');
+    Route::get('/Teacher/{section}/Assessment/{subject}', [TeacherSectionController::class, 'showAssess'])->name('teacherView.assessment');
+    Route::post('/Teacher/RegisterNota', [TeacherSectionController::class, 'registerNota'])->name('teacherView.registerNota');
+    
+    Route::get('/Teacher/editStudentAjaxNota/{student}/{assessment}', [TeacherSectionController::class, 'getAjaxStudentUpdateNota'])->name('teacherView.AjaxUpdateStudentNota');
+    Route::patch('/Teacher/estudianteNota/actualizar/{student}/{assessment}', [TeacherSectionController::class, 'updateStudentNota'])->name('teacherView.updateStudentNota');
+
+    Route::get('/Teacher/{section}/Attendace/{subject}/Fecha/{schedule}', [TeacherSectionController::class, 'showAttendance'])->name('teacherView.attedance');
+    Route::post('/Teacher/RegisterAsistencia', [TeacherSectionController::class, 'registerAttendance'])->name('teacherView.registerAttendance');
+    
 
 });

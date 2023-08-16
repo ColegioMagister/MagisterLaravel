@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{User,Employee};
+use App\Models\{User,Employee,Roles};
 Use Illuminate\Support\Facades\Hash;
 
 
@@ -18,7 +18,8 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = Employee::all();
+        $employees = Employee::with('user')
+                            ->with('roles')->get();
         $users=User::all();
         return view ('user.index',[
             "employees"=>$employees,
@@ -68,7 +69,9 @@ class EmployeesController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::where('id', $id)->first();
+
+        return view('user.show', compact('user'));
     }
 
     /**

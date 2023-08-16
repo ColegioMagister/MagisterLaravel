@@ -56,10 +56,11 @@
                                     <td class="align-middle text-uppercase text-sm ">{{ $student->phone_number }}</td>
                                     <td class="align-middle text-uppercase text-sm ">{{ $student->dni }}</td>
                                     <td class="align-middle text-uppercase text-sm">
+                                    <a href="{{route('students.show',$student->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver</a>
                                         <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#EditarEstudiante" data-url='{{url('Students/'.$student->id)}}'
                                              data-send="{{route('students.ajax.edit', $student)}}" enctype="multipart/form-data">
-                                            <i class="fa-solid fa-plus"></i> Editar
+                                             <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
                                         </button>
                                           
                                         <form class="alertDelete" method="POST"
@@ -67,14 +68,14 @@
                                             style="display:inline">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-primary""
-                                                title="Delete Student"><i class="fa fa-trash-o"
-                                                    aria-hidden="true"></i>Eliminar</button>
+                                            <button type="submit" class="btn btn-danger""
+                                                title="Delete Student"><i class="fa fa-trash-o fa-xl"
+                                        aria-hidden="true"></i> &nbsp; Eliminar</button>
                                         </form>
                                     </td>
 
                                     <td class="align-middle text-uppercase text-sm">
-                                        <a href="{{route('reportes.libreta', $student)}}" class="btn btn-primary" type="submit">
+                                        <a href="{{route('reportes.libreta', $student->id)}}" class="btn btn-primary" type="submit">
                                             <i class="fa-solid fa-plus"></i> Descargar
                                         </a>  
                                     </td>

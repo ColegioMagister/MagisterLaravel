@@ -316,3 +316,7 @@
    border-color: rgba(0, 0, 0, 0);
 
 }
+
+.card.card-plain{
+   border: solid 0.5px;
+}

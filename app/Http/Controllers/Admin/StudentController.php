@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Student;
+use App\Models\{Student,School_Info};
 
 class StudentController extends Controller
 {
@@ -20,32 +20,58 @@ class StudentController extends Controller
     }
     
 
-    public function ReporteLibreta(Student $student)
-    {
-       //$user = User::all();
-       $pdf = \PDF::loadView('reportes.libreta', compact('student'));
-       
-       //$pdf->setPaper(array(0,0,580.00,800.00),'landscape');
-
-       $pdf_name = 'libreta.pdf';
-       return $pdf->stream($pdf_name);
-       //return $pdf->download($pdf_name);
-
-       //return view ('reporte.libreta');
-    }
     public function ReporteAlumnos()
     {
-       $students = Student::all();
-       $pdf = \PDF::loadView('reportes.alumnos', compact('students'));
-       
-       //$pdf->setPaper(array(0,0,580.00,800.00),'landscape');
+        $students = Student::all();
+        $schools = School_Info::all(); 
+        $totalStudents = $students->count();
 
-       $pdf_name = 'libreta.pdf';
-       return $pdf->stream($pdf_name);
-       //return $pdf->download($pdf_name);
-
-       //return view ('reporte.alumnos');
+        $pdf = \PDF::loadView('reportes.alumnos', compact('students', 'schools','totalStudents'));
+    
+        $pdf_name = 'libreta.pdf';
+        return $pdf->stream($pdf_name);
     }
+
+    public function ReporteLibreta(Student $student)
+{
+    $student = Student::findOrFail($student->id);
+    
+    $assessments = $student->studentAssessment;
+    $sections = $student->studentSections;
+    $schools = School_Info::all(); 
+    
+    $PromedioXSubject = [];
+    
+    foreach ($sections as $section) {
+        foreach ($section->subjectSection as $subject) {
+            $totalsubject = 0;
+            $totalAssessments = 0;
+            
+            foreach ($assessments as $assessment) {
+                if ($assessment->subject->id === $subject->id) {
+                    $totalGrades = $assessment->pivot->grade;
+                    $assessmentPeso = $assessment->assessmentType->value;
+                       
+                    $totalsubject += ($totalGrades * $assessmentPeso);
+                    $totalAssessments += $assessmentPeso;
+
+                }
+            }
+            
+            $PromedioXSubject[$subject->id] = ($totalAssessments > 0) ? ($totalsubject / $totalAssessments) : 0;
+
+        }
+    }
+    
+    $pdf = \PDF::loadView('reportes.libreta', compact('student', 'schools', 'assessments', 'sections', 'PromedioXSubject'));
+    
+    $pdf_name = 'libreta.pdf';
+    return $pdf->stream($pdf_name);
+}
+
+    
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -74,6 +100,8 @@ class StudentController extends Controller
 
             $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
             $input['url_img'] = $rutaArchivo;
+        }else {
+            $input['url_img'] = 'assets/img/login-bg/default.png'; 
         }
 
         Student::create($input);
@@ -86,9 +114,9 @@ class StudentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Student $student)
     {
-        
+        return view('students.show', compact('student'));
     }
 
     /**
@@ -120,7 +148,6 @@ class StudentController extends Controller
         $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
         $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
 
-        // Eliminar imagen anterior
         if ($student->url_img != '') {
             $rutaImagenAnterior = public_path($student->url_img);
             if (file_exists($rutaImagenAnterior)) {
@@ -130,35 +157,24 @@ class StudentController extends Controller
         $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
         $input['url_img'] = $rutaArchivo;
     } else {
-        // Conservar la ruta de la imagen existente si no se carga una nueva imagen
         $input['url_img'] = $student->url_img;
     }
 
     $student->update($input);
     return redirect('Students')->with('flash_message', 'Updated!');
-}
+    }
 
     
-    
-    
-    
-
-
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         $student =Student::find($id);
         $imagen=$student->url_img;
         $student->delete();
         
-        if (!empty($imagen) && file_exists(public_path($imagen))){
-            unlink(public_path($imagen));
+        if ($imagen !== 'assets/img/login-bg/default.png') {
+            if (!empty($imagen) && file_exists(public_path($imagen))) {
+                unlink(public_path($imagen));
+            }
         }
         
         return redirect('Students')->with('flash_message', 'deleted!');  
