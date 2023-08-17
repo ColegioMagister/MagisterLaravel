@@ -30,14 +30,15 @@ class GeneralDataController extends Controller
 
     public function index()
     {
+        $school = School_Info::first();
+        $period = SchoolPeriod::first();
         $students = Student::count();
         $subjects = Subject::count();
         $sections = Section::count();
         $teachers = Employee::whereHas('roles', function ($query) {
             $query->where('role_name', '!=', 'Admin');
         })->count();
-        $school = School_Info::first();
-        $period = SchoolPeriod::first();
+        
 
         return view('schoolData.index',compact('students', 'subjects', 'sections', 'teachers'),[
             'school' => $school,
@@ -46,14 +47,15 @@ class GeneralDataController extends Controller
     }
     public function indexTeacher()
     {
+        $school = School_Info::first();
+        $period = SchoolPeriod::first();
         $students = Student::count();
         $subjects = Subject::count();
         $sections = Section::count();
         $teachers = Employee::whereHas('roles', function ($query) {
             $query->where('role_name', '!=', 'Admin');
         })->count();
-        $school = School_Info::first();
-        $period = SchoolPeriod::first();
+        
 
         return view('schoolData.index',compact('students', 'subjects', 'sections', 'teachers'),[
             'school' => $school,
