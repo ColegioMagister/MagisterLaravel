@@ -60,7 +60,7 @@ class YearController extends Controller
         
         $sectionCount = $school_period->sections()->count();
                                             
-        return view('SchoolYear.show', [
+        return view('schoolYear.show', [
             'levels' => $levels,
             'section_type' => $section_type,
             'sections' => $sections,

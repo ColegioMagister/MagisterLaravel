@@ -23,9 +23,7 @@
                 <div class="col p-2 text-white text-capitalize text-center">INFORMACION ACADEMICA</div>
             </div>
               <div class="row text-center ">
-                <div class="col pt-4">NOMBRES: {{$user->employee->name}}</div>
-                <div class="col pt-4">ROL: {{$user->role_name}}</div>
-                
+                <div class="col pt-4">NOMBRES: {{$user->employee->name}}</div>                
               </div>
               <div class="row text-center">
                 <div class="col pt-4">APELLIDOS: {{$user->employee->lastname}}</div>
