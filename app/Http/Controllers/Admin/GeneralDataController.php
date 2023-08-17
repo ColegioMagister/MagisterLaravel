@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
-use App\Models\School_info;
 use App\Models\Employee;
 use App\Models\Student;
 use App\Models\Subject;
@@ -30,7 +31,7 @@ class GeneralDataController extends Controller
 
     public function index()
     {
-        $school = School_Info::first();
+        $school = App::make('App\Models\School_Info')->first();
         $period = SchoolPeriod::first();
         $students = Student::count();
         $subjects = Subject::count();
@@ -47,7 +48,7 @@ class GeneralDataController extends Controller
     }
     public function indexTeacher()
     {
-        $school = School_Info::first();
+        $school = App::make('App\Models\School_Info')->first();
         $period = SchoolPeriod::first();
         $students = Student::count();
         $subjects = Subject::count();
