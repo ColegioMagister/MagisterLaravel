@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\{School_info};
+use App\Models\School_info;
 use App\Models\Employee;
 use App\Models\Student;
 use App\Models\Subject;
