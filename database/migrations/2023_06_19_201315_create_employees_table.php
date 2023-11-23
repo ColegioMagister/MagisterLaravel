@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('employees', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('id_role')->index('fk_e_id_role');
+            $table->integer('id_role');
             $table->string('name', 50);
             $table->string('lastname', 50);
             $table->string('email', 50);
             $table->string('phone_number', 50);
             $table->string('url_img', 250);
+            $table->foreign('id_role')->references('id')->on('roles');
             $table->timestamps();
         });
     }

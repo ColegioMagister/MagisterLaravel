@@ -29,179 +29,59 @@
             </thead>
             <tbody>
             
-                @foreach($teacher as $item)
+                @foreach($teacher as $employee)
                     <tr>
                         <td class="align-middle text-center text-sm">{{ $loop->iteration }}</td>
-                        <td class="align-middle text-uppercase text-sm ">{{ $item->roles->role_name }}</td>
+                        <td class="align-middle text-uppercase text-sm ">{{ $employee->roles->role_name }}</td>
                         <td >
                             <div class="d-flex px-2 py-1">
                                 <div>
-                                    <img src="{{ $item->url_img}}   " class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                    <img src="{{ $employee->url_img}}   " class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
-                                        <h6 class="mb-0 text-sm">{{ $item->name }}</h6>
+                                        <h6 class="mb-0 text-sm">{{ $employee->name }}</h6>
                                 </div>
                             </div>
                         </td>
-                        <td >{{ $item->lastname }}</td>
-                        <td>{{ $item->email }}</td>
-                        <td class="align-middle text-uppercase text-sm ">{{ $item->phone_number }}</td>
+                        <td >{{ $employee->lastname }}</td>
+                        <td>{{ $employee->email }}</td>
+                        <td class="align-middle text-uppercase text-sm ">{{ $employee->phone_number }}</td>
                         <td class="align-middle text-uppercase text-sm">
-                            <a href="{{route('teacher.show',$item->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver</a>
+                            <a href="{{route('teacher.show',$employee->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver</a>
                         </td>  
                         <td class="align-middle text-uppercase text-sm">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditarProfesor{{ $item->id }}" enctype="multipart/form-data">
-                                <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
-                        </button>
+                        
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#EditarProfesor" data-url="{{route('teacher.edit', $employee)}}"
+                            data-send="{{route('teacher.ajax.edit', $employee)}}" enctype="multipart/form-data">
+                            <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
+                    </button>
+                    
                         <button type="button" class="btn btn-primary ms-2 me-2"
-                        data-bs-toggle="modal" data-bs-target="#SubjectTeacherModal"
-                        data-url="{{ route('teacher.AddSubjec', [$item]) }}"
-                        data-send="{{ route('teacher.AddSubjectAjax', [$item]) }}">
-                    <i class="fa-solid fa-chalkboard-user fa-xl"></i> &nbsp; Asignar Cursos
+                            data-bs-toggle="modal" data-bs-target="#SubjectTeacherModal"
+                            data-url="{{ route('teacher.AddSubjec', [$employee]) }}"
+                            data-send="{{ route('teacher.AddSubjectAjax', [$employee]) }}">
+                        <i class="fa-solid fa-chalkboard-user fa-xl"></i> &nbsp; Asignar Cursos
                 </button>
-                    <a class="btn btn-success me-3" href="{{ route('teacher.teacherSubject', $item->id)}}">
+                
+                    <a class="btn btn-success me-3" href="{{ route('teacher.teacherSubject', $employee->id)}}">
                         <i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver Cursos a cargo
                     </a>
-                    <!-- #MODAL EDITAR-------------------------  -->
-                        <div class="modal fade" id="EditarProfesor{{ $item->id }}" tabindex="-1" aria-labelledby="EditarProfesor" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-gradient-primary">
-                                            <h5 class="modal-title text-white" >Editar Profesor</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                                                                                    <!-- #para que cargue  -->
-                                        <form role="form" class="text-start alertEdits" method="POST" action="{{ url('Profesor/'. $item->id) }}" enctype="multipart/form-data">
-                                        {!! csrf_field() !!}
-                                        @method("PATCH")
-                                            <div class="modal-body">
-                                                <div class="input-group input-group-outline mt-2 mb-4">
-                                                    <div class="col-6">
-                                                        <div class="input-group input-group-outline me-2 focused is-focused">
-                                                            <select class="form-control" name="id_role" id="id_role">
-                                                                <option selected disabled>Elige un Rol </option>
-                                                            @foreach($roles as $rol)
-                                                                <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
-                                                            @endforeach
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="input-group input-group-outline me-2 focused is-focused">
-                                                            <label class="form-label">Nombres</label>
-                                                            <input type="text" class="form-control" value="{{$item->name}}" name="name" required>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="input-group input-group-outline mt-2 mb-4 focused is-focused">
-                                                    <label class="form-label">Apellidos</label>
-                                                    <input type="text" class="form-control" value="{{$item->lastname}}" name="lastname" required>
-                                                </div>
-                                                <div class="input-group input-group-outline mt-2 mb-4">
-                                                    <div class="col-6">
-                                                        <div class="input-group input-group-outline me-2 focused is-focused">
-                                                            <label class="form-label">Correo</label>
-                                                            <input type="email" class="form-control" value="{{$item->email}}" name="email" required>
-                                                        </div>  
-                                                    </div>
-                                                    <div class="col-6">
-                                                        <div class="input-group input-group-outline me-2 focused is-focused">
-                                                            <label class="form-label">Celular</label>
-                                                            <input type="number" class="form-control" value="{{$item->phone_number}}" name="phone_number" required>
-                                                        </div>
-                                                    </div>
-                                                
-                                                </div>
-                                                <span class="text-secondary text-xs ms-1" for="url_img">Foto del Profesor</span>
-                                                <div class="input-group input-group-outline mb-3 focused is-focused">
-                                                    <input type="file" class="form-control" id="url_img"  name="url_img">
-                                                </div>
-                                                <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen" src="{{$item->url_img}}">
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">
-                                                    <i class="fa-solid fa-plus"></i> Actualizar</button>
-                                            </div>
-                                        </form>        
-                                    </div>
-                                </div>
-                            </div>
-                        </td>
+                  
                         <td class="align-middle text-uppercase text-sm">
-                            <form  class="alertDelete" method="POST" action="{{ url('/Profesor' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                            <form  class="alertDelete" method="POST" action="{{route('teacher.destroy',$employee) }}" accept-charset="UTF-8" style="display:inline">
                                 {{ method_field('DELETE') }}
                                 {{ csrf_field() }}
                                 <button type="submit" class="btn btn-danger" title="Delete Teacher" ><i class="fa fa-trash-o fa-xl"
                                         aria-hidden="true"></i> &nbsp; Eliminar</button>
                             </form>
                         </td>
+                    </td>
+
                     <tr>
                  @endforeach  
             </tbody>
-            <!-- #MODAL REGISTRAR-------------------------  -->
-            <div class="modal fade" id="ModRegTeacher" tabindex="-1" aria-labelledby="ModRegTeacher" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-gradient-primary">
-                        <h5 class="modal-title text-white" id="ModRegTeacher">Registrar Profesor</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        
-                                                                            <!-- #para que cargue  -->
-                        <form class="text-start" role="form" method="POST" action="{{ url('Profesor') }}" enctype="multipart/form-data">
-                        {!! csrf_field() !!}
-                            <div class="modal-body">
-                                <div class="input-group input-group-outline mt-2 mb-4">
-                                    <div class="col-6">
-                                        <div class="input-group input-group-outline me-2">
-                                            <select class="form-control" name="id_role" id="id_role">
-                                                    <option selected disabled> Elige un Rol </option>
-                                                @foreach($roles as $rol)
-                                                    <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
-                                                @endforeach
-		            						</select>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="input-group input-group-outline me-2">
-                                            <label class="form-label">Nombres</label>
-                                            <input type="text" class="form-control" name="name" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="input-group input-group-outline mt-2 mb-4">
-                                    <label class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control" name="lastname" required>
-                                </div>  
-                                <div class="input-group input-group-outline mt-2 mb-4">
-                                    <div class="col-6">
-                                        <div class="input-group input-group-outline me-2">
-                                            <label class="form-label">Correo</label>
-                                            <input type="email" class="form-control" name="email" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="input-group input-group-outline me-2">
-                                            <label class="form-label">Celular</label>
-                                            <input type="number" class="form-control" name="phone_number" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <span class="text-secondary text-xs ms-1" for="url_img">Foto del Profesor</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input type="file" class="form-control" id="url_img" name="url_img">
-                                </div>
-                                    <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen">
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                                <input class="btn btn-primary" type="submit" value="Registrar">
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+            
         </table>
     </div>
     </div>
@@ -215,6 +95,135 @@
 
 
 @section('modals')
+<!-- #MODAL REGISTRAR-------------------------  -->
+<div class="modal fade" id="ModRegTeacher" tabindex="-1" aria-labelledby="ModRegTeacher" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary">
+            <h5 class="modal-title text-white" id="ModRegTeacher">Registrar Profesor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+                                                                <!-- #para que cargue  -->
+            <form class="text-start" role="form" method="POST" action="{{route('teacher.store')}}" enctype="multipart/form-data">
+            {!! csrf_field() !!}
+                <div class="modal-body">
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <select class="form-control" name="id_role" id="id_role">
+                                        <option selected disabled> Elige un Rol </option>
+                                    @foreach($roles as $rol)
+                                        <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control" name="name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <label class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" name="lastname" required>
+                    </div>  
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label">Correo</label>
+                                <input type="email" class="form-control" name="email" required>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label">Celular</label>
+                                <input type="number" class="form-control" name="phone_number" required>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text-secondary text-xs ms-1" for="url_img">Foto del Profesor</span>
+                    <div class="input-group input-group-outline mb-3">
+                        <input type="file" class="form-control" id="url_img" name="url_img">
+                    </div>
+                        <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen"> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
+                    <input class="btn btn-primary" type="submit" value="Registrar">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+  <!-- #MODAL EDITAR-------------------------  -->
+  <div class="modal fade" id="EditarProfesor" tabindex="-1" aria-labelledby="EditarProfesor" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title text-white" >Editar Profesor</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+                                                                        <!-- #para que cargue  -->
+            <form role="form"  id="edit-teacher-form" class="text-start alertEdits" method="POST" action="" enctype="multipart/form-data">
+                @method("PATCH")
+                @csrf
+                <div class="modal-body">
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2 focused is-focused">
+                                <select class="form-control" name="id_role" id="">
+                                    <option  class="role_name" selected disabled> </option>
+                                @foreach($roles as $rol)
+                                    <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
+                                @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2 focused is-focused">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" class="form-control name"  name="name" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group input-group-outline mt-2 mb-4 focused is-focused">
+                        <label class="form-label">Apellidos</label>
+                        <input type="text" class="form-control lastname"  name="lastname" required>
+                    </div>
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2 focused is-focused">
+                                <label class="form-label">Correo</label>
+                                <input type="email" class="form-control email"  name="email" required>
+                            </div>  
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2 focused is-focused">
+                                <label class="form-label">Celular</label>
+                                <input type="number" class="form-control phone_number"  name="phone_number" required>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <span class="text-secondary text-xs ms-1" for="url_img">Foto del Profesor</span>
+                    <div class="input-group input-group-outline mb-3 focused is-focused">
+                        <input type="file" class="form-control url_img" id="url_img"  name="url_img">
+                    </div>
+                    <img id="previewImage" class="avatar avatar-sm me-3 border-radius-lg" alt="Vista previa de la imagen" >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">
+                        <i class="fa-solid fa-plus"></i> Actualizar</button>
+                </div>
+            </form>        
+        </div>
+    </div>
+</div>
 
 
 <div class="modal fade" id="SubjectTeacherModal" tabindex="-1" aria-labelledby="SubjectTeacherModal" aria-hidden="true">

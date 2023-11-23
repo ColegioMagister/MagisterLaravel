@@ -25,10 +25,50 @@ $(document).ready(function () {
   });
 
 
+  /* -----  EDIT PROFESOR MODAL AJAX -------*/
 
 
+
+  $('#EditarProfesor').on('show.bs.modal', function(event){
+    var button = $(event.relatedTarget)
+    var url = button.data('url')
+    var getDataUrl = button.data('send') 
+    var modal = $(this)
+  
+    $.ajax({
+      type: 'GET',
+      url: getDataUrl,
+      dataType: 'JSON',
+      success: function (data)
+      {
+        var id_role=data.id_role
+        var role_name =data.role_name
+        var name = data.name
+        var lastname = data.lastname
+        var phone_number = data.phone_number
+        var email = data.email
+        var url_img = data.url_img
+  
+        modal.find('.role_name').val(id_role)
+        modal.find('.role_name').text(role_name)
+        modal.find('.name').val(name)
+        modal.find('.lastname').val(lastname)
+        modal.find('.email').val(email)
+        modal.find('.phone_number').val(phone_number)
+        modal.find('#previewImage').attr('src', url_img)
+      },
+      error: function(response){
+  
+      }
+    })
+  
+    modal.find('#edit-teacher-form').attr('action', url)
+    
+    });
+  
 
   /* -----  EDIT ESTUDIANTE MODAL AJAX -------*/
+  
 
   $('#EditarEstudiante').on('show.bs.modal', function(event){
 	var button = $(event.relatedTarget)
@@ -513,24 +553,8 @@ document.getElementById('url_img').addEventListener('change', function (e) {
   });
 
   ///////
-  $('[type=date]').change( function() {
-    $(this).css('white-space','normal')
-  });
 
 
-/////////////////
-document.querySelectorAll(".modal_img img").forEach(e=>{
-  e.addEventListener("click",function(e){
-    e.stopPropagation();
-    this.parentNode.classList.add("active");
-  })
-});
-document.querySelectorAll(".modal_img").forEach(e=>{
-  e.addEventListener("click",function(e){
-    this.parentNode.classList.add("active");
-    console.log("Click")
-  })
-});
 
   
 

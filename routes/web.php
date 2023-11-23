@@ -40,9 +40,15 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::get('/Students/{student}/editar', [StudentController::class, 'edit'])->name('students.ajax.edit');
     Route::get('/Student/{student}', [StudentController::class, 'show'])->name('students.show');
 
-    Route::resource("/Profesor", UserController::class);
     Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');
-    Route::get('/Profesor/{teacher}', [UserController::class, 'show'])->name('teacher.show');
+    Route::post('/Profesor/registrar', [UserController::class, 'store'])->name('teacher.store');
+    Route::get('/Profesor/{employee}', [UserController::class, 'show'])->name('teacher.show');
+    Route::get('/Profesor/{employee}/editarAjax', [UserController::class, 'edit'])->name('teacher.ajax.edit');
+    Route::patch('/Profesor/{employee}/editar', [UserController::class, 'update'])->name('teacher.edit');
+    Route::delete('/Profesor/{employee}/destroy', [UserController::class, 'destroy'])->name('teacher.destroy');
+
+
+
     Route::get('/Profesor/Materias/{employee}', [UserController::class, 'showSubject'])->name('teacher.teacherSubject');
     Route::delete('/Profesor/Materias/Eliminar/{employee}/{subject}', [UserController::class, 'destroySubject'])->name('teacher.deleteSubject');
     Route::post('/Profesor/AsignarMateria/{employee}', [UserController::class, 'AsignarSubject'])->name('teacher.AddSubjec');

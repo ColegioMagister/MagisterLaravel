@@ -20,7 +20,6 @@
                     <tr>
                         <th class="text-center opacity-7">ID</th>
                         <th class="text-uppercase text-secondary ps-2">Materias</th>
-                       
                         <th colspan=2 class="text-secondary opacity-7"></th>
 
                     </tr>

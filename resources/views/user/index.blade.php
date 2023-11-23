@@ -110,9 +110,7 @@
                                         <label class="form-label">{{ __('CONFIRMAR CONTRASEÑA') }}</label>
                                         <input id="password-confirm" type="password" class="form-control"
                                             name="password_confirmation" required autocomplete="new-password">
-
                                     </div>
-
                                     <span id="password-coincide-message" class="invalid-feedback" role="alert">
                                         <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
                                         Las contraseñas no coinciden

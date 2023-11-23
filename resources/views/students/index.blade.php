@@ -68,7 +68,7 @@
                                             style="display:inline">
                                             @method('DELETE')
                                             @csrf
-                                            <button type="submit" class="btn btn-danger""
+                                            <button type="submit" class="btn btn-danger"
                                                 title="Delete Student"><i class="fa fa-trash-o fa-xl"
                                         aria-hidden="true"></i> &nbsp; Eliminar</button>
                                         </form>
@@ -120,7 +120,7 @@
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-4">
-                            <div class="input-group input-group-outline me-2">
+                            <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label ">Nacimiento</label>
                                 <input type="date" class="form-control" name="bithdate" required>
                             </div>

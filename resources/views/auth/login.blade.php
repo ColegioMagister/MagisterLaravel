@@ -23,7 +23,7 @@
 	<!-- Material Icons -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
 	<!-- CSS Files -->
-	<link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
+	<link id="pagestyle" href="assets/css/material-dashboard.css?v=3.0.0" rel="stylesheet"/>
 
 </head>
 
@@ -83,7 +83,6 @@
 										<input id="password" type="password"
 											class="form-control @error('password') is-invalid @enderror" name="password"
 											required autocomplete="current-password">
-
 										@error('password')
 										<span class="invalid-feedback" role="alert">
 											<strong>{{ $message }}</strong>

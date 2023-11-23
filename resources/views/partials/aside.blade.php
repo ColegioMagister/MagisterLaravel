@@ -23,6 +23,7 @@
             <span class="nav-link-text ms-1">Datos Generales</span>
           </a>
         </li>
+        
         <li class="nav-item">
           <a class="nav-link text-white {{setActive('user.index')}}" href="{{ route('user.index') }}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -32,7 +33,11 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('schoolYear.*')}}" href="{{ route('schoolYear.index') }}">
+          <a class="nav-link text-white {{setActive('schoolYear.*')}}" 
+          href="#
+          {{-- {{ route('schoolYear.index') }} --}}
+          "
+          >
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-regular fa-calendar-days"></i>
             </div>
@@ -40,7 +45,10 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('sections.*')}}" href="{{ route('sections.principalIndex') }}">
+          <a class="nav-link text-white {{setActive('sections.*')}}" href="#
+          {{-- {{ route('sections.principalIndex') }} --}}
+          "
+          >
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-cubes"></i>
             </div>
@@ -48,7 +56,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('assessment.*')}}" href="{{ route('assessment.index') }}">
+          <a class="nav-link text-white {{setActive('assessment.*')}}" href="#
+          {{-- {{ route('assessment.index') }} --}}
+          ">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-file-pen"></i>
             </div>
@@ -56,7 +66,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('subject.*')}}" href="{{ route('subject.index') }}">
+          <a class="nav-link text-white {{setActive('subject.*')}}" href="#
+          {{-- {{ route('subject.index') }} --}}
+          ">
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-book"></i>
             </div>
@@ -72,7 +84,9 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('students.*')}}" href="{{ route('students.index') }}">
+          <a class="nav-link text-white {{setActive('students.*')}}" href="#
+          {{-- {{ route('students.index') }} --}}
+          ">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-people-group"></i>
             </div>
@@ -84,7 +98,9 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Configuración de usuario</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('user.profile')}}" href="{{ route('user.profile') }}">
+          <a class="nav-link text-white {{setActive('user.profile')}}" href="#
+          {{-- {{ route('user.profile') }} --}}
+          ">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">person</i>
             </div>

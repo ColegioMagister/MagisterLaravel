@@ -92,7 +92,7 @@ class UserController extends Controller
             $input['url_img'] = 'assets/img/login-bg/default.png'; 
         }
         Employee::create($input);
-        return redirect('Profesor')->with('flash_message', 'Addedd!');
+        return redirect()->route('teacher.index')->with('flash_message', 'Addedd!');
     }
 
     /**
@@ -128,8 +128,17 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit($id)
+    public function edit(Employee $employee)
     {
+        return response()->json([
+            'id_role'=>$employee->id_role,
+            'role_name'=>$employee->roles->role_name,
+            'name'=>$employee->name,
+            'lastname'=>$employee->lastname,
+            'email'=>$employee->email,
+            'phone_number'=>$employee->phone_number,
+            'url_img'=>$employee->url_img
+        ]);
         //
     }
 
@@ -140,9 +149,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Employee $employee)
     {
-        $teacher = Employee::find($id);
         $input = $request->all();
 
         if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
@@ -151,8 +159,8 @@ class UserController extends Controller
             $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
     
             // Eliminar imagen anterior
-            if ($teacher->url_img != '') {
-                $rutaImagenAnterior = public_path($teacher->url_img);
+            if ($employee->url_img != '') {
+                $rutaImagenAnterior = public_path($employee->url_img);
                 if (file_exists($rutaImagenAnterior)) {
                     unlink($rutaImagenAnterior);
                 }
@@ -160,11 +168,11 @@ class UserController extends Controller
             $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
             $input['url_img'] = $rutaArchivo;
         } else {
-            $input['url_img'] = $teacher->url_img;
+            $input['url_img'] = $employee->url_img;
         }
 
-        $teacher->update($input);
-        return redirect('Profesor')->with('flash_message', 'Updated!'); 
+        $employee->update($input);
+        return redirect()->route('teacher.index')->with('flash_message', 'Updated!');
     }
 
     /**
@@ -184,7 +192,7 @@ class UserController extends Controller
                 unlink(public_path($imagen));
             }
         }
-        return redirect('Profesor')->with('flash_message', 'deleted!');  
+        return redirect()->route('teacher.index')->with('flash_message', 'Deleted!');  
     }
 
     public function destroySubject(Employee $employee,Subject $subject)
