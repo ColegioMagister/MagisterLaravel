@@ -31,9 +31,12 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 
     Route::get('/Home', [GeneralDataController::class, 'index'])->name('data.index');
 
-    Route::resource('/Employees',EmployeesController::class);
     Route::get('/Employees', [EmployeesController::class, 'index'])->name('user.index');
     Route::get('/user/{user}', [EmployeesController::class, 'show'])->name('user.show');
+    Route::post('/check-user', [EmployeesController::class, 'checkUsuario'])->name('checkUsuario');
+    Route::post('/Employees/registrar', [EmployeesController::class, 'store'])->name('user.store');
+    Route::delete('/Employees/{user}/delete',[EmployeesController::class, 'destroy'])->name('user.destroy');
+
 
     Route::resource("/Students", StudentController::class);
     Route::get('/Students', [StudentController::class, 'index'])->name('students.index');
@@ -41,6 +44,7 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::get('/Student/{student}', [StudentController::class, 'show'])->name('students.show');
 
     Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');
+    Route::post('/check-teacher', [UserController::class, 'checkTeacher'])->name('checkTeacher');
     Route::post('/Profesor/registrar', [UserController::class, 'store'])->name('teacher.store');
     Route::get('/Profesor/{employee}', [UserController::class, 'show'])->name('teacher.show');
     Route::get('/Profesor/{employee}/editarAjax', [UserController::class, 'edit'])->name('teacher.ajax.edit');

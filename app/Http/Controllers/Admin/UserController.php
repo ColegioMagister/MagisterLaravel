@@ -65,9 +65,12 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function checkTeacher(Request $request)
     {
-       //
+       $email=$request->input('email');
+
+       $valueEmail=Employee::where('email',$email)->exists();
+       return response()->json(['valueEmail'=>$valueEmail]);
     }
 
     /**

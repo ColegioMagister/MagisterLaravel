@@ -19,8 +19,8 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with('user')
-                            ->with('roles')->get();
+    
+        $employees = Employee::whereDoesntHave('user')->get();
         $users=User::all();
         return view ('user.index',[
             "employees"=>$employees,
@@ -45,6 +45,13 @@ class EmployeesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function checkUsuario(Request $request){
+
+        $username=$request->input('username');
+        $valueUser=User::where('username',$username)->exists();
+        return response()->json(['valueUser'=>$valueUser]);
+
+    }
     public function store(Request $request)
     {
         $request->validate([
@@ -59,7 +66,7 @@ class EmployeesController extends Controller
             'password' => Hash::make($request['password']),
         ]);
 
-        return redirect('Employees')->with('flash_message', 'Addedd!');
+        return  redirect()->route('user.index')->with('flash_message', 'Addedd!');
     }
     
     /**
@@ -106,7 +113,8 @@ class EmployeesController extends Controller
      */
     public function destroy($id)
     {
-        User::destroy($id);
-        return redirect('Employees')->with('flash_message', 'deleted!');  
+        $user =User::find($id);
+        $user->delete();
+        return  redirect()->route('user.index')->with('flash_message', 'deleted!');  
     }
 }

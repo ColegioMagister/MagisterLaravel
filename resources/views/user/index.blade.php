@@ -40,15 +40,19 @@
                                     </td>
 
                                     <td class="align-middle text-uppercase text-sm">
-                                        <form class="alertDelete" method="POST"
-                                            action="{{ url('/Employees' . '/' . $user->id) }}" accept-charset="UTF-8"
-                                            style="display:inline">
-                                            {{ method_field('DELETE') }}
-                                            {{ csrf_field() }}
-                                            <button type="submit" class="btn btn-danger ms-3"
-                                                title="Delete Teacher"><i class="fa fa-trash-o fa-xl"
-                                        aria-hidden="true"></i> &nbsp; Eliminar</button>
-                                        </form>
+                                        @if (($user->employee->roles->role_name)=== "Admin")
+
+                                        @elseif(($user->employee->roles->role_name)=== "Profesor")
+                                            <form class="alertDelete" method="POST"
+                                                action="{{route('user.destroy',$user) }}" accept-charset="UTF-8"
+                                                style="display:inline">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-danger ms-3"
+                                                    title="Delete Teacher"><i class="fa fa-trash-o fa-xl"
+                                            aria-hidden="true"></i> &nbsp; Eliminar</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 <tr>
                                     @endforeach
@@ -57,82 +61,89 @@
                         </table>
                     </div>
                 </div>
-
-
-                <div class="modal fade" id="ModRegUsuario" tabindex="-1" aria-labelledby="ModRegUsuario"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <div class="modal-header bg-gradient-primary">
-                                <h5 class="modal-title text-white" id="ModRegTeacher">Registrar Usuario</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                            </div>
-                            <form id="userRegister" action="{{url('Employees')}}" role="form" class="text-start"
-                                method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <div class="modal-body">
-                                    <div class="input-group input-group-outline mt-2 mb-4">
-                                        <div class="col-6">
-                                            <div class="input-group input-group-outline me-2">
-                                                <select class="form-control" name="id_employee" id="id_employee"
-                                                    required>
-                                                    <option selected disabled value=""> Elige un empleado </option>
-                                                    @foreach($employees as $employee)
-                                                    <option value="{{$employee->id}}"> {{$employee->id}} -
-                                                        {{$employee->name}} {{$employee->lastname}} </option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="input-group input-group-outline me- mb-4">
-                                        <label class="form-label">USUARIO</label>
-                                        <input id="username" type="text"
-                                            class="form-control @error('usernmae') is-invalid @enderror" name="username"
-                                            value="{{ old('username') }}" required autofocus>
-                                        @error('username')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-
-                                    <div class="input-group input-group-outline  mb-3">
-                                        <label class="form-label">{{ __('CONTRASEÑA') }}</label>
-                                        <input id="password" type="password" class="form-control" name="password"
-                                            required autocomplete="new-password">
-
-                                    </div>
-
-                                    <div class="input-group input-group-outline  mb-3">
-                                        <label class="form-label">{{ __('CONFIRMAR CONTRASEÑA') }}</label>
-                                        <input id="password-confirm" type="password" class="form-control"
-                                            name="password_confirmation" required autocomplete="new-password">
-                                    </div>
-                                    <span id="password-coincide-message" class="invalid-feedback" role="alert">
-                                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                        Las contraseñas no coinciden
-                                    </span>
-
-                                    <span id="password-lenght-message" class="invalid-feedback" role="alert">
-                                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                        La contraseña debe tener al menos 8 caracteres
-                                    </span>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary mx-2"
-                                        data-bs-dismiss="modal">Cerrar</button>
-                                    <button id="submitBtn" type="submit" class="btn btn-primary">{{ __('REGISTRARSE')
-                                        }}</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+</div>
+@endsection
+
+
+@section('modals')
+<div class="modal fade" id="ModRegUsuario" tabindex="-1" aria-labelledby="ModRegUsuario"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+        <div class="modal-header bg-gradient-primary">
+            <h5 class="modal-title text-white" id="ModRegTeacher">Registrar Usuario</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <form id="userRegister" action="{{route('user.store')}}" role="form" class="text-start"
+            method="POST" enctype="multipart/form-data">
+            @csrf
+            <div class="modal-body">
+                <div class="input-group input-group-outline mt-2 mb-4">
+                    <div class="col-6">
+                        <div class="input-group input-group-outline me-2">
+                            <select class="form-control" name="id_employee" id="id_employee" 
+                                required>
+                                <option  value="" selected disabled> Elige un empleado </option>
+                                @foreach($employees as $employee)
+                                <option  id="id_employee" value="{{$employee->id}}"> {{$employee->id}} -
+                                    {{$employee->name}} {{$employee->lastname}} </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <span id="employee_null" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            seleccione un trabajador
+                        </span>
+                    </div>
+                </div>
+
+                <div class="input-group input-group-outline me- mb-4">
+                    <label class="form-label">USUARIO</label>
+                    <input id="username" type="text"
+                        class="form-control" name="username" required autofocus>
+                    <span id="user_repit" class="invalid-feedback" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                        usuario ya está registrado
+                    </span>
+                    <span id="user_invalid" class="invalid-feedback" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                        usuario debe tener minimo 3 caracteres 1 letra 1 número y un carácter especial
+                    </span>
+                </div>
+
+                <div class="input-group input-group-outline  mb-3">
+                    <label class="form-label">{{ __('CONTRASEÑA') }}</label>
+                    <input id="password" type="password" class="form-control" name="password"
+                        required autocomplete="new-password">
+                </div>
+
+                <div class="input-group input-group-outline  mb-3">
+                    <label class="form-label">{{ __('CONFIRMAR CONTRASEÑA') }}</label>
+                    <input id="password-confirm" type="password" class="form-control"
+                        name="password_confirmation" required autocomplete="new-password">
+                </div>
+                <span id="password-coincide-message" class="invalid-feedback" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                    Las contraseñas no coinciden
+                </span>
+
+                <span id="password-lenght-message" class="invalid-feedback" role="alert">
+                    <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                    La contraseña debe tener al menos 8 caracteres
+                </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary mx-2"
+                    data-bs-dismiss="modal">Cerrar</button>
+                <button id="submitBtn" type="submit" class="btn btn-primary">{{ __('REGISTRARSE')
+                    }}</button>
+            </div>
+        </form>
+    </div>
+</div>
 </div>
 @endsection

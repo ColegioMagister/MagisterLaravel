@@ -9,7 +9,7 @@
 <script src="{{asset('assets/js/plugins/chartjs.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="{{asset('assets/js/ventana.js')}}"></script>
+<script type="module" src="{{asset('assets/js/ventana.js')}}"></script>
 <script src="{{asset('assets/js/alert2.js')}}"></script>
 
 @include('partials.sweet')

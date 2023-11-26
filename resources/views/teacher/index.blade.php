@@ -105,43 +105,77 @@
             </div>
             
                                                                 <!-- #para que cargue  -->
-            <form class="text-start" role="form" method="POST" action="{{route('teacher.store')}}" enctype="multipart/form-data">
+            <form id="teacher_register" class="text-start" role="form" method="POST" action="{{route('teacher.store')}}" enctype="multipart/form-data">
             {!! csrf_field() !!}
                 <div class="modal-body">
+                    <span id="complet_campos" class="invalid-feedback" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                        Completar todos los campos
+                    </span>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2">
-                                <select class="form-control" name="id_role" id="id_role">
-                                        <option selected disabled> Elige un Rol </option>
+                                <select class="form-control" name="id_role"  id="id_role" required >
+                                        <option value="" selected disabled>  Elige un Rol </option>
                                     @foreach($roles as $rol)
-                                        <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
+                                        <option  id="id_role" value="{{$rol->id}}" required> {{$rol->id}} - {{$rol->role_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
+                            <span id="rol_null" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Tiene que escoger un rol
+                            </span>
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" name="name" required>
+                                <input id="name" type="text" class="form-control" name="name" required>
                             </div>
+                            <span id="name_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan letras
+                            </span>
                         </div>
+                       
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <label class="form-label">Apellidos</label>
-                        <input type="text" class="form-control" name="lastname" required>
-                    </div>  
+                        <input id="lastname" type="text" class="form-control" name="lastname" required>
+                        <span id="lastname_invalid" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            Solo se aceptan letras
+                        </span>  
+                    </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2">
                                 <label class="form-label">Correo</label>
-                                <input type="email" class="form-control" name="email" required>
+                                <input id="email" type="email" class="form-control" name="email" required>
                             </div>
+                            <span id="email_repit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                El correo ya está registrado
+                            </span>
+                            <span id="email_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Ingrese un correo valido
+                            </span>
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2">
                                 <label class="form-label">Celular</label>
-                                <input type="number" class="form-control" name="phone_number" required>
+                                <input id="phone_number" type="text" class="form-control" name="phone_number" required>
                             </div>
+                            <span id="phone_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan Números enteros
+                            </span>
+                            <span id="phone_lenthg" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Debe tener 9 caracteres
+                            </span>
+                    
                         </div>
                     </div>
                     <span class="text-secondary text-xs ms-1" for="url_img">Foto del Profesor</span>
@@ -152,7 +186,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <input class="btn btn-primary" type="submit" value="Registrar">
+                    <button id="btnTeacher" type="submit" class="btn btn-primary">{{ __('REGISTRARSE')
+                    }}</button>                
                 </div>
             </form>
         </div>
@@ -172,13 +207,17 @@
                 @method("PATCH")
                 @csrf
                 <div class="modal-body">
+                    <span id="complet_campos_edit" class="invalid-feedback" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                        Completar todos los campos
+                    </span>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
-                                <select class="form-control" name="id_role" id="">
+                                <select class="form-control id_role" name="id_role">
                                     <option  class="role_name" selected disabled> </option>
                                 @foreach($roles as $rol)
-                                    <option value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
+                                    <option  id="id_role_edit" value="{{$rol->id}}"> {{$rol->id}} - {{$rol->role_name}}</option>
                                 @endforeach
                                 </select>
                             </div>
@@ -186,26 +225,50 @@
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control name"  name="name" required>
+                                <input id="name_edit" type="text" class="form-control name"  name="name">
                             </div>
+                            <span id="name_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan letras
+                            </span>
                         </div>
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4 focused is-focused">
                         <label class="form-label">Apellidos</label>
-                        <input type="text" class="form-control lastname"  name="lastname" required>
+                        <input id="lastname_edit" type="text" class="form-control lastname"  name="lastname" >
+                        <span id="lastname_invalid_edit" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            Solo se aceptan letras
+                        </span> 
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label">Correo</label>
-                                <input type="email" class="form-control email"  name="email" required>
-                            </div>  
+                                <input id="email_edit" type="email" class="form-control email"  name="email">
+                            </div>
+                            <span id="email_repit_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                El correo ya está registrado
+                            </span>
+                            <span id="email_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Ingrese un correo valido
+                            </span>  
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label">Celular</label>
-                                <input type="number" class="form-control phone_number"  name="phone_number" required>
+                                <input id="phone_number_edit" type="text" class="form-control phone_number"  name="phone_number">
                             </div>
+                            <span id="phone_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan Números enteros
+                            </span>
+                            <span id="phone_lenthg_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Debe tener 9 caracteres
+                            </span>
                         </div>
                     
                     </div>
@@ -217,8 +280,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">
-                        <i class="fa-solid fa-plus"></i> Actualizar</button>
+                    <button id="btnEditTeacher" type="submit" class="btn btn-primary">{{ __('ACTUALIZAR')
+                    }}</button>  
                 </div>
             </form>        
         </div>

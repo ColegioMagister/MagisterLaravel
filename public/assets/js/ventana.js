@@ -1,33 +1,82 @@
+import { valTeacher,valUser } from "./validaciones.js";
+
 
 $(document).ready(function () {
+  const Usuario=/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@_+!#$%^&*()])[^\s]{3,}$/;
 
   $('#submitBtn').click(function(e) {
 
       e.preventDefault();
 
+      var id_employee = $('#id_employee').val();
+      var username = $('#username').val();
       var password = $('#password').val();
       var passwordConfirmation = $('#password-confirm').val();
-    
-      if ((password === passwordConfirmation) && (password.length >= 8)) {
-          $('#userRegister').submit();
-      }
-      else if(password != passwordConfirmation)
-      {
-        $('#password-lenght-message').css('display', 'none');
-        $('#password-coincide-message').css('display', 'block');
-      }
-      else if(password.length < 8)
-      {
-        $('#password-coincide-message').css('display', 'none');
-        $('#password-lenght-message').css('display', 'block');
-      }
 
+      var validUser=Usuario.test(username);
+
+      valUser(username,function(repitUser){
+        if(repitUser) {
+          $('#user_repit').show();
+          $('#user_invalid').hide();
+          $('#ModRegUsuario').modal('show');
+        }else{
+            if ((password === passwordConfirmation) && (password.length >= 8) && id_employee !=null && validUser) {
+              $('#userRegister').submit();
+            }else {
+              (password != passwordConfirmation)? $('#password-lenght-message').hide() + $('#password-coincide-message').show():
+                $('#password-coincide-message').hide();
+              (password.length < 8) ? $('#password-coincide-message').hide()+$('#password-lenght-message').show():
+              $('#password-lenght-message').hide();
+              (!validUser) ? $('#user_repit').hide() + $('#user_invalid').show(): $('#user_invalid').hide();
+              (id_employee==null) ? $('#employee_null').show(): $('#employee_null').hide();
+              
+            }
+          }
+      });
   });
+})
 
 
-  /* -----  EDIT PROFESOR MODAL AJAX -------*/
+  const Email=/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
+  const Letras=/^[A-Za-z\s]+$/;  
+  const Numeros = /^[0-9]+$/; //num enteros
 
+$(document).ready(function () {
 
+  $('#btnTeacher').click(function(e){
+    e.preventDefault();
+    
+    var id_role=$('#id_role').val();
+    var name=$('#name').val();
+    var lastname=$('#lastname').val();
+    var email=$('#email').val();
+    var phone=$('#phone_number').val();
+
+    var validName= Letras.test(name);
+    var validLastname= Letras.test(lastname);
+    var validPhone= Numeros.test(phone);
+    var validEmail= Email.test(email);
+
+    (id_role ===""|| name==="" || lastname==="" || email==="" || phone ==="") ? $('#complet_campos').show():
+    valTeacher(email,  function(repitEmail){
+        repitEmail ? $('#email_repit').show() + $('#email_invalid').hide() + $('#ModRegTeacher').modal('show'):
+          (id_role != null && validEmail && validName && validLastname && validPhone && phone.length===9) ? $('#teacher_register').submit():
+            (id_role === null)?$('#rol_null').show():$('#rol_null').hide();
+            ((!validName) || (name === "")) ? $('#name_invalid').show(): $('#name_invalid').hide();
+            ((!validLastname) || (lastname === "")) ? $('#lastname_invalid').show(): $('#lastname_invalid').hide();
+            ((!validPhone) || (phone ==="")) ? $('#phone_invalid').show() + $('#phone_lenthg').hide():$('#phone_invalid').hide();
+            (phone.length!=9) ? $('#phone_lenthg').show() + $('#phone_invalid').hide(): $('#phone_lenthg').hide();
+            ((!validEmail) || (email === "")) ? $('#email_invalid').show() + $('#email_repit').hide():$('#email_invalid').hide();
+            if(repitEmail===false ){
+              $('#email_repit').hide()
+            }
+            $('#complet_campos').hide()
+    });
+
+  })
+ 
+    /* -----  EDIT PROFESOR MODAL AJAX -------*/
 
   $('#EditarProfesor').on('show.bs.modal', function(event){
     var button = $(event.relatedTarget)
@@ -48,7 +97,8 @@ $(document).ready(function () {
         var phone_number = data.phone_number
         var email = data.email
         var url_img = data.url_img
-  
+
+        modal.find('.email').data('original-value', email);
         modal.find('.role_name').val(id_role)
         modal.find('.role_name').text(role_name)
         modal.find('.name').val(name)
@@ -64,8 +114,75 @@ $(document).ready(function () {
   
     modal.find('#edit-teacher-form').attr('action', url)
     
-    });
-  
+    }); 
+
+    /* -----  VAlidar PROFESOR MODAL AJAX -------*/
+
+    $('#btnEditTeacher').click(function(e) {
+      e.preventDefault();
+      var id_role = $('#id_role_edit').val();
+      var name = $('#name_edit').val();
+      var lastname = $('#lastname_edit').val();
+      var email = $('#email_edit').val();
+      var phone = $('#phone_number_edit').val();
+      var modal = $('#EditarProfesor');
+      var valorOriginal = modal.find('#email_edit').data('original-value');
+
+      var validName = Letras.test(name);
+      var validLastname = Letras.test(lastname);
+      var validPhone = Numeros.test(phone);
+      var validEmail = Email.test(email);
+
+   
+
+      if(id_role === "" || name === "" || lastname === "" || email === "" || phone === ""){
+        $('#complet_campos_edit').show();
+      }else {
+        valTeacher(email,function(repitEmail){
+              if(id_role != null && validEmail && validName && validLastname && validPhone && phone.length===9 && email==valorOriginal){
+                $('#edit-teacher-form').submit()
+                }else if(email!=valorOriginal && repitEmail){
+                      $('#email_repit_edit').toggle() ;
+                      $('#EditarProfesor').modal('show');
+              } else{
+                  (id_role === null) ? $('#rol_null_edit').toggle():
+                  ((!validName) || (name === "")) ? $('#name_invalid_edit').toggle():
+                  ((!validLastname) || (lastname === "")) ? $('#lastname_invalid_edit').toggle(): 
+                  ((!validPhone) || (phone ==="")) ? $('#phone_invalid_edit').toggle():
+                  (phone.length!=9) ? $('#phone_lenthg_edit').toggle():
+                  ((!validEmail) || (email === "")) ? $('#email_invalid_edit').toggle():$('#edit-teacher-form').submit();
+              }
+              
+        });
+        
+    }   
+    //   }else if(id_role != null && validEmail && validName && validLastname && validPhone && phone.length===9 && email===valorOriginal){
+    //     $('#edit-teacher-form').submit()
+    //   }else{
+    //     (id_role === null) ? $('#rol_null_edit').show():$('#rol_null_edit').hide();
+    //     ((!validName) || (name === "")) ? $('#name_invalid_edit').show(): $('#name_invalid_edit').hide();
+    //     ((!validLastname) || (lastname === "")) ? $('#lastname_invalid_edit').show(): $('#lastname_invalid_edit').hide();
+    //     ((!validPhone) || (phone ==="")) ? $('#phone_invalid_edit').show() + $('#phone_lenthg_edit').hide():$('#phone_invalid_edit').hide();
+    //     (phone.length!=9) ? $('#phone_lenthg_edit').show() + $('#phone_invalid_edit').hide(): $('#phone_lenthg_edit').hide();
+    //     ((!validEmail) || (email === "")) ? $('#email_invalid_edit').show() + $('#email_repit_edit').hide():$('#email_invalid_edit').hide();
+       
+    //    if(email!=valorOriginal){
+    //     valTeacher(email, function(repitEmail) {
+    //       if(repitEmail) {
+    //         $('#email_repit_edit').show() ;
+    //         $('#email_invalid_edit').hide() ;
+    //         $('#EditarProfesor').modal('show');
+    //     }else{
+    //       $('#edit-teacher-form').submit()
+    //     }
+    //   });
+      
+    // }   
+     
+  });
+
+});
+
 
   /* -----  EDIT ESTUDIANTE MODAL AJAX -------*/
   
@@ -433,7 +550,7 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
     }
 
 
-});
+
 
 
 
