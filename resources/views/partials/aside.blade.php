@@ -66,8 +66,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('subject.*')}}" href="#
-          {{-- {{ route('subject.index') }} --}}
+          <a class="nav-link text-white {{setActive('subject.*')}}" href="{{ route('subject.index') }}
           ">
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-book"></i>

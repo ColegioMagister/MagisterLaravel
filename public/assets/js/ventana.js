@@ -2,18 +2,17 @@ import { valTeacher,valUser } from "./validaciones.js";
 
 
 $(document).ready(function () {
-  const Usuario=/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@_+!#$%^&*()])[^\s]{3,}$/;
+  const Password=/^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@_+!#$%^&*()])[^\s]{3,}$/;
 
   $('#submitBtn').click(function(e) {
 
       e.preventDefault();
-
       var id_employee = $('#id_employee').val();
       var username = $('#username').val();
       var password = $('#password').val();
       var passwordConfirmation = $('#password-confirm').val();
 
-      var validUser=Usuario.test(username);
+      var validPass=Password.test(password);
 
       valUser(username,function(repitUser){
         if(repitUser) {
@@ -21,16 +20,15 @@ $(document).ready(function () {
           $('#user_invalid').hide();
           $('#ModRegUsuario').modal('show');
         }else{
-            if ((password === passwordConfirmation) && (password.length >= 8) && id_employee !=null && validUser) {
+            if ((password === passwordConfirmation) && (password.length >= 8) && id_employee !=null && validPass) {
               $('#userRegister').submit();
             }else {
               (password != passwordConfirmation)? $('#password-lenght-message').hide() + $('#password-coincide-message').show():
                 $('#password-coincide-message').hide();
-              (password.length < 8) ? $('#password-coincide-message').hide()+$('#password-lenght-message').show():
+              (password.length < 8 || !validPass ) ? $('#password-coincide-message').hide()+$('#password-lenght-message').show():
               $('#password-lenght-message').hide();
-              (!validUser) ? $('#user_repit').hide() + $('#user_invalid').show(): $('#user_invalid').hide();
+              (username.length<3) ? $('#user_repit').hide() + $('#user_invalid').show(): $('#user_invalid').hide()+$('#user_repit').hide();
               (id_employee==null) ? $('#employee_null').show(): $('#employee_null').hide();
-              
             }
           }
       });

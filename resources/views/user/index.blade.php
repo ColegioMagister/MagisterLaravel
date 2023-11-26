@@ -111,7 +111,7 @@ aria-hidden="true">
                     </span>
                     <span id="user_invalid" class="invalid-feedback" role="alert">
                         <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                        usuario debe tener minimo 3 caracteres 1 letra 1 número y un carácter especial
+                        usuario debe tener minimo 3 caracteres
                     </span>
                 </div>
 
@@ -133,7 +133,7 @@ aria-hidden="true">
 
                 <span id="password-lenght-message" class="invalid-feedback" role="alert">
                     <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                    La contraseña debe tener al menos 8 caracteres
+                    La contraseña debe tener al menos 8 caracteres 1 letra 1 número y un carácter especial
                 </span>
             </div>
             <div class="modal-footer">
