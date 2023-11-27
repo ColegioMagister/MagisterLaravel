@@ -118,14 +118,22 @@
                         <div class="input-group input-group-outline mt-2 mb-4">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label">Materia</label>
-                                <input type="text" class="form-control subject_name" name="subject_name">
+                                <input id="subject_name_edit" type="text" class="form-control subject_name" name="subject_name">
                             </div>
+                            <span id="subject_repit_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                La materia ya se encuentra registrado
+                            </span>
+                            <span id="subject_null_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Al menos 2 caracteres
+                            </span>
                         </div>
                     </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">
-                        <i class="fa-solid fa-plus"></i>Actualizar</button>
+                        <button id="btnEditMateria" type="submit" class="btn btn-primary">{{ __('ACTUALIZAR')
+                        }}</button>  
                 </div>
             </form>
         </div>

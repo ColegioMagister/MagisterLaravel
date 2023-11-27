@@ -42,7 +42,7 @@
                         </td>
                                     
                     @empty
-                <p>No hay materias asignadas a este profresor</p>
+                <p>No hay materias asignadas a este profesor</p>
                 </tr>    
                 @endforelse
             </tbody>

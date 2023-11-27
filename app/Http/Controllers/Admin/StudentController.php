@@ -34,39 +34,48 @@ class StudentController extends Controller
 
     public function ReporteLibreta(Student $student)
 {
-    $student = Student::findOrFail($student->id);
-    
-    $assessments = $student->studentAssessment;
-    $sections = $student->studentSections;
-    $schools = School_Info::all(); 
-    
-    $PromedioXSubject = [];
-    
-    foreach ($sections as $section) {
-        foreach ($section->subjectSection as $subject) {
-            $totalsubject = 0;
-            $totalAssessments = 0;
-            
-            foreach ($assessments as $assessment) {
-                if ($assessment->subject->id === $subject->id) {
-                    $totalGrades = $assessment->pivot->grade;
-                    $assessmentPeso = $assessment->assessmentType->value;
-                       
-                    $totalsubject += ($totalGrades * $assessmentPeso);
-                    $totalAssessments += $assessmentPeso;
 
+    try {
+
+                $student = Student::findOrFail($student->id);
+                
+                $assessments = $student->studentAssessment;
+                $sections = $student->studentSections;
+                $schools = School_Info::all(); 
+                
+                $PromedioXSubject = [];
+                
+                foreach ($sections as $section) {
+                    foreach ($section->subjectSection as $subject) {
+                        $totalsubject = 0;
+                        $totalAssessments = 0;
+                        
+                        foreach ($assessments as $assessment) {
+                            if ($assessment->subject->id === $subject->id) {
+                                $totalGrades = $assessment->pivot->grade;
+                                $assessmentPeso = $assessment->assessmentType->value;
+                                
+                                $totalsubject += ($totalGrades * $assessmentPeso);
+                                $totalAssessments += $assessmentPeso;
+
+                            }
+                        }
+                        
+                        $PromedioXSubject[$subject->id] = ($totalAssessments > 0) ? ($totalsubject / $totalAssessments) : 0;
+
+                    }
                 }
-            }
-            
-            $PromedioXSubject[$subject->id] = ($totalAssessments > 0) ? ($totalsubject / $totalAssessments) : 0;
+                
+                $pdf = \PDF::loadView('reportes.libreta', compact('student', 'schools', 'assessments', 'sections', 'PromedioXSubject'));
+                
+                $pdf_name = 'libreta.pdf';
+                return $pdf->stream($pdf_name);
 
-        }
-    }
+        ///por ahora
+    } catch (\Throwable $th) {
+        return redirect()->route('students.index')->with('error_message', 'Error!');
     
-    $pdf = \PDF::loadView('reportes.libreta', compact('student', 'schools', 'assessments', 'sections', 'PromedioXSubject'));
-    
-    $pdf_name = 'libreta.pdf';
-    return $pdf->stream($pdf_name);
+    } 
 }
 
     

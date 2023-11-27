@@ -63,8 +63,7 @@ $(document).ready(function () {
             (id_role === null)?$('#rol_null').show():$('#rol_null').hide();
             ((!validName) || (name === "")) ? $('#name_invalid').show(): $('#name_invalid').hide();
             ((!validLastname) || (lastname === "")) ? $('#lastname_invalid').show(): $('#lastname_invalid').hide();
-            ((!validPhone) || (phone ==="")) ? $('#phone_invalid').show() + $('#phone_lenthg').hide():$('#phone_invalid').hide();
-            (phone.length!=9) ? $('#phone_lenthg').show() + $('#phone_invalid').hide(): $('#phone_lenthg').hide();
+            ((!validPhone) || (phone.length!=9)) ? $('#phone_invalid').show():$('#phone_invalid').hide();
             ((!validEmail) || (email === "")) ? $('#email_invalid').show() + $('#email_repit').hide():$('#email_invalid').hide();
             if(repitEmail===false ){
               $('#email_repit').hide()
@@ -130,55 +129,23 @@ $(document).ready(function () {
       var validLastname = Letras.test(lastname);
       var validPhone = Numeros.test(phone);
       var validEmail = Email.test(email);
-
-   
-
-      if(id_role === "" || name === "" || lastname === "" || email === "" || phone === ""){
-        $('#complet_campos_edit').show();
-      }else {
-        valTeacher(email,function(repitEmail){
-              if(id_role != null && validEmail && validName && validLastname && validPhone && phone.length===9 && email==valorOriginal){
-                $('#edit-teacher-form').submit()
-                }else if(email!=valorOriginal && repitEmail){
-                      $('#email_repit_edit').toggle() ;
-                      $('#EditarProfesor').modal('show');
-              } else{
-                  (id_role === null) ? $('#rol_null_edit').toggle():
-                  ((!validName) || (name === "")) ? $('#name_invalid_edit').toggle():
-                  ((!validLastname) || (lastname === "")) ? $('#lastname_invalid_edit').toggle(): 
-                  ((!validPhone) || (phone ==="")) ? $('#phone_invalid_edit').toggle():
-                  (phone.length!=9) ? $('#phone_lenthg_edit').toggle():
-                  ((!validEmail) || (email === "")) ? $('#email_invalid_edit').toggle():$('#edit-teacher-form').submit();
-              }
-              
-        });
-        
-    }   
-    //   }else if(id_role != null && validEmail && validName && validLastname && validPhone && phone.length===9 && email===valorOriginal){
-    //     $('#edit-teacher-form').submit()
-    //   }else{
-    //     (id_role === null) ? $('#rol_null_edit').show():$('#rol_null_edit').hide();
-    //     ((!validName) || (name === "")) ? $('#name_invalid_edit').show(): $('#name_invalid_edit').hide();
-    //     ((!validLastname) || (lastname === "")) ? $('#lastname_invalid_edit').show(): $('#lastname_invalid_edit').hide();
-    //     ((!validPhone) || (phone ==="")) ? $('#phone_invalid_edit').show() + $('#phone_lenthg_edit').hide():$('#phone_invalid_edit').hide();
-    //     (phone.length!=9) ? $('#phone_lenthg_edit').show() + $('#phone_invalid_edit').hide(): $('#phone_lenthg_edit').hide();
-    //     ((!validEmail) || (email === "")) ? $('#email_invalid_edit').show() + $('#email_repit_edit').hide():$('#email_invalid_edit').hide();
-       
-    //    if(email!=valorOriginal){
-    //     valTeacher(email, function(repitEmail) {
-    //       if(repitEmail) {
-    //         $('#email_repit_edit').show() ;
-    //         $('#email_invalid_edit').hide() ;
-    //         $('#EditarProfesor').modal('show');
-    //     }else{
-    //       $('#edit-teacher-form').submit()
-    //     }
-    //   });
       
-    // }   
-     
+        valTeacher(email, function(repitEmail){
+          if((id_role===null || !validName|| !validLastname || !validPhone || !validEmail || phone.length!=9 || ((email!=valorOriginal) && repitEmail))){
+            $('#EditarProfesor').modal('show');
+            (id_role === null) ? $('#rol_null_edit').show():$('#rol_null_edit').hide();
+            ((!validName)) ? $('#name_invalid_edit').show():$('#name_invalid_edit').hide();
+            ((!validLastname)) ? $('#lastname_invalid_edit').show(): $('#lastname_invalid_edit').hide();
+            ((!validPhone) || (phone.length!=9)) ? $('#phone_invalid_edit').show():$('#phone_invalid_edit').hide();
+            ((!validEmail)) ? $('#email_invalid_edit').show() +  $('#email_repit_edit').hide() :$('#email_invalid_edit').hide();
+            (email ===valorOriginal) ?  $('#email_repit_edit').hide() + $('#email_invalid_edit').hide() :
+            ((repitEmail) && (email !=valorOriginal )) ?   $('#email_repit_edit').show() + $('#email_invalid_edit').hide() :
+            $('#email_repit_edit').hide();
+          }else{
+              $('#edit-teacher-form').submit()
+          }
+      })    
   });
-
 });
 
 
@@ -571,14 +538,12 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
   $('#btnSubject').click(function(e){
     e.preventDefault();
     var subject_name=$('#subject_name').val();
-
-
- (subject_name.length<1) ? $('#subject_null').show() :
-    valSubject(subject_name,function(repitSubject){
-      repitSubject ? $('#subject_repit').show()+ $('#subject_null').hide()+ $('#ModRegisMate').modal('show'):
-       $('#subjectRegister').submit();
-  })
-})
+    (subject_name.length<1) ? $('#subject_null').show() :
+        valSubject(subject_name,function(repitSubject){
+          repitSubject ? $('#subject_repit').show()+ $('#subject_null').hide()+ $('#ModRegisMate').modal('show'):
+          $('#subjectRegister').submit();
+      })
+    })
 
     /* -----  EDIT Materias MODAL AJAX -------*/
 
@@ -595,6 +560,7 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
       success: function (data)
       {
         var subject_name = data.subject_name
+        modal.find('.subject_name').data('original-value', subject_name);
         modal.find('.subject_name').val(subject_name)
       },
       error: function(response){
@@ -606,6 +572,25 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
     
     });
 
+        /* -----  EDIT validar Materias MODAL -------*/
+
+    $('#btnEditMateria').click(function(e){
+      e.preventDefault();
+
+      var subject_edit =$('#subject_name_edit').val();
+      var modal=$('#EditarMateria');
+      var valorOriginal = modal.find('#subject_name_edit').data('original-value');
+
+      (subject_edit.length<1) ? $('#subject_null_edit').show() +$('#subject_repit_edit').hide() +
+      $('#EditarMateria').modal('show') :
+      (subject_edit ===valorOriginal) ? $('#edit-subject-form').submit() :
+
+      valSubject(subject_edit, function(mateRepit){
+        mateRepit ?  $('#subject_null_edit').hide() +$('#subject_repit_edit').show() +
+        $('#EditarMateria').modal('show') :$('#edit-subject-form').submit();
+      })
+
+    })
 
     
     $('#AssesstUpdateStudentModal').on('show.bs.modal', function(event){

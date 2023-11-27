@@ -169,11 +169,7 @@
                             </div>
                             <span id="phone_invalid" class="invalid-feedback" role="alert">
                                 <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                Solo se aceptan Números enteros
-                            </span>
-                            <span id="phone_lenthg" class="invalid-feedback" role="alert">
-                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                Debe tener 9 caracteres
+                                Debe tener 9 numeros, no se aceptan letras
                             </span>
                     
                         </div>
@@ -207,10 +203,7 @@
                 @method("PATCH")
                 @csrf
                 <div class="modal-body">
-                    <span id="complet_campos_edit" class="invalid-feedback" role="alert">
-                        <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                        Completar todos los campos
-                    </span>
+                 
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
@@ -263,11 +256,7 @@
                             </div>
                             <span id="phone_invalid_edit" class="invalid-feedback" role="alert">
                                 <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                Solo se aceptan Números enteros
-                            </span>
-                            <span id="phone_lenthg_edit" class="invalid-feedback" role="alert">
-                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                Debe tener 9 caracteres
+                                Debe tener 9 numeros, no se aceptan letras
                             </span>
                         </div>
                     
