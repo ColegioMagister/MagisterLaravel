@@ -35,11 +35,18 @@ class SubjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function checkSubject(Request $request){
+
+        $subject_name =$request->input('subject_name');
+        $valueSubject =Subject::where('subject_name',$subject_name)->exists();
+        return response()->json(['valueSubject'=>$valueSubject]);
+
+    }
     public function store(Request $request)
     {
         $input = $request->all();
         Subject::create($input);
-        return redirect('Subject')->with('flash_message', 'Addedd!');
+        return redirect()->route('subject.index')->with('flash_message', 'Addedd!');
     }
 
     /**
@@ -72,12 +79,11 @@ class SubjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Subject $subject)
     {
-        $subject = Subject::find($id);
         $input = $request->all();
         $subject->update($input);
-        return redirect('Subject')->with('flash_message', 'Updated!');
+        return redirect()->route('subject.index')->with('flash_message', 'Updated!');
     }
 
     /**
@@ -89,6 +95,6 @@ class SubjectsController extends Controller
     public function destroy($id)
     {
         Subject::destroy($id);
-        return redirect('Subject')->with('flash_message', 'deleted!');  
+        return redirect()->route('subject.index')->with('flash_message', 'deleted!');  
     }
 }

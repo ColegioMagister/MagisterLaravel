@@ -1,4 +1,4 @@
-import { valTeacher,valUser } from "./validaciones.js";
+import { valTeacher,valUser,valSubject } from "./validaciones.js";
 
 
 $(document).ready(function () {
@@ -564,10 +564,23 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
 
 
 
-  /* -----  EDIT Materias MODAL AJAX -------*/
 
     
   $(document).ready(function () {
+  /* -----  validar Materias MODAL AJAX -------*/
+  $('#btnSubject').click(function(e){
+    e.preventDefault();
+    var subject_name=$('#subject_name').val();
+
+
+ (subject_name.length<1) ? $('#subject_null').show() :
+    valSubject(subject_name,function(repitSubject){
+      repitSubject ? $('#subject_repit').show()+ $('#subject_null').hide()+ $('#ModRegisMate').modal('show'):
+       $('#subjectRegister').submit();
+  })
+})
+
+    /* -----  EDIT Materias MODAL AJAX -------*/
 
     $('#EditarMateria').on('show.bs.modal', function(event){
     var button = $(event.relatedTarget)

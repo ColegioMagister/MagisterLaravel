@@ -35,12 +35,12 @@
                         </td>
                         <td class="align-middle text-uppercase text-sm">
                             <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#EditarMateria" data-url='{{url('Subject/'.$subject->id)}}'
+                            data-bs-target="#EditarMateria" data-url='{{route('subjects.edit',$subject)}}'
                              data-send="{{route('subjects.ajax.edit', $subject)}}" enctype="multipart/form-data">
                             <i class="fa-solid fa-plus"></i> Editar
                             </button>
                             <form class="alertDelete" method="POST"
-                                action="{{ url('/Subject' . '/' . $subject->id) }}" accept-charset="UTF-8"
+                                action="{{route('subject.destroy',$subject) }}" accept-charset="UTF-8"
                                 style="display:inline">
                                 @method('DELETE')
                                 @csrf
@@ -68,24 +68,32 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header bg-gradient-primary">
-                <h5 class="modal-title text-white">Registrar Estudiante</h5>
+                <h5 class="modal-title text-white">Registrar Materia</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form role="form" class="text-start" method="POST" action="" enctype="multipart/form-data">
+            <form  id="subjectRegister" role="form" class="text-start" method="POST" action="{{route('subject.store')}}" enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <div class="modal-body">
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2">
                                 <label class="form-label">Materia</label>
-                                <input type="text" class="form-control" name="subject_name" required>
+                                <input  id="subject_name" type="text" class="form-control" name="subject_name" required>
                             </div>
+                            <span id="subject_repit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                La materia ya se encuentra registrado
+                            </span>
+                            <span id="subject_null" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Al menos 2 caracteres
+                            </span>
                         </div>
                     </div>
                 </div>  
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <input type="submit" value="Registrar" class="btn btn-primary">
+                    <input id="btnSubject" type="submit" value="Registrar" class="btn btn-primary">
                 </div>
             </form>
         </div>

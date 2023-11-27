@@ -97,10 +97,13 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 
 
 
-    Route::resource('/Subject',SubjectsController::class);
     Route::get('/Subject', [SubjectsController::class, 'index'])->name('subject.index');
-    Route::post('/Subject', [SubjectsController::class, 'store'])->name('subjet');
-    Route::get('/Subject/{subject}/editar', [SubjectsController::class, 'edit'])->name('subjects.ajax.edit');
+    Route::post('/check-subject', [SubjectsController::class, 'checkSubject'])->name('checkSubject');
+    Route::post('/Subject/registrar', [SubjectsController::class, 'store'])->name('subject.store');
+    Route::patch('/Subject/{subject}/editar', [SubjectsController::class, 'update'])->name('subjects.edit');
+    Route::get('/Subject/{subject}/editarAjax', [SubjectsController::class, 'edit'])->name('subjects.ajax.edit');
+    Route::delete('/Subject/{subject}/eliminar', [SubjectsController::class, 'destroy'])->name('subject.destroy');
+
 
 
     Route::resource('/SchoolYear',YearController::class);

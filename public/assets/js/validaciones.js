@@ -29,3 +29,17 @@ export function valUser(username, callback){
         }
     });
 }
+export function valSubject(subject_name, callback){
+    var token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: '/check-subject',
+        method: 'POST',
+        data:{
+            subject_name:subject_name,
+            _token:token
+        },
+        success: function(response){
+            callback(response.valueSubject);
+        }
+    });
+}
