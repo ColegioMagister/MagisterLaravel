@@ -84,9 +84,9 @@
                                 <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
                                 La materia ya se encuentra registrado
                             </span>
-                            <span id="subject_null" class="invalid-feedback" role="alert">
+                            <span id="subject_invalid" class="invalid-feedback" role="alert">
                                 <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                Al menos 2 caracteres
+                                Al menos 2 caracteres, solo se aceptan letras
                             </span>
                         </div>
                     </div>
@@ -124,9 +124,9 @@
                                 <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
                                 La materia ya se encuentra registrado
                             </span>
-                            <span id="subject_null_edit" class="invalid-feedback" role="alert">
+                            <span id="subject_invalid_edit" class="invalid-feedback" role="alert">
                                 <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
-                                Al menos 2 caracteres
+                                Al menos 2 caracteres, solo se aceptan letras
                             </span>
                         </div>
                     </div>

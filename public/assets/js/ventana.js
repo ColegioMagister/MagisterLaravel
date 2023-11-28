@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 
   const Email=/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-  const Letras=/^[A-Za-z\s]+$/;  
+  const Letras = /^[A-Za-z\u00C0-\u00FF\s]+$/;
   const Numeros = /^[0-9]+$/; //num enteros
 
 $(document).ready(function () {
@@ -538,9 +538,10 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
   $('#btnSubject').click(function(e){
     e.preventDefault();
     var subject_name=$('#subject_name').val();
-    (subject_name.length<1) ? $('#subject_null').show() :
+    var validSubject = Letras.test(subject_name);
+    (subject_name.length<1 || !validSubject) ? $('#subject_invalid').show() + $('#subject_repit').hide():
         valSubject(subject_name,function(repitSubject){
-          repitSubject ? $('#subject_repit').show()+ $('#subject_null').hide()+ $('#ModRegisMate').modal('show'):
+          repitSubject ? $('#subject_repit').show()+ $('#subject_invalid').hide()+ $('#ModRegisMate').modal('show'):
           $('#subjectRegister').submit();
       })
     })
@@ -577,17 +578,16 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
     $('#btnEditMateria').click(function(e){
       e.preventDefault();
 
-      var subject_edit =$('#subject_name_edit').val();
+      var subject_edit =$('#subject_name_edit').val().toUpperCase();
       var modal=$('#EditarMateria');
-      var valorOriginal = modal.find('#subject_name_edit').data('original-value');
+      var valorOriginal = modal.find('#subject_name_edit').data('original-value').toUpperCase();
+      var validSubject = Letras.test(subject_edit);
 
-      (subject_edit.length<1) ? $('#subject_null_edit').show() +$('#subject_repit_edit').hide() +
+      (subject_edit.length<1 || !validSubject ) ? $('#subject_invalid_edit').show() +$('#subject_repit_edit').hide() +
       $('#EditarMateria').modal('show') :
       (subject_edit ===valorOriginal) ? $('#edit-subject-form').submit() :
-
       valSubject(subject_edit, function(mateRepit){
-        mateRepit ?  $('#subject_null_edit').hide() +$('#subject_repit_edit').show() +
-        $('#EditarMateria').modal('show') :$('#edit-subject-form').submit();
+        mateRepit ?  $('#subject_invalid_edit').hide() +$('#subject_repit_edit').show()  :$('#edit-subject-form').submit();
       })
 
     })
