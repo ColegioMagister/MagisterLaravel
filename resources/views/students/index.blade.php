@@ -11,13 +11,13 @@
                         <h6 class="text-white text-capitalize ps-3">Alumnos</h6>
                     </div>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModRegAlumno">
-                        <i class="fa-solid fa-plus"></i> Ingresar
+                        <i class="fa-solid fa-plus"></i> Registrar
                     </button>
-                    <td class="align-middle text-uppercase text-sm">
+                    {{-- <td class="align-middle text-uppercase text-sm">
                         <a href="{{route('reportes.alumnos')}}" class="btn btn-primary" type="submit">
                             <i class="fa-solid fa-plus"></i> Descargar Lista de alumnos
                         </a>  
-                    </td>
+                    </td> --}}
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="table-responsive p-0">
@@ -31,7 +31,7 @@
                                     <th class="text-uppercase text-secondary ps-2 ">Género</th>
                                     <th class="text-uppercase text-secondary ps-2">Teléfono</th>
                                     <th class="text-uppercase text-secondary ps-2">Dni</th>
-                                    <th colspan=2 class="text-secondary opacity-7"></th>
+                                    <th colspan=4 class="text-secondary opacity-7"></th>
 
                                 </tr>
                             </thead>
@@ -56,15 +56,16 @@
                                     <td class="align-middle text-uppercase text-sm ">{{ $student->phone_number }}</td>
                                     <td class="align-middle text-uppercase text-sm ">{{ $student->dni }}</td>
                                     <td class="align-middle text-uppercase text-sm">
-                                    <a href="{{route('students.show',$student->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver</a>
+                                        <a href="{{route('students.show',$student->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver</a>
+
                                         <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#EditarEstudiante" data-url='{{url('Students/'.$student->id)}}'
+                                            data-bs-target="#EditarEstudiante" data-url='{{route('students.edit',$student)}}'
                                              data-send="{{route('students.ajax.edit', $student)}}" enctype="multipart/form-data">
                                              <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
                                         </button>
                                           
                                         <form class="alertDelete" method="POST"
-                                            action="{{ url('/Students' . '/' . $student->id) }}" accept-charset="UTF-8"
+                                            action="{{ route('students.destroy',$student) }}" accept-charset="UTF-8"
                                             style="display:inline">
                                             @method('DELETE')
                                             @csrf
@@ -72,12 +73,9 @@
                                                 title="Delete Student"><i class="fa fa-trash-o fa-xl"
                                         aria-hidden="true"></i> &nbsp; Eliminar</button>
                                         </form>
-                                    </td>
-
-                                    <td class="align-middle text-uppercase text-sm">
-                                        <a href="{{route('reportes.libreta', $student->id)}}" class="btn btn-primary" type="submit">
+                                        {{-- <a href="{{route('reportes.libreta', $student->id)}}" class="btn btn-primary" type="submit">
                                             <i class="fa-solid fa-plus"></i> Descargar
-                                        </a>  
+                                        </a>   --}}
                                     </td>
                                 <tr>
                                 @endforeach
@@ -100,7 +98,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- #para que cargue  -->
-            <form role="form" class="text-start" method="POST" action="{{ url('Students') }}"
+            <form id="student_register" role="form" class="text-start" method="POST" action="{{route('students.store') }}"
                 enctype="multipart/form-data">
                 {!! csrf_field() !!}
                 <div class="modal-body">
@@ -108,42 +106,75 @@
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control" name="name" required>
+                                <input id="name" type="text" class="form-control" name="name" required>
                             </div>
+                            <span id="name_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan letras
+                            </span>
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-outline">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" name="lastname" required>
+                                <input id="lastname" type="text" class="form-control" name="lastname" required>
                             </div>
+                            <span id="lastname_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan letras
+                            </span>
                         </div>
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label ">Nacimiento</label>
-                                <input type="date" class="form-control" name="bithdate" required>
+                                <input id="birthday" type="date" class="form-control" name="bithdate" required>
                             </div>
+                            <span id="date_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Escoja una fecha
+                            </span>
                         </div>
-                        <div class="col-4">
-                            <div class="input-group input-group-outline me-2 focused is-focused">
-                                <select class="form-control" name="gender" required>
-                                    <option selected disabled>Genero</option>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline focused is-focused">
+                                <select id="gender" class="form-control" name="gender" required>
+                                    <option value="" selected disabled>Genero</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
                                 </select>
                             </div>
+                            <span id="gender_null" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Seleccione una opción
+                            </span>
                         </div>
-                        <div class="col-4">
+                       
+                    </div>
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2">
+                                <label class="form-label">Dni</label>
+                                <input id="dni" type="text" class="form-control" name="dni" required>
+                            </div>
+                            <span id="dni_invalid" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Debe tener 8 numeros
+                            </span>
+                            <span id="dni_repit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Dni ya se encuentra registrado
+                            </span>
+                        </div>
+                        <div class="col-6">
                             <div class="input-group input-group-outline">
                                 <label class="form-label">Celular</label>
-                                <input type="number" class="form-control" name="phone_number" required>
+                                <input id="phone" type="text" class="form-control" name="phone_number" required>
                             </div>
+                            <span id="phone_invalid" class="invalid-feedback"  role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Debe tener 9 numeros
+                            </span>
                         </div>
-                    </div>
-                    <div class="input-group input-group-outline mb-3">
-                        <label class="form-label">dni</label>
-                        <input type="number" class="form-control" name="dni" required>
                     </div>
                     <span class="text-secondary text-xs ms-1" for="url_img">Foto del Alumno</span>
                     <div class="input-group input-group-outline mb-3">
@@ -153,7 +184,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <input type="submit" value="Registrar" class="btn btn-primary">
+                    <input id="btnStudent" type="submit" value="Registrar" class="btn btn-primary">
                 </div>
             </form>
         </div>

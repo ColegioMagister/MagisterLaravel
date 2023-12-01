@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\{Employee,Roles,Subject};
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -81,8 +82,19 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        
+        $validator=Validator::make($request->all(),[
+            'id_role'=>'required|string',
+            'name'=>'required|string',
+            'lastname'=>'required|string',
+            'email'=>'required|email|unique:employees',
+            'phone_number'=>'required|integer',
+            'url_img'=>'required|image',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        $validatedData = $validator->validated();
+
         if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
         $imagen = $request->file('url_img');
         $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
@@ -90,11 +102,11 @@ class UserController extends Controller
 
         $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
 
-        $input['url_img'] = $rutaArchivo;
+        $validatedData['url_img'] = $rutaArchivo;
         }else {
-            $input['url_img'] = 'assets/img/login-bg/default.png'; 
+            $validatedData['url_img'] = 'assets/img/login-bg/default.png'; 
         }
-        Employee::create($input);
+        Employee::create($validatedData);
         return redirect()->route('teacher.index')->with('flash_message', 'Addedd!');
     }
 
@@ -154,7 +166,20 @@ class UserController extends Controller
      */
     public function update(Request $request, Employee $employee)
     {
-        $input = $request->all();
+        $validator = Validator::make($request->all(), [
+            'id_role' => 'required|string',
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'email' => 'required|email|unique:employees,email,'.$employee->id,
+            'phone_number' => 'required|integer',
+            'url_img' => 'nullable|image',
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
+        $validatedData = $validator->validated();
+
 
         if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
             $imagen = $request->file('url_img');
@@ -169,12 +194,12 @@ class UserController extends Controller
                 }
             }
             $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
-            $input['url_img'] = $rutaArchivo;
+            $validatedData['url_img'] = $rutaArchivo;
         } else {
-            $input['url_img'] = $employee->url_img;
+            $validatedData['url_img'] = $employee->url_img;
         }
 
-        $employee->update($input);
+        $employee->update($validatedData);
         return redirect()->route('teacher.index')->with('flash_message', 'Updated!');
     }
 
@@ -195,7 +220,7 @@ class UserController extends Controller
                 unlink(public_path($imagen));
             }
         }
-        return redirect()->route('teacher.index')->with('flash_message', 'Deleted!');  
+        return redirect()->route('teacher.index')->with('flash_message', 'deleted!');  
     }
 
     public function destroySubject(Employee $employee,Subject $subject)

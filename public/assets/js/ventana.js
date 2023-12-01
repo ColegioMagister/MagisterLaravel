@@ -1,4 +1,4 @@
-import { valTeacher,valUser,valSubject } from "./validaciones.js";
+import { valTeacher,valUser,valSubject,valStudent } from "./validaciones.js";
 
 
 $(document).ready(function () {
@@ -148,9 +148,41 @@ $(document).ready(function () {
   });
 });
 
+$(document).ready(function () {
+
+
+      /* -----  VAlidar Estudiante MODAL AJAX -------*/
+    $('#btnStudent').click(function(e){
+      e.preventDefault();
+      let name=$('#name').val();
+      let lastname=$('#lastname').val();
+      let birthday=$('#birthday').val();
+      let phone=$('#phone').val();
+      let dni=$('#dni').val();
+      let gender=$('#gender').val();
+
+      let validName=Letras.test(name);
+      let validLastname =Letras.test(lastname);
+      let validPhone =Numeros.test(phone);
+      let validDni =Numeros.test(dni);
+
+      valStudent(dni,function(repitDni){
+        (validName && validLastname && validPhone && validDni && birthday!="" && gender!=null && 
+        !repitDni && phone.length===9 &&dni.length===8) ? $('#student_register').submit():
+           $('#ModRegAlumno').modal('show');
+          !validName ?  $('#name_invalid').show() :  $('#name_invalid').hide();
+          !validLastname ?  $('#lastname_invalid').show() :  $('#lastname_invalid').hide();
+          birthday==="" ?  $('#date_invalid').show() :  $('#date_invalid').hide();
+          gender===null ?  $('#gender_null').show() :  $('#gender_null').hide();
+          repitDni ?  $('#dni_repit').show() + $('#dni_invalid').hide()  : $('#dni_repit').hide();
+         ( !validDni || dni.length!=8 )?  $('#dni_repit').hide() + $('#dni_invalid').show()  : $('#dni_invalid').hide();
+         ( !validPhone || phone.length!=9)? $('#phone_invalid').show()  : $('#phone_invalid').hide();
+        
+      })
+
+    })
 
   /* -----  EDIT ESTUDIANTE MODAL AJAX -------*/
-  
 
   $('#EditarEstudiante').on('show.bs.modal', function(event){
 	var button = $(event.relatedTarget)
@@ -189,7 +221,7 @@ $(document).ready(function () {
   
   });
 
-
+});
   /* -----  EDIT AÑO ESCOLAR MODAL AJAX -------*/
 
 $('#EditarAñoEs').on('show.bs.modal', function(event){

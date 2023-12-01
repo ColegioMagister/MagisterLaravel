@@ -10,7 +10,7 @@
                         <h6 class="text-white text-capitalize ps-3">Profesores</h6>
                     </div>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModRegTeacher">
-                        <i class="fa-solid fa-plus"></i> &nbsp; Ingresar
+                        <i class="fa-solid fa-plus"></i> &nbsp; Registrar
                     </button>
                 </div>
     <div class="card-body px-0 pb-2">
@@ -24,7 +24,7 @@
                 <th class="text-uppercase text-secondary ps-2 ">Apellidos</th>
                 <th class="text-uppercase text-secondary ps-2">Email</th>
                 <th class="text-uppercase text-secondary ps-2">Telefono</th>
-                <th colspan=2 class="text-secondary opacity-7"></th>
+                <th colspan=5 class="text-secondary opacity-7"></th>
                 </tr>
             </thead>
             <tbody>
@@ -36,7 +36,7 @@
                         <td >
                             <div class="d-flex px-2 py-1">
                                 <div>
-                                    <img src="{{ $employee->url_img}}   " class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
+                                    <img src="{{ $employee->url_img}}" class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
                                 </div>
                                 <div class="d-flex flex-column justify-content-center">
                                         <h6 class="mb-0 text-sm">{{ $employee->name }}</h6>
@@ -51,24 +51,22 @@
                         </td>  
                         <td class="align-middle text-uppercase text-sm">
                         
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#EditarProfesor" data-url="{{route('teacher.edit', $employee)}}"
-                            data-send="{{route('teacher.ajax.edit', $employee)}}" enctype="multipart/form-data">
-                            <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
-                    </button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#EditarProfesor" data-url="{{route('teacher.edit', $employee)}}"
+                                data-send="{{route('teacher.ajax.edit', $employee)}}" enctype="multipart/form-data">
+                                <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
+                            </button>
+                            <button type="button" class="btn btn-primary ms-2 me-2"
+                                data-bs-toggle="modal" data-bs-target="#SubjectTeacherModal"
+                                data-url="{{ route('teacher.AddSubjec', [$employee]) }}"
+                                data-send="{{ route('teacher.AddSubjectAjax', [$employee]) }}">
+                            <i class="fa-solid fa-chalkboard-user fa-xl"></i> &nbsp; Asignar Cursos
+                            </button>
                     
-                        <button type="button" class="btn btn-primary ms-2 me-2"
-                            data-bs-toggle="modal" data-bs-target="#SubjectTeacherModal"
-                            data-url="{{ route('teacher.AddSubjec', [$employee]) }}"
-                            data-send="{{ route('teacher.AddSubjectAjax', [$employee]) }}">
-                        <i class="fa-solid fa-chalkboard-user fa-xl"></i> &nbsp; Asignar Cursos
-                </button>
-                
-                    <a class="btn btn-success me-3" href="{{ route('teacher.teacherSubject', $employee->id)}}">
-                        <i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver Cursos a cargo
-                    </a>
+                            <a class="btn btn-success me-3" href="{{ route('teacher.teacherSubject', $employee->id)}}">
+                                <i class="fa-solid fa-eye fa-xl"></i> &nbsp; Ver Cursos a cargo
+                            </a>
                   
-                        <td class="align-middle text-uppercase text-sm">
                             <form  class="alertDelete" method="POST" action="{{route('teacher.destroy',$employee) }}" accept-charset="UTF-8" style="display:inline">
                                 {{ method_field('DELETE') }}
                                 {{ csrf_field() }}
@@ -76,8 +74,6 @@
                                         aria-hidden="true"></i> &nbsp; Eliminar</button>
                             </form>
                         </td>
-                    </td>
-
                     <tr>
                  @endforeach  
             </tbody>
@@ -118,7 +114,7 @@
                                 <select class="form-control" name="id_role"  id="id_role" required >
                                         <option value="" selected disabled>  Elige un Rol </option>
                                     @foreach($roles as $rol)
-                                        <option  id="id_role" value="{{$rol->id}}" required> {{$rol->id}} - {{$rol->role_name}}</option>
+                                        <option  value="{{$rol->id}}" required> {{$rol->id}} - {{$rol->role_name}}</option>
                                     @endforeach
                                 </select>
                             </div>

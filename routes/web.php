@@ -38,10 +38,14 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::delete('/Employees/{user}/delete',[EmployeesController::class, 'destroy'])->name('user.destroy');
 
 
-    Route::resource("/Students", StudentController::class);
     Route::get('/Students', [StudentController::class, 'index'])->name('students.index');
-    Route::get('/Students/{student}/editar', [StudentController::class, 'edit'])->name('students.ajax.edit');
+    Route::post('/check-student', [StudentController::class, 'checkStudent'])->name('checkStudent');
+    Route::post('/Students/registrar', [StudentController::class, 'store'])->name('students.store');
+    Route::get('/Students/{student}/editarAjax', [StudentController::class, 'edit'])->name('students.ajax.edit');
+    Route::patch('/Students/{student}/editar', [StudentController::class, 'update'])->name('students.edit');
     Route::get('/Student/{student}', [StudentController::class, 'show'])->name('students.show');
+    Route::delete('/Student/{student}/delete',[StudentController::class, 'destroy'])->name('students.destroy');
+
 
     Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');
     Route::post('/check-teacher', [UserController::class, 'checkTeacher'])->name('checkTeacher');
@@ -127,9 +131,6 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 Route::group(['middleware' => ['auth', 'check.role:Profesor']], function () {
 
     Route::get('/HomeTeacher', [GeneralDataController::class, 'indexTeacher'])->name('homeTeacher');
-
-
-
     Route::get('/Teacher', [TeacherSectionController::class, 'index'])->name('teacherView.index');
     Route::get('/TeacherPeriodo/{school_period}', [TeacherSectionController::class, 'show'])->name('teacherView.section');
     Route::get('/TeacherSeccion/{section}', [TeacherSectionController::class, 'showDetails'])->name('teacherView.subject');

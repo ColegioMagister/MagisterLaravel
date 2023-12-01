@@ -16,7 +16,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::all();
-        return view ('students.index')->with('students', $students);
+        return view('students.index')->with('students', $students);
     }
     
 
@@ -97,6 +97,11 @@ class StudentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function checkStudent(Request $request){
+        $dni=$request->input('dni');
+        $valueDni=Student::where('dni',$dni)->exists();
+        return response()->json(['valueDni'=>$valueDni]);
+    }
     public function store(Request $request)
     {
         $input = $request->all();
@@ -114,7 +119,8 @@ class StudentController extends Controller
         }
 
         Student::create($input);
-        return redirect('Students')->with('flash_message', 'Addedd!');
+        return redirect()->route('students.index')->with('flash_message', 'Addedd!');
+
     }
 
     /**
@@ -170,7 +176,8 @@ class StudentController extends Controller
     }
 
     $student->update($input);
-    return redirect('Students')->with('flash_message', 'Updated!');
+    return redirect()->route('students.index')->with('flash_message', 'Updated!');
+
     }
 
     
@@ -186,7 +193,8 @@ class StudentController extends Controller
             }
         }
         
-        return redirect('Students')->with('flash_message', 'deleted!');  
+        return redirect()->route('students.index')->with('flash_message', 'deleted!');
+
     }
     
 }

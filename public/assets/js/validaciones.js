@@ -43,3 +43,18 @@ export function valSubject(subject_name, callback){
         }
     });
 }
+
+export function valStudent(dni, callback){
+    var token = $('meta[name="csrf-token"]').attr('content');
+    $.ajax({
+        url: '/check-student',
+        method: 'POST',
+        data:{
+            dni:dni,
+            _token:token
+        },
+        success: function(response){
+            callback(response.valueDni);
+        }
+    });
+}

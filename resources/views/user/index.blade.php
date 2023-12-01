@@ -12,7 +12,7 @@
                     </div>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
                         data-bs-target="#ModRegUsuario">
-                        <i class="fa-solid fa-plus"></i> &nbsp; Ingresar
+                        <i class="fa-solid fa-plus"></i> &nbsp; Registrar
                     </button>
                 </div>
                 <div class="card-body px-0 pb-2">
