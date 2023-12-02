@@ -88,7 +88,7 @@ class UserController extends Controller
             'lastname'=>'required|string',
             'email'=>'required|email|unique:employees',
             'phone_number'=>'required|integer',
-            'url_img'=>'required|image',
+            'url_img'=>'nullable|image',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
