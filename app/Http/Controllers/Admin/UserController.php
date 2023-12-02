@@ -174,9 +174,7 @@ class UserController extends Controller
             'phone_number' => 'required|integer',
             'url_img' => 'nullable|image',
         ]);
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
+  
         
         $validatedData = $validator->validated();
 
@@ -187,7 +185,7 @@ class UserController extends Controller
             $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
     
             // Eliminar imagen anterior
-            if ($employee->url_img != '') {
+            if ($employee->url_img != 'assets/img/login-bg/default.png') {
                 $rutaImagenAnterior = public_path($employee->url_img);
                 if (file_exists($rutaImagenAnterior)) {
                     unlink($rutaImagenAnterior);

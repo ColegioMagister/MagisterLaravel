@@ -163,7 +163,7 @@ class StudentController extends Controller
         $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
         $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
 
-        if ($student->url_img != '') {
+        if ($student->url_img != 'assets/img/login-bg/default.png') {
             $rutaImagenAnterior = public_path($student->url_img);
             if (file_exists($rutaImagenAnterior)) {
                 unlink($rutaImagenAnterior);
