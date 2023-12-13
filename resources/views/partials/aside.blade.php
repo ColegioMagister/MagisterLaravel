@@ -34,9 +34,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-white {{setActive('schoolYear.*')}}" 
-          href="#
-          {{-- {{ route('schoolYear.index') }} --}}
-          "
+          href="{{ route('schoolYear.index') }}"
           >
             <div class="text-white text-center ms-1 me-2 d-flex align-items-center justify-content-center">
               <i class="fa-regular fa-calendar-days"></i>
@@ -56,8 +54,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white {{setActive('assessment.*')}}" href="#
-          {{-- {{ route('assessment.index') }} --}}
+          <a class="nav-link text-white {{setActive('assessment.*')}}" href="{{ route('assessment.index') }}
           ">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa-solid fa-file-pen"></i>

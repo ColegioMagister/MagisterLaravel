@@ -31,12 +31,13 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 
     Route::get('/Home', [GeneralDataController::class, 'index'])->name('data.index');
 
-    Route::get('/Employees', [EmployeesController::class, 'index'])->name('user.index');
-    Route::get('/user/{user}', [EmployeesController::class, 'show'])->name('user.show');
-    Route::post('/check-user', [EmployeesController::class, 'checkUsuario'])->name('checkUsuario');
-    Route::post('/Employees/registrar', [EmployeesController::class, 'store'])->name('user.store');
-    Route::delete('/Employees/{user}/delete',[EmployeesController::class, 'destroy'])->name('user.destroy');
-
+    Route::controller(EmployeesController::class)->group(function () {
+        Route::get('/Employees', 'index')->name('user.index');
+        Route::get('/user/{user}', 'show')->name('user.show');
+        Route::post('/check-user', 'checkUsuario')->name('checkUsuario');
+        Route::post('/Employees/registrar', 'store')->name('user.store');
+        Route::delete('/Employees/{user}/delete', 'destroy')->name('user.destroy');
+    });
 
     Route::get('/Students', [StudentController::class, 'index'])->name('students.index');
     Route::post('/check-student', [StudentController::class, 'checkStudent'])->name('checkStudent');
@@ -61,11 +62,6 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::delete('/Profesor/Materias/Eliminar/{employee}/{subject}', [UserController::class, 'destroySubject'])->name('teacher.deleteSubject');
     Route::post('/Profesor/AsignarMateria/{employee}', [UserController::class, 'AsignarSubject'])->name('teacher.AddSubjec');
     Route::get('/Profesor/AsignarMateriaAjax/{employee}', [UserController::class, 'AsignarSubjectAjax'])->name('teacher.AddSubjectAjax');
-
-
-    Route::get('/Quota', [QuotaController::class, 'index'])->name('quota.index');
-    Route::get('/Schedule', [ScheduleController::class, 'index'])->name('schedule.index');
-
 
     Route::get('/Sections', [SectionController::class, 'index'])->name('sections.principalIndex');
     Route::get('/Sections/periodo/{school_period}', [SectionController::class, 'innerShow'])->name('sections.index');

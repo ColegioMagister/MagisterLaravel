@@ -31,7 +31,7 @@
                             <tbody>
                                 @foreach ($assessments as $assessment)
                                 <tr>
-                                    <td class="align-middle text-center text-sm">{{$assessment->id}}</td>
+                                    <td class="align-middle text-center text-sm">{{$loop->iteration}}</td>
                                     <td class="align-middle text-uppercase text-sm">
                                         {{$assessment->assessment_name}}
                                     </td>
@@ -89,25 +89,30 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- #para que cargue  -->
-            <form role="form" class="text-start" method="POST" action="{{route('assessment.store')}}">
+            <form id="reg_assessment_form" role="form" class="text-start" method="POST" action="{{route('assessment.store')}}">
                 @csrf
 
                 <div class="modal-body">
-
-                    <div class="input-group input-group-outline mb-3 focused is-focused">
+                    <div class="input-group input-group-outline mb-3">
                         <label class="form-label">Tipo de evaluación</label>
-                        <input type="text" class="form-control" name="assessment_name" required>
+                        <input id="assessment_name" type="text" class="form-control" name="assessment_name" required>
+                        <span id="assessment_invalid" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            Solo letras, solo 1 número al final (opcional)
+                        </span>
                     </div>
-
                     <div class="input-number">
                         <label>Valor (%) (1-100): </label>
-                        <input class="d-block" type="number" min="1" max="100" step="0.1" name="assessment_value" required>
+                        <input id="assessment_value" class="d-block" type="number" min="1" max="100" step="0.1" name="assessment_value" required>
+                        <span id="value_invalid" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            Solo se acepta números del 1 a 100
+                        </span>
                     </div>
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <input type="submit" value="Registrar" class="btn btn-primary">
+                    <input id="btnTypeEva" type="submit" value="Registrar" class="btn btn-primary">
                 </div>
             </form>
         </div>
@@ -130,20 +135,26 @@
                 <div class="modal-body">
                     <div class="input-group input-group-outline mb-3 focused is-focused">
                         <label class="form-label">Tipo de evaluación</label>
-                        <input type="text" class="form-control name" name="assessment_name" required>
+                        <input id="assessment_name_edit" type="text" class="form-control name" name="assessment_name" required>
+                        <span id="assessment_invalid_edit" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            Solo letras, solo 1 numero al final (opcional)
+                        </span>
                     </div>
-
                     <div class="input-number">
                         <label>Valor (%) (1-100): </label>
-                        <input class="d-block value" type="number" min="1" max="100" step="1" name="assessment_value" required>
+                        <input id="assessment_value_edit" class="d-block value" type="number" min="1" max="100" step="0.1" name="assessment_value" required>
+                        <span id="value_invalid_edit" class="invalid-feedback" role="alert">
+                            <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                            Solo se acepta numeros del 1 a 100
+                        </span>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <input type="submit" value="Guardar" class="btn btn-primary">
+                    <input id="editBtnTypeEva" type="submit" value="Guardar" class="btn btn-primary">
                 </div>
-
             </form>
         </div>
     </div>

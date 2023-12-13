@@ -37,16 +37,15 @@
                             <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#EditarMateria" data-url='{{route('subjects.edit',$subject)}}'
                              data-send="{{route('subjects.ajax.edit', $subject)}}" enctype="multipart/form-data">
-                            <i class="fa-solid fa-plus"></i> Editar
+                             <i class="fa-solid fa-pencil fa-xl"></i> &nbsp; Editar
                             </button>
                             <form class="alertDelete" method="POST"
                                 action="{{route('subject.destroy',$subject) }}" accept-charset="UTF-8"
                                 style="display:inline">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger"
-                                    title="Delete Subject"><i class="fa fa-trash-o"
-                                        aria-hidden="true"></i>Eliminar</button>
+                                <button type="submit" class="btn btn-danger" title="Delete Subject">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>&nbsp; Eliminar</button>
                             </form>
                         </td>
                     <tr>

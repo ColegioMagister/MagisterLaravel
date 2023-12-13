@@ -48,13 +48,14 @@
                         </td>
                         
                         <td class="align-middle text-uppercase text-sm">
-                            <a href="{{route('schoolYear.show',$school_period->id)}}" class="btn btn-success"><i class="fa-solid fa-eye fa-xl"></i>Ver</a>
+                            <a href="{{route('schoolYear.show',$school_period->id)}}" class="btn btn-success">
+                                <i class="fa-solid fa-eye fa-xl"></i>  &nbsp;Ver</a>
 
 
                             <button type="submit" class="btn btn-primary" data-bs-toggle="modal"
                                 data-bs-target="#EditarAñoEs" data-url='{{url('SchoolYear/'.$school_period->id)}}'
                                     data-send="{{route('school_periods.ajax.edit', $school_period)}}" enctype="multipart/form-data">
-                                <i class="fa-solid fa-plus"></i> Editar
+                                    <i class="fa-solid fa-pencil fa-xl"></i> &nbsp;  Editar
                             </button>
 
 
@@ -65,9 +66,8 @@
                                 style="display:inline">
                                 @method('DELETE')
                                 @csrf
-                                <button type="submit" class="btn btn-danger""
-                                    title="Delete SchoolYear"><i class="fa fa-trash-o"
-                                        aria-hidden="true"></i>Eliminar</button>
+                                <button type="submit" class="btn btn-danger" title="Delete SchoolYear">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i> &nbsp;Eliminar</button>
                             </form>
                         </td>
 
@@ -114,18 +114,21 @@
                 <div class="modal-body">
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
-                            <div class="input-group input-group-outline me-2 focused is-focused">
+                            <div class="input-group input-group-outline me-2">
                                 <select class="form-control" name="period_name" required>
-                                    <option selected disabled>Codigo de Periodo</option>
+                                    <option value="" selected disabled>Codigo de Periodo</option>
                                     <option value="2023-I">2023-I</option>
                                     <option value="2023-II">2023-II</option>
                                     <option value="2023-III">2023-III</option>
                                     <option value="2023-IV">2023-IV</option>
+                                    <option value="2024-I">2024-I</option>
+                                    <option value="2024-II">2024-II</option>
+
                                 </select>
                             </div>
                         </div>
                         <div class="col-6">
-                        <div class="input-group input-group-outline me-2">
+                        <div class="input-group input-group-outline me-2 is-focused">
                                 <label class="form-label ">Fecha de Inicio</label>
                                 <input type="date" class="form-control" name="start_date" required>
                             </div>
@@ -133,7 +136,7 @@
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
-                            <div class="input-group input-group-outline me-2">
+                            <div class="input-group input-group-outline me-2  is-focused">
                                 <label class="form-label ">Fecha de Finalizacion </label>
                                 <input type="date" class="form-control" name="end_date" required>
                             </div>
@@ -142,7 +145,7 @@
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <select class="form-control" name="status" required>
-                                    <option selected disabled>Estado</option>
+                                    <option value="" selected  disabled>Estado</option>
                                     <option value="1">Activo</option>
                                     <option value="0">Inactivo</option>
                                 </select>
@@ -179,7 +182,7 @@
                 <div class="modal-body">
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
-                            <div class="input-group input-group-outline me-2 focused is-focused">
+                            <div class="input-group input-group-outline me-2 is-focused">
                                 <select class="form-control"  name="id" >
                                     <option class="period_select" selected disabled value="" >Codigo de Periodo</option>
                                     @foreach ($school_periods as $school_period)
@@ -189,7 +192,7 @@
                             </div>
                         </div>
                         <div class="col-6">
-                        <div class="input-group input-group-outline me-2">
+                        <div class="input-group input-group-outline me-2  is-focused">
                                 <label class="form-label ">Fecha de Inicio</label>
                                 <input type="date" class="form-control start_date" name="start_date" >
                             </div>
@@ -197,14 +200,14 @@
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
                         <div class="col-6">
-                            <div class="input-group input-group-outline me-2">
+                            <div class="input-group input-group-outline me-2 is-focused ">
                                 <label class="form-label ">Fecha de Finalizacion </label>
                                 <input type="date" class="form-control end_date" name="end_date" >
                             </div>
                         </div>
 
                         <div class="col-6">
-                            <div class="input-group input-group-outline me-2 focused is-focused">
+                            <div class="input-group input-group-outline me-2 focused">
                                 <select class="form-control status" name="status" >
                                     <option selected disabled>Estado</option>
                                     <option value="1">Activo</option>
@@ -215,7 +218,6 @@
                     </div>
                    
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">

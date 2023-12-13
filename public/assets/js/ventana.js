@@ -37,7 +37,7 @@ $(document).ready(function () {
 
 
   const Email=/^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/;
-  const Letras = /^[A-Za-z\u00C0-\u00FF\s]+$/;
+  const Letras = /^[A-Za-z\u00C0-\u00FF\s]+$/; // acepta ñ
   const Numeros = /^[0-9]+$/; //num enteros
 
 $(document).ready(function () {
@@ -149,8 +149,6 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
-
-
       /* -----  VAlidar Estudiante MODAL AJAX -------*/
     $('#btnStudent').click(function(e){
       e.preventDefault();
@@ -209,6 +207,7 @@ $(document).ready(function () {
 			modal.find('.birthdate').val(birthdate)
 			modal.find('.gender').val(gender)
 			modal.find('.phone_number').val(phone)
+      modal.find('.dni').data('original-value',dni);
 			modal.find('.dni').val(dni)
 			modal.find('#previewImage').attr('src', url_img)
 		},
@@ -216,12 +215,117 @@ $(document).ready(function () {
 
 		}
 	})
-
 	modal.find('#edit-students-form').attr('action', url)
-  
   });
 
+    /* -----  validar ESTUDIANTE MODAL AJAX -------*/
+
+  $('#btnEditStudent').click(function(e){
+    e.preventDefault();
+    let name=$('#name_edit').val();
+    let lastname=$('#lastname_edit').val();
+    let birthday=$('#birthday_edit').val();
+    let phone=$('#phone_edit').val();
+    let dni=$('#dni_edit').val();
+    let gender=$('#gender_edit').val();
+    let modal = $('#EditarEstudiante');
+
+    let valorOriginal = modal.find('#dni_edit').data('original-value');
+
+
+    let validName=Letras.test(name);
+    let validLastname =Letras.test(lastname);
+    let validPhone =Numeros.test(phone);
+    let validDni =Numeros.test(dni);
+
+      valStudent(dni, function(repitDni){
+        if(((repitDni) &&(dni!=valorOriginal) )|| (!validName || !validLastname || !validPhone || !validDni || birthday==="" || gender ===null || phone.length!=9 || dni.length!=8)){
+          $('#EditarEstudiante').modal('show');
+          !validName ?  $('#name_invalid_edit').show() :  $('#name_invalid_edit').hide();
+          !validLastname ?  $('#lastname_invalid_edit').show() :  $('#lastname_invalid_edit').hide();
+          birthday==="" ?  $('#date_invalid_edit').show() :  $('#date_invalid_edit').hide();
+          gender===null ?  $('#gender_null_edit').show() :  $('#gender_null_edit').hide();
+         ( !validDni || dni.length!=8 )?  $('#dni_repit').hide() + $('#dni_invalid_edit').show()  : $('#dni_invalid_edit').hide();
+         ( !validPhone || phone.length!=9)? $('#phone_invalid_edit').show()  : $('#phone_invalid_edit').hide();
+         ((repitDni) &&(dni!=valorOriginal))? $('#dni_repit_edit').show() + $('#dni_invalid_edit').hide()  : $('#dni_repit_edit').hide();
+        }else{
+          $('#edit-students-form').submit();
+        }
+
+      })
+  })
+
+
 });
+
+
+$(document).ready(function () {
+  const Type_eva= /^[a-zA-Z\s]+(\d)?$/; // letras , puede aceptar solo un numero al final
+
+  //validar tipo de evaluacion
+  $('#btnTypeEva').click(function(e){
+    e.preventDefault();
+    let assessment=$('#assessment_name').val();
+    let assessment_value=$('#assessment_value').val();
+
+
+    let validAsessment=Type_eva.test(assessment);
+    let validValue=Numeros.test(assessment_value);
+
+    if(!validAsessment || !validValue ||assessment_value<= 0 || assessment_value > 100){
+      $('#AssessmentRegisterModal').modal('show');
+      !validAsessment ?  $('#assessment_invalid').show() : $('#assessment_invalid').hide();
+      !validValue ||assessment_value<= 0 || assessment_value > 100?  $('#value_invalid').show() : $('#value_invalid').hide();
+    } else{
+      $('#reg_assessment_form').submit();
+    }
+  });
+  
+    /* ------ EDIT ASSESSMENT TYPE MODAL  ----------*/
+    $('#AssessmentEditModal').on('show.bs.modal', function(event){
+      var button = $(event.relatedTarget)
+      var url = button.data('url')
+      var getDataUrl = button.data('send')
+      var modal = $(this)
+
+      $.ajax({
+        type: 'GET',
+        url: getDataUrl,
+        dataType: 'JSON',
+        success: function(data)
+        {
+          var name = data.name
+          var value = data.value
+          modal.find('.name').val(name);
+          modal.find('.value').val(value)
+        }
+      })
+      modal.find('#editAssessmentForm').attr('action', url)
+    });
+
+      
+  //validar Editar tipo de evaluacion
+  $('#editBtnTypeEva').click(function(e){
+    e.preventDefault();
+    let assessment=$('#assessment_name_edit').val();
+    let assessment_value=$('#assessment_value_edit').val();
+
+
+    let validAsessment=Type_eva.test(assessment);
+    let validValue=Numeros.test(assessment_value);
+
+    if(!validAsessment || !validValue ||assessment_value<= 0 || assessment_value > 100){
+      $('#AssessmentEditModal').modal('show');
+      !validAsessment ?  $('#assessment_invalid_edit').show() : $('#assessment_invalid_edit').hide();
+      !validValue ||assessment_value<= 0 || assessment_value > 100?  $('#value_invalid_edit').show() : $('#value_invalid_edit').hide();
+    } else{
+      $('#editAssessmentForm').submit();
+    }
+  })
+});
+
+
+
   /* -----  EDIT AÑO ESCOLAR MODAL AJAX -------*/
 
 $('#EditarAñoEs').on('show.bs.modal', function(event){
@@ -359,33 +463,6 @@ $('#EditarAñoEs').on('show.bs.modal', function(event){
     });
 
 
-
-
-    /* ------ EDIT ASSESSMENT TYPE MODAL  ----------*/
-
-
-
-    $('#AssessmentEditModal').on('show.bs.modal', function(event){
-      var button = $(event.relatedTarget)
-      var url = button.data('url')
-      var getDataUrl = button.data('send')
-      var modal = $(this)
-
-      $.ajax({
-        type: 'GET',
-        url: getDataUrl,
-        dataType: 'JSON',
-        success: function(data)
-        {
-          var name = data.name
-          var value = data.value
-          modal.find('.name').val(name);
-          modal.find('.value').val(value)
-        }
-      })
-      modal.find('#editAssessmentForm').attr('action', url)
-
-    })
 
 
 

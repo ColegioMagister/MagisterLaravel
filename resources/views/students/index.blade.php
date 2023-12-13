@@ -13,11 +13,11 @@
                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#ModRegAlumno">
                         <i class="fa-solid fa-plus"></i> Registrar
                     </button>
-                    {{-- <td class="align-middle text-uppercase text-sm">
+                    <td class="align-middle text-uppercase text-sm">
                         <a href="{{route('reportes.alumnos')}}" class="btn btn-primary" type="submit">
                             <i class="fa-solid fa-plus"></i> Descargar Lista de alumnos
                         </a>  
-                    </td> --}}
+                    </td>
                 </div>
                 <div class="card-body px-0 pb-2">
                     <div class="table-responsive p-0">
@@ -73,9 +73,9 @@
                                                 title="Delete Student"><i class="fa fa-trash-o fa-xl"
                                         aria-hidden="true"></i> &nbsp; Eliminar</button>
                                         </form>
-                                        {{-- <a href="{{route('reportes.libreta', $student->id)}}" class="btn btn-primary" type="submit">
+                                        <a href="{{route('reportes.libreta', $student->id)}}" class="btn btn-primary" type="submit">
                                             <i class="fa-solid fa-plus"></i> Descargar
-                                        </a>   --}}
+                                        </a>  
                                     </td>
                                 <tr>
                                 @endforeach
@@ -215,44 +215,74 @@
                         <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label">Nombres</label>
-                                <input type="text" class="form-control name" name="name">
+                                <input id="name_edit" type="text" class="form-control name" name="name">
                             </div>
+                            <span id="name_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan letras
+                            </span>
                         </div>
                         <div class="col-6">
                             <div class="input-group input-group-outline focused is-focused">
                                 <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control lastname" name="lastname">
+                                <input id="lastname_edit" type="text" class="form-control lastname" name="lastname">
                             </div>
+                            <span id="lastname_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Solo se aceptan letras
+                            </span>
                         </div>
                     </div>
                     <div class="input-group input-group-outline mt-2 mb-4">
-                        <div class="col-4">
+                        <div class="col-6">
                             <div class="input-group input-group-outline me-2 focused is-focused">
                                 <label class="form-label">Nacimiento</label>
-                                <input type="date" class="form-control birthdate" name="bithdate">
+                                <input id="birthday_edit" type="date" class="form-control birthdate" name="bithdate">
                             </div>
+                            <span id="date_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Escoja una fecha
+                            </span>
                         </div>
-
-                        <div class="col-4">
-                            <div class="input-group input-group-outline me-2 focused is-focused">
-                                <select class="form-control gender" name="gender" required>
-                                    <option selected disabled>Genero</option>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline focused is-focused">
+                                <select id="gender_edit" class="form-control gender" name="gender" required>
+                                    <option value="" selected disabled>Genero</option>
                                     <option value="Masculino">Masculino</option>
                                     <option value="Femenino">Femenino</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <div class="col-4">
-                            <div class="input-group input-group-outline focused is-focused">
-                                <label class="form-label">Celular</label>
-                                <input type="number" class="form-control phone_number" name="phone_number">
-                            </div>
+                            <span id="gender_null_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Seleccione una opción
+                            </span>
                         </div>
                     </div>
-                    <div class="input-group input-group-outline mb-3 focused is-focused">
-                        <label class="form-label">dni</label>
-                        <input type="number" class="form-control dni" name="dni">
+                    <div class="input-group input-group-outline mt-2 mb-4">
+                        <div class="col-6">
+                            <div class="input-group input-group-outline me-2  focused is-focused">
+                                <label class="form-label">dni</label>
+                                <input id="dni_edit" type="text" class="form-control dni" name="dni">
+                            </div>
+                            <span id="dni_invalid_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Debe tener 8 numeros
+                            </span>
+                            <span id="dni_repit_edit" class="invalid-feedback" role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Dni ya se encuentra registrado
+                            </span>
+                        </div>
+                        <div class="col-6">
+                            <div class="input-group input-group-outline focused is-focused">
+                                <label class="form-label">Celular</label>
+                                <input id="phone_edit" type="text" class="form-control phone_number" name="phone_number">
+                            </div>
+                            <span id="phone_invalid_edit" class="invalid-feedback"  role="alert">
+                                <i class="fa-solid fa-triangle-exclamation fa-bounce"></i>
+                                Debe tener 9 numeros
+                            </span>
+                        </div>
                     </div>
                     <span class="text-secondary text-xs ms-1" for="url_img">Foto del estudiante</span>
                     <div class="input-group input-group-outline mb-3d">
@@ -263,8 +293,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary mx-2" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" value="Actualizar" class="btn btn-primary " data-bs-toggle="modal">
-                        <i class="fa-solid fa-plus"></i>Actualizar</button>
+                    <input id="btnEditStudent" type="submit" value="Actualizar" class="btn btn-primary">
+
                 </div>
             </form>
         </div>

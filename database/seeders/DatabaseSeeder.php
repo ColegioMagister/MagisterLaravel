@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             'id'=>'1',
             'id_role'=>'1',
             'name'=>'ADMINISTRADOR',
-            'lastname'=>'DIRECCTOR',
+            'lastname'=>'DIRECTOR',
             'email'=>'MAGISTER2023@hotmail.com',
             'phone_number'=>'9876543210',
             'url_img'=>'assets/img/login-bg/logomagister.jpg'
