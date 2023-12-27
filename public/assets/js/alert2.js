@@ -1,25 +1,25 @@
-$('.alertDelete').submit(function(e){
+$('.alertDelete').submit(function (e) {
     e.preventDefault();
 
     Swal.fire({
-    title: '¡Estás seguro?',
-    text: "¡No podrás revertir esto!",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    confirmButtonText: '¡Sí, eliminarlo!'
+        title: '¡Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '¡Sí, eliminarlo!'
     }).then((result) => {
-    if (result.isConfirmed) {
-        this.submit();
-    }
+        if (result.isConfirmed) {
+            this.submit();
+        }
     })
 })
 
-$('.alertEdits').submit(function(e){
+$('.alertEdits').submit(function (e) {
     e.preventDefault();
     var form = $(this);
-    if(form.valid()){
+    if (form.valid()) {
         form.closest('.modal').modal('toggle');
         Swal.fire({
             title: 'Confirmar cambios',
@@ -28,14 +28,14 @@ $('.alertEdits').submit(function(e){
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: '¡Sí, Actualizar!'
-            }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 this.submit();
             }
         })
     }
 
-    
+
 })
 
 

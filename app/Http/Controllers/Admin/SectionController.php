@@ -38,9 +38,9 @@ class SectionController extends Controller
         $levels = Level::all();
         $section_type = SectionType::all();
         $sections = $school_period->sections()->with('school_period')
-                                            ->with('section_type')
-                                            ->with('level')
-                                            ->get();
+            ->with('section_type')
+            ->with('level')
+            ->get();
 
         return view('sections.innershow', [
             'levels' => $levels,
@@ -50,7 +50,7 @@ class SectionController extends Controller
         ]);
     }
 
-    
+
     public function getAjaxUpdate(Section $section)
     {
         return response()->json([
@@ -79,29 +79,29 @@ class SectionController extends Controller
 
     public function show(Section $section)
     {
-        $section_data = $section->where('id',$section->id)
-                                ->with('level')
-                                ->with('school_period')
-                                ->with('section_type')
-                                ->first();
+        $section_data = $section->where('id', $section->id)
+            ->with('level')
+            ->with('school_period')
+            ->with('section_type')
+            ->first();
 
         $section_students = $section->studentSections->sortByDesc('pivot.id');
 
-        $students = Student::with(['studentSections'=>function($query) use($section_data){
-                                $query->where('id_period', $section_data->id_period);
-                            }])
-                            ->get()
-                            ->filter(function($student){
-                                return $student->studentSections->count() == 0;
-                            });
+        $students = Student::with(['studentSections' => function ($query) use ($section_data) {
+            $query->where('id_period', $section_data->id_period);
+        }])
+            ->get()
+            ->filter(function ($student) {
+                return $student->studentSections->count() == 0;
+            });
 
 
         $section_subjects = $section->subjectSection()
-                                    ->with(['teacherInSections' => function($query) use ($section){
-                                        $query->where('id_section', $section->id)
-                                            ->with('teacher:id,name,lastname');
-                                    }])
-                                    ->get();
+            ->with(['teacherInSections' => function ($query) use ($section) {
+                $query->where('id_section', $section->id)
+                    ->with('teacher:id,name,lastname');
+            }])
+            ->get();
 
         $subjects = Subject::whereNotIn('id', $section_subjects->pluck('id'))->get();
 
@@ -131,22 +131,22 @@ class SectionController extends Controller
     {
         $subject = Subject::findOrFail($request['id_subject_section']);
         $section->subjectSection()->attach($subject);
-    
+
         return redirect()->route('sections.show', $section)->with('flash_message', 'Addedd!');
     }
 
     public function getAjaxStudentUpdate(Section $section, Student $student)
     {
         $status = $student->studentSections()
-                ->wherePivot('id_section', $section->id)
-                ->first()->pivot->status;
+            ->wherePivot('id_section', $section->id)
+            ->first()->pivot->status;
 
-        $nameStr = $student->dni.' | '.$student->name.' '.$student->lastname;
+        $nameStr = $student->dni . ' | ' . $student->name . ' ' . $student->lastname;
 
         return response()->json([
             'status' => $status,
             'completeName' => $nameStr
-        ]); 
+        ]);
     }
 
 
@@ -157,13 +157,13 @@ class SectionController extends Controller
         return response()->json([
             'content' => $teacher_arr,
         ]);
-    }   
-    
+    }
+
 
     public function updateStudent(Request $request, Section $section, Student $student)
     {
         $status = $request['student_active'] == 'on' ? 1 : 0;
-    
+
         $student->studentSections()->updateExistingPivot($section, [
             'status' => $status
         ]);
@@ -228,36 +228,33 @@ class SectionController extends Controller
 
     public function scheduleIndex(Request $request, Section $section)
     {
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             $weekDays = $section->schedules()->with('subject:id,subject_name')
-                                            ->get(
-                                                ['id',
-                                                'id_section',
-                                                'id_subject',
-                                                'id_weekday',
-                                                'end_datetime',
-                                                'start_datetime'
-                                                ])
-                                                ->groupBy('id_weekday');
-                                                
+                ->get(
+                    ['id',
+                        'id_section',
+                        'id_subject',
+                        'id_weekday',
+                        'end_datetime',
+                        'start_datetime'
+                    ])
+                ->groupBy('id_weekday');
+
             $periodEndDate = new DateTime($section->school_period->end_date);
             $events = array();
-                              
-            foreach($weekDays as $weekday)
-            {
+
+            foreach ($weekDays as $weekday) {
                 $start_date = explode(" ", ($weekday->first())->start_datetime)[0];
 
-                $subjects = $weekday->filter(function($subject) use($start_date){
+                $subjects = $weekday->filter(function ($subject) use ($start_date) {
                     return explode(" ", $subject->start_datetime)[0] == $start_date;
                 });
 
-                foreach($subjects as $subject)
-                {
+                foreach ($subjects as $subject) {
                     $dayOfWeekday = $subject->id_weekday;
-                    $event_date = (Carbon::now())->startOfWeek()->addDays(($subject->id_weekday)-2)->format('Y-m-d');
-                    $start_date = $event_date.'T'.explode(" ", $subject->start_datetime)[1];
-                    $end_date = $event_date.'T'.explode(" ", $subject->end_datetime)[1];
+                    $event_date = (Carbon::now())->startOfWeek()->addDays(($subject->id_weekday) - 2)->format('Y-m-d');
+                    $start_date = $event_date . 'T' . explode(" ", $subject->start_datetime)[1];
+                    $end_date = $event_date . 'T' . explode(" ", $subject->end_datetime)[1];
 
                     array_push($events, [
                         'className' => [$subject->id_subject],
@@ -273,10 +270,10 @@ class SectionController extends Controller
 
         $subjects = $section->subjectSection;
         $section = $section->where('id', $section->id)
-                            ->with('level')
-                            ->with('school_period')
-                            ->with('section_type')
-                            ->first();
+            ->with('level')
+            ->with('school_period')
+            ->with('section_type')
+            ->first();
 
         return view('sections.schedules.index', [
             'subjects' => $subjects,
@@ -284,19 +281,18 @@ class SectionController extends Controller
         ]);
     }
 
-    
+
 
     public function storeSchedules(Request $request, Section $section)
     {
         $d = $request->all();
         $ids = array();
         $period_dates = $section->school_period()
-                                ->first(['id', 'start_date', 'end_date']);
+            ->first(['id', 'start_date', 'end_date']);
 
         Schedule::where('id_section', $section->id)->delete();
 
-        foreach($d['events'] as $event)
-        {
+        foreach ($d['events'] as $event) {
             $item = $event['Item'][0];
             $start = $item['start'];
             $end = $item['end'];
@@ -310,26 +306,25 @@ class SectionController extends Controller
             $end_time = $end_split[1];
 
             $dayOfWeek = ((Carbon::parse($start_date))->dayOfWeek);
-            
+
             $stdate_carbon = Carbon::parse($period_dates->start_date);
             $start_dt = new DateTime(($stdate_carbon->weekday() == $dayOfWeek ? $stdate_carbon : $stdate_carbon->next($dayOfWeek))->format('Y-m-d'));
             $end_dt = new DateTime($period_dates->end_date);
 
             $datesOfDayWeek = array();
 
-            while($start_dt <= $end_dt){
+            while ($start_dt <= $end_dt) {
                 array_push($datesOfDayWeek, $start_dt->format('Y-m-d'));
                 $start_dt->modify('+7 day');
             }
 
-            foreach($datesOfDayWeek as $dateOfWeek)
-            {
-                $startTimestamp = $dateOfWeek." ".$start_time;
-                $endTimestamp = $dateOfWeek." ".$end_time;
+            foreach ($datesOfDayWeek as $dateOfWeek) {
+                $startTimestamp = $dateOfWeek . " " . $start_time;
+                $endTimestamp = $dateOfWeek . " " . $end_time;
 
                 Schedule::create([
                     'id_section' => $section->id,
-                    'id_weekday' => $dayOfWeek+1,
+                    'id_weekday' => $dayOfWeek + 1,
                     'id_subject' => $id,
                     'start_datetime' => $startTimestamp,
                     'end_datetime' => $endTimestamp
@@ -351,20 +346,20 @@ class SectionController extends Controller
     public function assessmentIndex(Section $section, Subject $subject)
     {
         $section = $section->where('id', $section->id)
-                            ->with('school_period')
-                            ->with('level')
-                            ->with('section_type')
-                            ->first();
+            ->with('school_period')
+            ->with('level')
+            ->with('section_type')
+            ->first();
 
         $assessments = $subject->assessments()
-                                ->with('assessmentType')
-                                ->where('id_section', $section->id)->get();
+            ->with('assessmentType')
+            ->where('id_section', $section->id)->get();
 
         $validYears = $subject->schedules()->where('id_section', $section->id)->get()
-                                ->pluck('start_datetime')
-                                ->map(function($date){
-                                    return explode("-", explode(" ", $date)[0])[0];
-                                })->unique();
+            ->pluck('start_datetime')
+            ->map(function ($date) {
+                return explode("-", explode(" ", $date)[0])[0];
+            })->unique();
 
         $assessmentsTypes = AssessmentType::all();
 
@@ -381,45 +376,42 @@ class SectionController extends Controller
     {
         $data = $request->all();
 
-        if($data['type'] == 'loadYear')
-        {
+        if ($data['type'] == 'loadYear') {
             $year = $data['year'];
             $months = $subject->schedules()->where('id_section', $section->id)->get()
-                                ->pluck('start_datetime')
-                                ->map(function($date){
-                                    return explode('-', explode(" ", $date)[0]);
-                                })->filter(function ($date) use($year){
-                                    return $date[0] == $year;
-                                })->map(function($year){
-                                    return $year[1];
-                                })->unique();
+                ->pluck('start_datetime')
+                ->map(function ($date) {
+                    return explode('-', explode(" ", $date)[0]);
+                })->filter(function ($date) use ($year) {
+                    return $date[0] == $year;
+                })->map(function ($year) {
+                    return $year[1];
+                })->unique();
 
             return response()->json($months);
-        }
-        elseif($data['type'] == 'loadMonth')
-        {
+        } elseif ($data['type'] == 'loadMonth') {
             $year = $data['year'];
             $month = $data['month'];
             $days = $subject->schedules()->where('id_section', $section->id)->get()
-                            ->pluck('start_datetime')
-                            ->map(function($date){
-                                return explode('-', explode(" ", $date)[0]);
-                            })->filter(function ($date) use($year,$month){
-                                return $date[0] == $year && $date[1] == $month;
-                            })->map(function($day){
-                                return $day[2];
-                            })->unique()->toArray();
+                ->pluck('start_datetime')
+                ->map(function ($date) {
+                    return explode('-', explode(" ", $date)[0]);
+                })->filter(function ($date) use ($year, $month) {
+                    return $date[0] == $year && $date[1] == $month;
+                })->map(function ($day) {
+                    return $day[2];
+                })->unique()->toArray();
             sort($days);
 
             return response()->json($days);
         }
-        
+
     }
 
 
     public function registerAssessment(Request $request, Section $section, Subject $subject)
     {
-        $date = $request['assessYear'].'-'.$request['assessMonth'].'-'.$request['assessDay'];
+        $date = $request['assessYear'] . '-' . $request['assessMonth'] . '-' . $request['assessDay'];
 
         Assessment::create([
             'id_section' => $section->id,

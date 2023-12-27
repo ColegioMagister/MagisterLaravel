@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
-use App\Models\{Employee,Roles,Subject};
+use App\Models\{Employee, Roles, Subject};
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -22,41 +22,41 @@ class UserController extends Controller
         })->get();
         $roles = Roles::all();
         $subject = Subject::all();
-    
+
         return view('teacher.index', [
             'teacher' => $teachers,
             'roles' => $roles,
-            'subjects' => $subject, 
+            'subjects' => $subject,
         ]);
 
     }
     public function AsignarSubject(Request $request, Employee $employee)
     {
         $subjectId = $request->input('id_subject');
-        
+
         if ($employee->teacherSubjects()->where('id_subject', $subjectId)->exists()) {
             return redirect()->route('teacher.index')->with('error_message', 'Error!');
-        }else{
+        } else {
             $employee->teacherSubjects()->attach($subjectId);
-    
-        return redirect()->route('teacher.index')->with('flash_message', 'Addedd!');
+
+            return redirect()->route('teacher.index')->with('flash_message', 'Addedd!');
         }
-        
+
     }
     public function AsignarSubjectAjax(Request $request, Employee $employee)
     {
         $subjectId = $request->input('id_subject');
-        
+
         if ($employee->teacherSubjects()->where('id_subject', $subjectId)->exists()) {
             return response()->json([
                 'error_message' => 'Error!'
             ]);
         }
-        
+
         $employee->teacherSubjects()->attach($subjectId);
-    
+
         $teacherName = $employee->name . ' ' . $employee->lastname;
-    
+
         return response()->json([
             'teacher_name' => $teacherName
         ]);
@@ -68,10 +68,10 @@ class UserController extends Controller
      */
     public function checkTeacher(Request $request)
     {
-       $email=$request->input('email');
+        $email = $request->input('email');
 
-       $valueEmail=Employee::where('email',$email)->exists();
-       return response()->json(['valueEmail'=>$valueEmail]);
+        $valueEmail = Employee::where('email', $email)->exists();
+        return response()->json(['valueEmail' => $valueEmail]);
     }
 
     /**
@@ -82,13 +82,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $validator=Validator::make($request->all(),[
-            'id_role'=>'required|string',
-            'name'=>'required|string',
-            'lastname'=>'required|string',
-            'email'=>'required|email|unique:employees',
-            'phone_number'=>'required|integer',
-            'url_img'=>'nullable|image',
+        $validator = Validator::make($request->all(), [
+            'id_role' => 'required|string',
+            'name' => 'required|string',
+            'lastname' => 'required|string',
+            'email' => 'required|email|unique:employees',
+            'phone_number' => 'required|integer',
+            'url_img' => 'nullable|image',
         ]);
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -96,15 +96,15 @@ class UserController extends Controller
         $validatedData = $validator->validated();
 
         if ($request->hasFile('url_img') && $request->file('url_img')->isValid()) {
-        $imagen = $request->file('url_img');
-        $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
-        $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
+            $imagen = $request->file('url_img');
+            $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
+            $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
 
-        $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
+            $imagen->move(public_path('assets/img/fotos/'), $nombreArchivo);
 
-        $validatedData['url_img'] = $rutaArchivo;
-        }else {
-            $validatedData['url_img'] = 'assets/img/login-bg/default.png'; 
+            $validatedData['url_img'] = $rutaArchivo;
+        } else {
+            $validatedData['url_img'] = 'assets/img/login-bg/default.png';
         }
         Employee::create($validatedData);
         return redirect()->route('teacher.index')->with('flash_message', 'Addedd!');
@@ -123,15 +123,15 @@ class UserController extends Controller
     }
 
     public function showSubject(Employee $employee)
-    {        
+    {
         $subjects = $employee->teacherSubjects;
-        
+
         /*cualquiera de los 2
         $subjects = $employee->teacherSubjects()
             ->wherePivot('id_teacher', $employee->id) // Filtrar por id_teacher
             ->get();*/
 
-        return view('teacher.teacherSubject',[
+        return view('teacher.teacherSubject', [
             'teachers' => $employee,
             'subjects' => $subjects]);
     }
@@ -146,13 +146,13 @@ class UserController extends Controller
     public function edit(Employee $employee)
     {
         return response()->json([
-            'id_role'=>$employee->id_role,
-            'role_name'=>$employee->roles->role_name,
-            'name'=>$employee->name,
-            'lastname'=>$employee->lastname,
-            'email'=>$employee->email,
-            'phone_number'=>$employee->phone_number,
-            'url_img'=>$employee->url_img
+            'id_role' => $employee->id_role,
+            'role_name' => $employee->roles->role_name,
+            'name' => $employee->name,
+            'lastname' => $employee->lastname,
+            'email' => $employee->email,
+            'phone_number' => $employee->phone_number,
+            'url_img' => $employee->url_img
         ]);
         //
     }
@@ -170,12 +170,12 @@ class UserController extends Controller
             'id_role' => 'required|string',
             'name' => 'required|string',
             'lastname' => 'required|string',
-            'email' => 'required|email|unique:employees,email,'.$employee->id,
+            'email' => 'required|email|unique:employees,email,' . $employee->id,
             'phone_number' => 'required|integer',
             'url_img' => 'nullable|image',
         ]);
-  
-        
+
+
         $validatedData = $validator->validated();
 
 
@@ -183,7 +183,7 @@ class UserController extends Controller
             $imagen = $request->file('url_img');
             $nombreArchivo = md5(time() . $imagen->getClientOriginalName()) . '.' . $imagen->getClientOriginalExtension();
             $rutaArchivo = 'assets/img/fotos/' . $nombreArchivo;
-    
+
             // Eliminar imagen anterior
             if ($employee->url_img != 'assets/img/login-bg/default.png') {
                 $rutaImagenAnterior = public_path($employee->url_img);
@@ -209,22 +209,22 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $teacher =Employee::find($id);
-        $imagen=$teacher->url_img;
+        $teacher = Employee::find($id);
+        $imagen = $teacher->url_img;
         $teacher->delete();
-        
+
         if ($imagen !== 'assets/img/login-bg/default.png') {
             if (!empty($imagen) && file_exists(public_path($imagen))) {
                 unlink(public_path($imagen));
             }
         }
-        return redirect()->route('teacher.index')->with('flash_message', 'deleted!');  
+        return redirect()->route('teacher.index')->with('flash_message', 'deleted!');
     }
 
-    public function destroySubject(Employee $employee,Subject $subject)
+    public function destroySubject(Employee $employee, Subject $subject)
     {
         $employee->teacherSubjects()->detach($subject);
-        
+
         return redirect()->route('teacher.teacherSubject', $employee)->with('flash_message', 'deleted!');
     }
 }

@@ -5,13 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use App\Models\{User,Employee,Roles};
-Use Illuminate\Support\Facades\Hash;
+use App\Models\{User, Employee, Roles};
+use Illuminate\Support\Facades\Hash;
 
 
 class EmployeesController extends Controller
 {
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -19,12 +19,12 @@ class EmployeesController extends Controller
      */
     public function index()
     {
-    
+
         $employees = Employee::whereDoesntHave('user')->get();
-        $users=User::all();
-        return view ('user.index',[
-            "employees"=>$employees,
-            "users"=>$users
+        $users = User::all();
+        return view('user.index', [
+            "employees" => $employees,
+            "users" => $users
         ]);
     }
 
@@ -38,18 +38,19 @@ class EmployeesController extends Controller
         //
     }
 
- 
+
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function checkUsuario(Request $request){
+    public function checkUsuario(Request $request)
+    {
 
-        $username=$request->input('username');
-        $valueUser=User::where('username',$username)->exists();
-        return response()->json(['valueUser'=>$valueUser]);
+        $username = $request->input('username');
+        $valueUser = User::where('username', $username)->exists();
+        return response()->json(['valueUser' => $valueUser]);
 
     }
     public function store(Request $request)
@@ -66,9 +67,9 @@ class EmployeesController extends Controller
             'password' => Hash::make($request['password']),
         ]);
 
-        return  redirect()->route('user.index')->with('flash_message', 'Addedd!');
+        return redirect()->route('user.index')->with('flash_message', 'Addedd!');
     }
-    
+
     /**
      * Display the specified resource.
      *
@@ -113,8 +114,8 @@ class EmployeesController extends Controller
      */
     public function destroy($id)
     {
-        $user =User::find($id);
+        $user = User::find($id);
         $user->delete();
-        return  redirect()->route('user.index')->with('flash_message', 'deleted!');  
+        return redirect()->route('user.index')->with('flash_message', 'deleted!');
     }
 }

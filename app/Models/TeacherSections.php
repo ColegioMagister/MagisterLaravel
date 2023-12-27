@@ -4,16 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\{Employee,
-                Subject,
-                Section
-                };
+use App\Models\{
+    Employee,
+    Subject,
+    Section
+};
 
 class TeacherSections extends Model
 {
     use HasFactory;
 
-    protected $table='teacher_in_sections';
+    protected $table = 'teacher_in_sections';
     protected $guarded = [];
 
     public function teacher()

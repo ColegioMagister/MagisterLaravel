@@ -1,22 +1,21 @@
 @include('partials.head')
 
-  <body class="g-sidenav-show  bg-gray-200">
-    
+<body class="g-sidenav-show  bg-gray-200">
+
     @include('partials.aside')
 
-  <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-    <!-- Navbar -->
-    @include('partials.navbar')
+    <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+        <!-- Navbar -->
+        @include('partials.navbar')
 
-    <div class="pcoded-content">
-      @yield('content')
-    </div>
+        <div class="pcoded-content">
+            @yield('content')
+        </div>
 
-    <!-- End Navbar -->
-  
-  </main>
-   
+        <!-- End Navbar -->
+
+    </main>
+
     <!--   Core JS Files   -->
 
-@include('partials.scripts')
-
+    @include('partials.scripts')

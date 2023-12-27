@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
-        Section,
-        Weekday,
-        Subject,
-        Student_in_section
+    Section,
+    Weekday,
+    Subject,
+    Student_in_section
 };
 
 class Schedule extends Model
 {
     use HasFactory;
-    protected $table='schedules';
-    protected $guarded=[];
+    protected $table = 'schedules';
+    protected $guarded = [];
 
     public function weekday()
     {
@@ -33,9 +33,9 @@ class Schedule extends Model
     }
     public function attendances()
     {
-      return $this->belongsToMany(Student_in_section::class, 'attendances', 'id_schedule', 'id_student')
-                    ->withPivot('id', 'status')
-                    ->withTimestamps();
+        return $this->belongsToMany(Student_in_section::class, 'attendances', 'id_schedule', 'id_student')
+            ->withPivot('id', 'status')
+            ->withTimestamps();
     }
 }
 

@@ -16,7 +16,7 @@ class SubjectsController extends Controller
     public function index()
     {
         $subjects = Subject::all();
-        return view ('subject.index')->with('subjects', $subjects);
+        return view('subject.index')->with('subjects', $subjects);
     }
 
     /**
@@ -35,11 +35,12 @@ class SubjectsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function checkSubject(Request $request){
+    public function checkSubject(Request $request)
+    {
 
-        $subject_name =$request->input('subject_name');
-        $valueSubject =Subject::where('subject_name',$subject_name)->exists();
-        return response()->json(['valueSubject'=>$valueSubject]);
+        $subject_name = $request->input('subject_name');
+        $valueSubject = Subject::where('subject_name', $subject_name)->exists();
+        return response()->json(['valueSubject' => $valueSubject]);
 
     }
     public function store(Request $request)
@@ -95,6 +96,6 @@ class SubjectsController extends Controller
     public function destroy($id)
     {
         Subject::destroy($id);
-        return redirect()->route('subject.index')->with('flash_message', 'deleted!');  
+        return redirect()->route('subject.index')->with('flash_message', 'deleted!');
     }
 }

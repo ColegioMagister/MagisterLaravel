@@ -1,282 +1,234 @@
- 
-
-   
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none; 
-    margin: 0; 
-    }
-
-    input[type=number] { -moz-appearance:textfield; }
-
-   
-
-.navbar-vertical .navbar-nav > .nav-item .nav-link.active
-{
-   background: linear-gradient(200deg, #26a1df -10%, #2563af 80%);
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-
-.periods-container
-{
-   display: flex;
-   justify-content: space-around;
-   gap: 4em;
-   margin: 3em 0;
-   flex-wrap: wrap;
+input[type="number"] {
+    -moz-appearance: textfield;
 }
 
-.periods-container
-.period-box
-{
-   width: 500px !important;
-   height: 300px;
-   border-radius: 10px;
-   box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.164);
-   padding: 1.4em;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
+.navbar-vertical .navbar-nav > .nav-item .nav-link.active {
+    background: linear-gradient(200deg, #26a1df -10%, #2563af 80%);
 }
 
-.period-box
-.period-title-box
-{
-   text-align: center;
-   color: rgb(107, 107, 107);
+.periods-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 4em;
+    margin: 3em 0;
+    flex-wrap: wrap;
 }
 
-.period-title-box > div
-{
-   padding: 0.1em;
-   font-size: 1.4em;
-   text-transform: uppercase;
+.periods-container .period-box {
+    width: 500px !important;
+    height: 300px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 20px rgba(0, 0, 0, 0.164);
+    padding: 1.4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.period-title-box .title
-{
-   font-weight: 700;
-   font-size: 1.8em;
+.period-box .period-title-box {
+    text-align: center;
+    color: rgb(107, 107, 107);
 }
 
-.period-dates
-{
-   display: flex;
-   justify-content: space-around;
-   text-align: center;
-   padding: 1em 0;
+.period-title-box > div {
+    padding: 0.1em;
+    font-size: 1.4em;
+    text-transform: uppercase;
 }
 
-.period-dates
-.date
-{
-   font-size: 1.2em;
-   color: #4CAF50;
-   font-weight: 600;
+.period-title-box .title {
+    font-weight: 700;
+    font-size: 1.8em;
 }
 
-.period-btn-enter-box
-{
-   display: flex;
-   justify-content: center;
+.period-dates {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    padding: 1em 0;
 }
 
-.period-btn-enter-box a 
-{
-   text-align: center;
-   width: 60%;
-   padding: 1.2em;
-   display: block;
-   background-color: rgb(228, 2, 2);
-   color: white;
-   border-radius: 30px;
-   transition: all .1s;
+.period-dates .date {
+    font-size: 1.2em;
+    color: #4caf50;
+    font-weight: 600;
 }
 
-.period-btn-enter-box a:hover
-{
-   filter: brightness(1.1);
+.period-btn-enter-box {
+    display: flex;
+    justify-content: center;
 }
 
-.input-group select
-{
-   padding: 8px 10px !important;
+.period-btn-enter-box a {
+    text-align: center;
+    width: 60%;
+    padding: 1.2em;
+    display: block;
+    background-color: rgb(228, 2, 2);
+    color: white;
+    border-radius: 30px;
+    transition: all 0.1s;
 }
 
-.input-group select:focus
-{
-   border: 1px solid #26a1df;
+.period-btn-enter-box a:hover {
+    filter: brightness(1.1);
 }
 
-.show-title-module
-{
-   display: flex;
-   gap: 2em;
-   padding-left: 1em;
+.input-group select {
+    padding: 8px 10px !important;
 }
 
-.show-title-module > h6
-{
-   color: white;
+.input-group select:focus {
+    border: 1px solid #26a1df;
 }
 
-.empty-table-message > td
-{
-   text-align: center;
-   padding: 1.7em;
-   font-size: 1.3em;
-   font-weight: 600;
-   color: rgb(163, 163, 163);
+.show-title-module {
+    display: flex;
+    gap: 2em;
+    padding-left: 1em;
 }
 
-.student-section-icon
-{
-   display: block;
-   width: 20px;
-   height: 20px;
-   border-radius: 50%;
+.show-title-module > h6 {
+    color: white;
 }
 
-.student-section-icon.active
-{
-   background-color: #4CAF50;
+.empty-table-message > td {
+    text-align: center;
+    padding: 1.7em;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: rgb(163, 163, 163);
 }
 
-.student-section-icon.inactive
-{
-   background-color: #F44335;
+.student-section-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
 }
 
-
-.table-title
-{
-   margin-top: 1em;
-   padding: .5em 2em;
-   border-top: 2px dashed #2563af;
-   border-bottom: 2px dashed #2563af;
+.student-section-icon.active {
+    background-color: #4caf50;
 }
 
-.table-title > h4
-{
-   color: rgb(102, 102, 102);
+.student-section-icon.inactive {
+    background-color: #f44335;
 }
 
-.table-responsive.subjects
-{
-   width: 100%;
-   max-width: 1400px;
-   margin: auto;
+.table-title {
+    margin-top: 1em;
+    padding: 0.5em 2em;
+    border-top: 2px dashed #2563af;
+    border-bottom: 2px dashed #2563af;
 }
 
-.schedules-container
-{
-   display: flex;
-   padding: 0 3em;
+.table-title > h4 {
+    color: rgb(102, 102, 102);
 }
 
-#full-calendar-container
-{
-   height: 68.5vh;
-   width: 100%;
+.table-responsive.subjects {
+    width: 100%;
+    max-width: 1400px;
+    margin: auto;
 }
 
-.fc-scroller.fc-scroller.fc-time-grid-container
-{
-   height: 65vh !important;
+.schedules-container {
+    display: flex;
+    padding: 0 3em;
 }
 
-.courses-schedule-container
-{
-   min-width: 30%;
-   display: flex;
-   flex-direction: column;
-   justify-content: space-between;
-   align-items: center;
-   padding: 2.5em 2em 4em 0;
+#full-calendar-container {
+    height: 68.5vh;
+    width: 100%;
 }
 
-.courses-schedule-container
-.btn-schedule-save
-{
-   width: 100%;
-   max-width: 180px;
-   height: 50px;
+.fc-scroller.fc-scroller.fc-time-grid-container {
+    height: 65vh !important;
 }
 
-.courses-schedule-container
-.btn-schedule-save a
-{
-   font-size: 0.9em;
-   width: 100%;
+.courses-schedule-container {
+    min-width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5em 2em 4em 0;
 }
 
-.calendar-title
-{
-   padding: 0.5em 0 2em 0;
-   text-align: center;
-   font-size: 1.4em;
-   color: rgb(75, 75, 75);
-   font-weight: 700;
+.courses-schedule-container .btn-schedule-save {
+    width: 100%;
+    max-width: 180px;
+    height: 50px;
 }
 
-.schedules-container
-.draggable-events-container
-{
-   z-index: 999;
-   width: 100%;
-   height: 100%;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   gap: 1.5em;
+.courses-schedule-container .btn-schedule-save a {
+    font-size: 0.9em;
+    width: 100%;
 }
 
-.draggable-events-container
-.dgev-container-title
-{
-   font-size: 1.4em;
-   text-transform: uppercase;
-   font-weight: 700;
-   color: #2563af;
-   width: 100%;
-   text-align: center;
-   border-bottom: 2px dashed #2563af;
+.calendar-title {
+    padding: 0.5em 0 2em 0;
+    text-align: center;
+    font-size: 1.4em;
+    color: rgb(75, 75, 75);
+    font-weight: 700;
 }
 
-.draggable-events-container
-.draggable-event
-{
-   height: 100%;
-   max-height: 70px;
-   width: 100%;
-   max-width: 200px;
-   border-radius: 20px;
-   border: 1px solid #2563af;
-   background-color: #2563af31;
-   cursor: pointer;
-   display: flex;
-   justify-content: center;
-   align-items: center;
-   color: rgb(97, 97, 97);
-   font-size: 1.1em;
-   box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.11);
+.schedules-container .draggable-events-container {
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
 }
 
-.input-number input
-{
-   width: 50%;
-   border-radius: 5px;
-   border: 1px solid rgba(0, 0, 0, 0.185);
-   padding: 0.3em;
+.draggable-events-container .dgev-container-title {
+    font-size: 1.4em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #2563af;
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px dashed #2563af;
 }
 
-.input-number input:focus
-{
-   outline: #1AB7EA solid 2px;
-   border-color: rgba(0, 0, 0, 0);
-
+.draggable-events-container .draggable-event {
+    height: 100%;
+    max-height: 70px;
+    width: 100%;
+    max-width: 200px;
+    border-radius: 20px;
+    border: 1px solid #2563af;
+    background-color: #2563af31;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgb(97, 97, 97);
+    font-size: 1.1em;
+    box-shadow: 0px 4px 7px rgba(0, 0, 0, 0.11);
 }
 
-.card.card-plain{
-   border: solid 0.5px;
+.input-number input {
+    width: 50%;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.185);
+    padding: 0.3em;
+}
+
+.input-number input:focus {
+    outline: #1ab7ea solid 2px;
+    border-color: rgba(0, 0, 0, 0);
+}
+
+.card.card-plain {
+    border: solid 0.5px;
 }

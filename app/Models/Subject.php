@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\{
-                Assessment,
-                Schedule,
-                Section,
-                TeacherSections,
-                Employee
-            };
+    Assessment,
+    Schedule,
+    Section,
+    TeacherSections,
+    Employee
+};
 
 class Subject extends Model
 {
     use HasFactory;
-    protected $table='subjects';
-    protected $guarded=[];
+    protected $table = 'subjects';
+    protected $guarded = [];
 
     public function teacherSubjects()
     {
-        return $this->belongsToMany(Employee::class,'teacher_has_subjects', 'id_subject', 'id_teacher')
-                                    ->withPivot('id')->withTimestamps();
+        return $this->belongsToMany(Employee::class, 'teacher_has_subjects', 'id_subject', 'id_teacher')
+            ->withPivot('id')->withTimestamps();
     }
 
     public function assessments()
@@ -31,8 +31,8 @@ class Subject extends Model
 
     public function subjectSection()
     {
-        return $this->belongsToMany(Section::class,'section_has_subjects', 'id_subject', 'id_section')
-                                    ->withPivot('id')->withTimestamps();
+        return $this->belongsToMany(Section::class, 'section_has_subjects', 'id_subject', 'id_section')
+            ->withPivot('id')->withTimestamps();
     }
 
     public function teacherInSections()
@@ -44,5 +44,5 @@ class Subject extends Model
     {
         return $this->hasMany(Schedule::class, 'id_subject', 'id');
     }
-    
+
 }

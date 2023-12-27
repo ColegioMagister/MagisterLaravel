@@ -24,10 +24,10 @@ Route::get('/', function () {
 
 Auth::routes();
 Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile');
-Route::get('/NewPassword',  [ProfileController::class,'NewPassword'])->name('user.editprofile')->middleware('auth');
-Route::post('/change/password',  [ProfileController::class,'changePassword'])->name('changePassword');
+Route::get('/NewPassword', [ProfileController::class, 'NewPassword'])->name('user.editprofile')->middleware('auth');
+Route::post('/change/password', [ProfileController::class, 'changePassword'])->name('changePassword');
 
-Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
+Route::group(['middleware' => ['auth', 'check.role:Admin']], function () {
 
     Route::get('/Home', [GeneralDataController::class, 'index'])->name('data.index');
 
@@ -45,7 +45,7 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::get('/Students/{student}/editarAjax', [StudentController::class, 'edit'])->name('students.ajax.edit');
     Route::patch('/Students/{student}/editar', [StudentController::class, 'update'])->name('students.edit');
     Route::get('/Student/{student}', [StudentController::class, 'show'])->name('students.show');
-    Route::delete('/Student/{student}/delete',[StudentController::class, 'destroy'])->name('students.destroy');
+    Route::delete('/Student/{student}/delete', [StudentController::class, 'destroy'])->name('students.destroy');
 
 
     Route::get('/Profesor', [UserController::class, 'index'])->name('teacher.index');
@@ -84,7 +84,7 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
     Route::delete('/Section/materia/Eliminar/{section}/{subject}', [SectionController::class, 'subjectDelete'])->name('sections.deleteSubject');
     Route::delete('/Section/estudiante/Eliminar/{section}/{student}', [SectionController::class, 'studentDetached'])->name('sections.studentDetached');
     Route::delete('/Section/evaluación/Eliminar/{assessment}', [SectionController::class, 'assessmentDestroy'])->name('sections.assessment.destroy');
-    
+
 
 
 
@@ -106,16 +106,17 @@ Route::group(['middleware'=>['auth', 'check.role:Admin']], function () {
 
 
 
-    Route::resource('/SchoolYear',YearController::class);
     Route::get('/SchoolYear', [YearController::class, 'index'])->name('schoolYear.index');
-    Route::post('/SchoolYear', [YearController::class, 'store'])->name('schoolYear');
+    Route::post('/SchoolYear', [YearController::class, 'store'])->name('schoolYear.store');
     Route::get('/SchoolYear/{school_period}', [YearController::class, 'show'])->name('schoolYear.show');
     Route::get('/SchoolYearSectionStudent/{section}', [YearController::class, 'showStudent'])->name('schoolYear.studentShow');
-
     Route::get('/SchoolYear/{school_period}/editar', [YearController::class, 'edit'])->name('school_periods.ajax.edit');
-    
+    Route::patch('/SchoolYear/{school_period}/editar', [YearController::class, 'update'])->name('school_periods.edit');
+    Route::delete('/SchoolYear/{school_period}/eliminar', [YearController::class, 'destroy'])->name('school_periods.delete');
 
-    
+
+
+
     Route::get('/descarga-libreta/{student}', [StudentController::class, 'ReporteLibreta'])->name('reportes.libreta');
     Route::get('/descarga-alumnos', [StudentController::class, 'ReporteAlumnos'])->name('reportes.alumnos');
 
@@ -133,12 +134,12 @@ Route::group(['middleware' => ['auth', 'check.role:Profesor']], function () {
     Route::get('/Teacher{section}/AssessmentAttendace/{subject}', [TeacherSectionController::class, 'index2'])->name('teacherView.assessmentAttendaces');
     Route::get('/Teacher/{section}/Assessment/{subject}', [TeacherSectionController::class, 'showAssess'])->name('teacherView.assessment');
     Route::post('/Teacher/RegisterNota', [TeacherSectionController::class, 'registerNota'])->name('teacherView.registerNota');
-    
+
     Route::get('/Teacher/editStudentAjaxNota/{student}/{assessment}', [TeacherSectionController::class, 'getAjaxStudentUpdateNota'])->name('teacherView.AjaxUpdateStudentNota');
     Route::patch('/Teacher/estudianteNota/actualizar/{student}/{assessment}', [TeacherSectionController::class, 'updateStudentNota'])->name('teacherView.updateStudentNota');
 
     Route::get('/Teacher/{section}/Attendace/{subject}/Fecha/{schedule}', [TeacherSectionController::class, 'showAttendance'])->name('teacherView.attedance');
     Route::post('/Teacher/RegisterAsistencia', [TeacherSectionController::class, 'registerAttendance'])->name('teacherView.registerAttendance');
-    
+
 
 });

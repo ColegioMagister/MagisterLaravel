@@ -22,10 +22,10 @@ class GeneralDataController extends Controller
      */
 
 
-     public function __construct()
-     {
-         $this->middleware('auth');
-     }
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
 
 
@@ -39,9 +39,9 @@ class GeneralDataController extends Controller
         $teachers = Employee::whereHas('roles', function ($query) {
             $query->where('role_name', '!=', 'Admin');
         })->count();
-        
 
-        return view('schoolData.index',compact('students', 'subjects', 'sections', 'teachers'),[
+
+        return view('schoolData.index', compact('students', 'subjects', 'sections', 'teachers'), [
             'school' => $school,
             'period' => $period
         ]);
@@ -56,14 +56,14 @@ class GeneralDataController extends Controller
         $teachers = Employee::whereHas('roles', function ($query) {
             $query->where('role_name', '!=', 'Admin');
         })->count();
-        
 
-        return view('schoolData.index',compact('students', 'subjects', 'sections', 'teachers'),[
+
+        return view('schoolData.index', compact('students', 'subjects', 'sections', 'teachers'), [
             'school' => $school,
             'period' => $period
         ]);
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
