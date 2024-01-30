@@ -16,8 +16,14 @@ class YearController extends Controller
     private $cod_periodo;
     public function __construct()
     {
-        $this->cod_periodo = collect(['2023-I', '2023-II', '2023-III', '2023-IV', '2024-I',
-            '2024-II']);
+        $this->cod_periodo = collect([
+            '2023-I',
+            '2023-II',
+            '2023-III',
+            '2023-IV',
+            '2024-I',
+            '2024-II'
+        ]);
     }
 
 
@@ -30,8 +36,10 @@ class YearController extends Controller
             return in_array($value, $period_name);
         });
 
-        return view('schoolYear.index')->with(['school_periods' => $school_periods,
-            'periodo' => $periodo]);
+        return view('schoolYear.index')->with([
+            'school_periods' => $school_periods,
+            'periodo' => $periodo
+        ]);
     }
 
     /**
@@ -151,7 +159,12 @@ class YearController extends Controller
      */
     public function destroy($id)
     {
-        SchoolPeriod::destroy($id);
-        return redirect()->route('schoolYear.index')->with('flash_message', 'deleted!');
+        try {
+            SchoolPeriod::destroy($id);
+            return redirect()->route('schoolYear.index')->with('flash_message', 'deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->route('schoolYear.index')->with('error_message', 'Error!');
+        }
+
     }
 }

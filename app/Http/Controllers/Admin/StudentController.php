@@ -78,25 +78,6 @@ class StudentController extends Controller
         }
     }
 
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function checkStudent(Request $request)
     {
         $dni = $request->input('dni');
@@ -123,35 +104,19 @@ class StudentController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Student $student)
     {
         return view('students.show', compact('student'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Student $student)
     {
         return response()->json($student);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
 
     public function update(Request $request, $id)
     {
@@ -183,17 +148,23 @@ class StudentController extends Controller
 
     public function destroy($id)
     {
-        $student = Student::find($id);
-        $imagen = $student->url_img;
-        $student->delete();
 
-        if ($imagen !== 'assets/img/login-bg/default.png') {
-            if (!empty($imagen) && file_exists(public_path($imagen))) {
-                unlink(public_path($imagen));
+        try {
+            $student = Student::find($id);
+            $imagen = $student->url_img;
+            $student->delete();
+    
+            if ($imagen !== 'assets/img/login-bg/default.png') {
+                if (!empty($imagen) && file_exists(public_path($imagen))) {
+                    unlink(public_path($imagen));
+                }
             }
+    
+            return redirect()->route('students.index')->with('flash_message', 'deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->route('students.index')->with('error_message', 'Error!');
         }
-
-        return redirect()->route('students.index')->with('flash_message', 'deleted!');
+      
 
     }
 

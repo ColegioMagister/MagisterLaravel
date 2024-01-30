@@ -87,9 +87,11 @@ class SectionController extends Controller
 
         $section_students = $section->studentSections->sortByDesc('pivot.id');
 
-        $students = Student::with(['studentSections' => function ($query) use ($section_data) {
-            $query->where('id_period', $section_data->id_period);
-        }])
+        $students = Student::with([
+            'studentSections' => function ($query) use ($section_data) {
+                $query->where('id_period', $section_data->id_period);
+            }
+        ])
             ->get()
             ->filter(function ($student) {
                 return $student->studentSections->count() == 0;
@@ -97,10 +99,12 @@ class SectionController extends Controller
 
 
         $section_subjects = $section->subjectSection()
-            ->with(['teacherInSections' => function ($query) use ($section) {
-                $query->where('id_section', $section->id)
-                    ->with('teacher:id,name,lastname');
-            }])
+            ->with([
+                'teacherInSections' => function ($query) use ($section) {
+                    $query->where('id_section', $section->id)
+                        ->with('teacher:id,name,lastname');
+                }
+            ])
             ->get();
 
         $subjects = Subject::whereNotIn('id', $section_subjects->pluck('id'))->get();
@@ -196,10 +200,15 @@ class SectionController extends Controller
 
     public function destroy(Section $section)
     {
-        $school_period = $section->school_period;
-        $section->delete();
+        try {
+            $school_period = $section->school_period;
+            $section->delete();
+            return redirect()->route('sections.index', $school_period)->with('flash_message', 'deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->route('sections.index', $school_period)->with('error_message', 'Error!');
+        }
 
-        return redirect()->route('sections.index', $school_period)->with('flash_message', 'deleted!');
+
     }
 
 
@@ -213,9 +222,14 @@ class SectionController extends Controller
 
     public function studentDetached(Section $section, Student $student)
     {
-        $student->studentSections()->detach($section);
+        try {
+            $student->studentSections()->detach($section);
 
-        return redirect()->route('sections.show', $section)->with('flash_message', 'deleted!');
+            return redirect()->route('sections.show', $section)->with('flash_message', 'deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->route('sections.show', $section)->with('error_message', 'Error!');
+        }
+
     }
 
 
@@ -231,13 +245,15 @@ class SectionController extends Controller
         if ($request->ajax()) {
             $weekDays = $section->schedules()->with('subject:id,subject_name')
                 ->get(
-                    ['id',
+                    [
+                        'id',
                         'id_section',
                         'id_subject',
                         'id_weekday',
                         'end_datetime',
                         'start_datetime'
-                    ])
+                    ]
+                )
                 ->groupBy('id_weekday');
 
             $periodEndDate = new DateTime($section->school_period->end_date);
@@ -425,12 +441,18 @@ class SectionController extends Controller
 
     public function assessmentDestroy(Assessment $assessment)
     {
-        $section = $assessment->section;
-        $subject = $assessment->subject;
+        try {
+            $section = $assessment->section;
+            $subject = $assessment->subject;
 
-        $assessment->delete();
+            $assessment->delete();
 
-        return redirect()->route('sections.assessments.index', [$section, $subject])->with('flash_message', 'deleted!');
+            return redirect()->route('sections.assessments.index', [$section, $subject])->with('flash_message', 'deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->route('sections.assessments.index', [$section, $subject])->with('error_message', 'Error!');
+        }
+
+
     }
 
 }

@@ -113,10 +113,9 @@
                                         value="{{ $school_period->id }}">
                                 </div>
                             </div>
-
                             <div class="col-12">
                                 <div class="input-group input-group-outline me-2">
-                                    <select class="form-select" name="id_level" id="">
+                                    <select class="form-select" name="id_level" id="" required>
                                         <option value="" selected disabled> Selecciona un Nivel escolar </option>
                                         @foreach ($levels as $level)
                                             <option value="{{ $level->id }}"> {{ $level->description }} </option>
@@ -129,7 +128,7 @@
                         <div class="input-group input-group-outline mt-2 mb-4">
                             <div class="col-12">
                                 <div class="input-group input-group-outline me-2">
-                                    <select class="form-select" name="id_sectiontype" id="">
+                                    <select class="form-select" name="id_sectiontype" id=""required>
                                         <option value="" selected disabled> Selecciona el Grado </option>
                                         @foreach ($section_type as $type)
                                             <option value="{{ $type->id }}"> {{ $type->section_type }} </option>

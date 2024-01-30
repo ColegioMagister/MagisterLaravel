@@ -133,7 +133,8 @@ class UserController extends Controller
 
         return view('teacher.teacherSubject', [
             'teachers' => $employee,
-            'subjects' => $subjects]);
+            'subjects' => $subjects
+        ]);
     }
 
     /**
@@ -201,24 +202,25 @@ class UserController extends Controller
         return redirect()->route('teacher.index')->with('flash_message', 'Updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
-        $teacher = Employee::find($id);
-        $imagen = $teacher->url_img;
-        $teacher->delete();
+        try {
 
-        if ($imagen !== 'assets/img/login-bg/default.png') {
-            if (!empty($imagen) && file_exists(public_path($imagen))) {
-                unlink(public_path($imagen));
+            $teacher = Employee::find($id);
+            $imagen = $teacher->url_img;
+            $teacher->delete();
+
+            if ($imagen !== 'assets/img/login-bg/default.png') {
+                if (!empty($imagen) && file_exists(public_path($imagen))) {
+                    unlink(public_path($imagen));
+                }
             }
+            return redirect()->route('teacher.index')->with('flash_message', 'deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->route('teacher.index')->with('error_message', 'Error!');
         }
-        return redirect()->route('teacher.index')->with('flash_message', 'deleted!');
+
     }
 
     public function destroySubject(Employee $employee, Subject $subject)
