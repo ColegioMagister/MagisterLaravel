@@ -98,7 +98,6 @@
                         <span class="nav-link-text ms-1">Perfil</span>
                     </a>
                 </li>
-                
             @elseif($role == 'Profesor')
                 <div class="sidenav-header">
                     <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -140,10 +139,9 @@
                                 <span class="nav-link-text ms-1">Perfil</span>
                             </a>
                         </li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
     @endif
-
-    </ul>
-
-    </div>
-
 </aside>
