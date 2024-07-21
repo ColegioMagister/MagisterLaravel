@@ -6,8 +6,8 @@
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ secure_asset('assets/img/apple-icon.png') }}">
+    <link rel="icon" type="image/png" href="{{ secure_asset('assets/img/favicon.png') }}">
     <title>
         I.E.P "MAGISTER"
     </title>
@@ -15,8 +15,8 @@
     <link rel="stylesheet" type="text/css"
         href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
     <!-- Nucleo Icons -->
-    <link href="{{ asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+    <link href="{{ secure_asset('assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+    <link href="{{ secure_asset('assets/css/nucleo-icons.css') }}" rel="stylesheet" />
 
 
     <!--- JQUERY UI CSS ----->
@@ -58,13 +58,13 @@
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <!-- CSS Files -->
-    <link id="pagestyle" href="{{ asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
-    <link id="pagestyle" href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+    <link id="pagestyle" href="{{ secure_asset('assets/css/material-dashboard.css?v=3.0.0') }}" rel="stylesheet" />
+    <link id="pagestyle" href="{{ secure_asset('assets/css/style.css') }}" rel="stylesheet" />
 
     <!-- Virtual select 2 ----->
 
-    <link rel="stylesheet" href="{{ asset('assets/virtualSelect/virtual-select.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/virtualSelect/tooltip.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('assets/virtualSelect/virtual-select.min.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('assets/virtualSelect/tooltip.min.css') }}">
 
 
 </head>

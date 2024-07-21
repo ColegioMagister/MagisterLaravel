@@ -1,23 +1,23 @@
 @yield('modals')
 {{-- ayuda a marcar controlador de eventos como "pasivo" --}}
-<script type="text/javascript" src="{{ asset('https://unpkg.com/default-passive-events') }}"></script>
+<script type="text/javascript" src="{{ secure_asset('https://unpkg.com/default-passive-events') }}"></script>
 
-<script src="{{ asset('assets/virtualSelect/virtual-select.min.js') }}"></script>
-<script src="{{ asset('assets/virtualSelect/tooltip.min.js') }}"></script>
+<script src="{{ secure_asset('assets/virtualSelect/virtual-select.min.js') }}"></script>
+<script src="{{ secure_asset('assets/virtualSelect/tooltip.min.js') }}"></script>
 
-<script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/chartjs.min.js') }}"></script>
-<script src="{{asset('https://cdn.jsdelivr.net/npm/sweetalert2@11')}}"></script>
+<script src="{{ secure_asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ secure_asset('assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
+<script src="{{ secure_asset('assets/js/plugins/chartjs.min.js') }}"></script>
+<script src="{{secure_asset('https://cdn.jsdelivr.net/npm/sweetalert2@11')}}"></script>
 
-<script type="module" src="{{ asset('assets/js/ventana.js') }}"></script>
-<script src="{{ asset('assets/js/alert2.js') }}"></script>
+<script type="module" src="{{ secure_asset('assets/js/ventana.js') }}"></script>
+<script src="{{ secure_asset('assets/js/alert2.js') }}"></script>
 
 @include('partials.sweet')
 
 <script async defer src="https://buttons.github.io/buttons.js"></script>
 
-<script src="{{ asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
+<script src="{{ secure_asset('assets/js/material-dashboard.min.js?v=3.0.0') }}"></script>
 
 <!-- Github buttons -->
 <script async defer src="https://buttons.github.io/buttons.js"></script>
