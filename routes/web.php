@@ -8,8 +8,7 @@ use App\Http\Controllers\Admin\{
     StudentController,
     GeneralDataController,
     AssessmentController,
-    QuotaController,
-    ScheduleController,
+
     SectionController,
     SubjectsController,
     YearController,
@@ -23,9 +22,8 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile');
-Route::get('/NewPassword', [ProfileController::class, 'NewPassword'])->name('user.editprofile')->middleware('auth');
-Route::post('/change/password', [ProfileController::class, 'changePassword'])->name('changePassword');
+Route::get('/profile', [ProfileController::class, 'index'])->name('user.profile')->middleware('auth') ;
+
 
 Route::group(['middleware' => ['auth', 'check.role:Admin']], function () {
 
@@ -126,6 +124,8 @@ Route::group(['middleware' => ['auth', 'check.role:Admin']], function () {
 
 
 Route::group(['middleware' => ['auth', 'check.role:Profesor']], function () {
+    Route::get('/NewPassword', [ProfileController::class, 'NewPassword'])->name('user.editprofile');
+    Route::post('/change/password', [ProfileController::class, 'changePassword'])->name('changePassword');
 
     Route::get('/HomeTeacher', [GeneralDataController::class, 'indexTeacher'])->name('homeTeacher');
     Route::get('/Teacher', [TeacherSectionController::class, 'index'])->name('teacherView.index');
