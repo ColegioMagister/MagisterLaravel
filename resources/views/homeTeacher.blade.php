@@ -106,7 +106,7 @@
                 <h4 class=" mb-1 text-capitalize" style="font-size: 1.4vw;">PERIODO</h4>
                 <h4 class=" mb-1 text-capitalize" style="font-size: 1.4vw;">ACADEMICO</h4>
                 <!-- base de datos -->
-                <h2 class="m-3">{{$period->period_name}}</h2>
+                <h2 class="m-3">{{$period->period_name ??null}}</h2>
               </div>
             </div>
             <br>
