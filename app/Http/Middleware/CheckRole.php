@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckRole
 {
@@ -15,20 +16,19 @@ class CheckRole
      * @param  string  $role
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if ($request->user() && $request->user()->employee) {
-            // Verificar si el usuario tiene un rol asociado
-            if ($request->user()->employee->roles) {
-                // Verificar si el rol del usuario coincide con el rol requerido
-                if ($request->user()->employee->roles->role_name === $role) {
-                    return $next($request);
+        if (!Auth::check()) {
+            return redirect()->route('login');
+        } else {
+            if (is_array($roles)) {
+                foreach ($roles as $role) {
+                    if (Auth::user()->employee->roles->role_name === $role) {
+                        return $next($request);
+                    }
                 }
             }
-        } else {
-            abort(403, "Acceso no autorizado");
         }
         abort(403, "Acceso no autorizado");
     }
 }
-

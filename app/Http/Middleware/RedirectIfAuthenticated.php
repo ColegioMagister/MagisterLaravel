@@ -23,7 +23,17 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect()->route(RouteServiceProvider::HOME);
+
+                switch(Auth::user()->employee->roles->role_name)
+                {
+                    case 'Profesor':
+                        $verifiedRoute = route('homeTeacher');
+                        break;
+                    default:
+                        $verifiedRoute = route('data.index');
+                }
+   
+                return redirect($verifiedRoute);
             }
         }
 
